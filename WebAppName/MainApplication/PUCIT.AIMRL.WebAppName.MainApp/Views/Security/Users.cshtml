@@ -1,0 +1,346 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Header
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/mywebapp/Security/mywebapp.ui.users.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/mywebapp/ApplicationView/mywebapp.ui.header.js")"></script>
+}
+@section scripts
+{
+    <script type="text/javascript">
+        try { ace.settings.loadState('main-container') } catch (e) { }
+
+        $(document).ready(function () {
+            MyWebApp.UI.Header.readyMain();
+        });
+    </script>
+
+    <script type="text/javascript">
+
+        try { ace.settings.loadState('main-container') } catch (e) { }
+
+        $(document).ready(function () {
+            MyWebApp.UI.User.readyMain();
+        });
+    </script>
+}
+<div class="main-container ace-save-state" id="main-container">
+    <div class="main-content-inner">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href='@Url.Content("~/Home/")'> Home</a>
+                </li>
+                <li class="active">Coordinators &amp; Teachers</li>
+            </ul><!-- /.breadcrumb -->
+        </div>
+
+        <div class="page-content">
+            <div class="page-header">
+                <h1>
+                    Users
+                    <small>
+                        <i class="ace-icon fa fa-angle-double-right"></i>
+                        Students &amp; Approvers
+                    </small>
+                </h1>
+                <div class="main-content">
+                    <div class="main-content-inner">
+                        <label style="display:none" id="ApplicationsType">@ViewBag.ViewId</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <div class="col-sm-2">
+                                <label class="lbl">Name</label>
+                                <input id="name1" type="text" class="input-sm form-control">
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="lbl">Designation</label>
+                                <input id="designation1" type="text" class="input-sm form-control">
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label class="lbl">Email</label>
+                                <input id="email1" type="text" class="input-sm form-control">
+                            </div>
+                            <div class="col-sm-1" style="padding-top:25px">
+                                <a href="#" class="btn-new-mail">
+                                    <span class="btn btn-purple no-border" style="height: 30px; padding-bottom: 20px" id="search">
+                                        <i class="ace-icon fa fa-search bigger-130"></i>
+                                        <span>Search</span>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space"></div>
+                    <div class="col_12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="tabbable">
+                            <div class="tab-content no-border no-padding">
+                                <div id="user" class="tab-pane in active">
+                                    <div class="message-container">
+                                        <div id="id-message-list-navbar" class="message-navbar clearfix">
+                                            <div class="message-bar">
+                                                <div class="message-infobar" id="id-message-infobar">
+                                                    <span class="blue bigger-150" id="ContainerTitle">Users <span id="spResultsFound"></span></span>
+                                                    <span class="grey bigger-110" id="number"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="message-list-container">
+                                            <div class="message-list" id="users">
+                                            </div>
+                                        </div>
+                                        <div class="message-footer clearfix">
+
+                                        </div>
+                                        <div class="hide message-footer message-footer-style2 clearfix">
+                                            <div class="pull-left"> simpler footer </div>
+                                            <div class="pull-right">
+                                                <div class="inline middle"> message 1 of 151 </div>&nbsp; &nbsp;
+                                                <ul class="pagination middle">
+                                                    <li class="disabled">
+                                                        <span>
+                                                            <i class="ace-icon fa fa-angle-left bigger-150"></i>
+                                                        </span>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            <i class="ace-icon fa fa-angle-right bigger-150"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.main-content -->
+            <span class=" no-border">
+                <span class="bigger-110">Filter</span>
+            </span>
+            <select style="display:inline ; font-size:small" id="selectType1">
+                <option value="-1">All</option>
+                <option value="1">Active</option>
+                <option value="0">InActive</option>
+            </select>
+            <a href="#modal-form" role="button" class="btn-new-mail pull-right" data-toggle="modal">
+                <span class="btn btn-purple no-border">
+                    <i class="menu-icon fa fa-pencil-square-o"></i>
+                    <span class="bigger-110">Add new User</span>
+                </span>
+            </a><br><br>
+
+
+
+
+
+
+            <div id="modal-form" class=" in" tabindex="-1" style="display:none;padding-right:17px">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" id="Cancel1" name="Cancel1" data-dismiss="modal">×</button>
+                            <h4 class="blue bigger">Enter information of new User</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div style="padding-left:50px;">
+                                    <input type="hidden" name="hiddenid" id="hiddenid" />
+                                    <div class="col-xs-5">
+                                        <label class="asterisk" for="form-field-first" name="Username"><b>Username : </b></label>
+                                        <input type="text" class="input-sm form-control" id="Username" name="Username" />
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <label class="asterisk" for="form-field-first" name="Name"><b>Name : </b></label>
+                                        <input type="text" class="input-sm form-control" id="Name" name="Name" />
+                                    </div>
+                                </div>
+                                <div style="padding-left:50px;">
+                                </div>
+                                <div style="padding-left:50px;">
+                                    <div class="col-xs-5">
+                                        <label class="asterisk" for="form-field-first" name="Email"><b>Email : </b></label>
+                                        <input type="email" class="input-sm form-control" id="Email" name="Email" />
+                                    </div>
+                                    <div class="col-xs-5">
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-sm" data-dismiss="modal" id="Cancel" name="Cancel">
+                                <i class="ace-icon fa fa-times"></i>
+                                Cancel
+                            </button>
+
+                            <button class="btn btn-sm btn-primary" name="Save" id="Save">
+                                <i class="ace-icon fa fa-check"></i>
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.page-header -->
+        <div id="DesignationModal" class="modal in" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h4 class="primary bigger">Add Designation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-11">
+                                <input id="Designations" type="text" placeholder="Enter Here" style="width:100%" />
+                                <div class="space-4"></div>
+                                <div class="space-4"></div>
+                                <label>
+                                    <i class="ace-icon fa fa-users bigger-130 green"></i> &nbsp;<span><b>Designations</b></span>
+                                </label>
+
+                                <div class="row">
+                                    <div id="draggable" style="max-height:250px;overflow-y:auto">
+                                        <ol id="sortable" style="list-style-type:none"></ol>
+                                        <script id="changeContributors1" type="text/x-handlebars-template">
+                                            {{#each ContributorList}}
+
+                                            <input type="hidden" name="ApproverID" id="ApproverID" value="{{ApproverID}}" />
+                                            <li class="dd-handle" pid="{{ApproverID}}" uid="{{UserID}}">{{Designation}}<i class="btn-group pull-right fa fa-times bigger-110 red2 removeContributor"></i></li>
+                                            {{/each}}
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="background:none;border:none;">
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-sm btn-primary btn-round" id="SaveDesignation">
+                                <i class="ace-icon fa fa-check"></i>
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script id="changeContributors" type="text/x-handlebars-template">
+            {{#each ContributorList}}
+            @*{{#ifEqual WorkFlowStatus '1' }}*@
+            <li class="dd-handle" uid="{{UserID}}">{{Designation}}<i class="btn-group pull-right fa fa-times bigger-110 red2 removeContributor"></i></li>
+            @*{{/ifEqual}}
+
+                {{#ifNotEqual WorkFlowStatus '1' }}
+                <li class="dd-handle nondrag" uid="{{UserID}}">{{Designation}}</li>
+                {{/ifNotEqual}}*@
+            {{/each}}
+        </script>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="message-list-container">
+                            <div class="message-list" id="Users">
+                                <table id="simple-table" class="table  table-bordered table-hover"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.row -->
+
+                <div class="hr hr-18 dotted hr-double"></div>
+                <div class="modal-footer no-margin-top">
+
+                    <ul class="pagination pull-right no-margin">
+                        <li class="prev disabled">
+                            <a href="#">
+                                <i class="ace-icon fa fa-angle-double-left"></i>
+                            </a>
+                        </li>
+
+                        <li class="active">
+                            <a href="#">1</a>
+                        </li>
+
+                        <li>
+                            <a href="#">2</a>
+                        </li>
+
+                        <li>
+                            <a href="#">3</a>
+                        </li>
+
+                        <li class="next">
+                            <a href="#">
+                                <i class="ace-icon fa fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+        </div><!-- PAGE CONTENT ENDS -->
+    </div><!-- main.cont -->
+    @{
+        Html.RenderAction("YesNoModal", "Partial");
+    }
+
+
+    <script id="UserTemplate" type="text/x-handlebars-template">
+        <thead>
+            <tr>
+                <th class="center">#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th scope="col" width="5%">Edit</th>
+                <th scope="col" width="5%">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each UserList}}
+            <tr id="{{UserId}}">
+                <input type="hidden" name="Username" id="Username" value="{{Login}}" />
+                <td align="center" class="studentids" name="UserId1" id="UserId1" value={{UserId}}>{{UserId}}</td>
+                <td name="Name" id="Name" value="{{Name}}">
+                    <a href="#">{{Name}}</a>
+                </td>
+                <td name="Email" id="Email">{{Email}}</td>
+                <td align="center" valign="middle">
+                    <div class="tblActions">
+                        <a role="button" data-toggle="modal" class="edit btn-xs btn-new-mail  btn btn-purple no-border lnkEdit" title="Click to edit">
+                            <i class="menu-icon fa fa-pencil-square-o"></i>
+                            <span class="bigger-110"></span>
+                        </a>
+                    </div>
+                </td>
+                <td align="center" valign="middle">
+                    <div class="tblActions">
+                        {{#ifEqual IsActive false}}
+                        <a href="#" class="btn btn-xs btn-round widget-color-green lnkDelete" title="Click to activate">
+                            <i class="ace-icon icon-off"></i>
+                        </a>
+                        {{/ifEqual}}
+                        {{#ifEqual IsActive true}}
+                        <a href="#" class='delete btn btn-xs btn-danger btn-round lnkDelete' title="Click to deactivate">
+                            <i class="ace-icon icon-off"></i>
+                        </a>
+                        {{/ifEqual }}
+                    </div>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </script>

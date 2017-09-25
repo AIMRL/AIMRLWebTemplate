@@ -1,0 +1,1 @@
+[Header]\r\n2017-09-26 02:18:05,663 [12] INFO  PUCIT.AIMRL.Common.Logger.LogHandler [-IP:::1-URL: http://localhost:12141/PRMDev/aapi/UserInfoData/ValidateUser]: Going to validate Login:Admin
