@@ -162,7 +162,7 @@ MyWebApp.Globals = (function () {
                     settings.fnYesCallBack($modal, $modal.data("dataToPass"));
             });
 
-            $modal.find("#btnDivYesNoCustomNo").unbind("click").bind('click', function () {
+            $modal.find("#btnDivYesNoCustomNo,#btnDivYesNoCustomNoCloseButton").unbind("click").bind('click', function () {
                 if (settings.fnNoCallBack)
                     settings.fnNoCallBack($modal, $modal.data("dataToPass"));
                 $.bsmodal.hide("#divYesNoCustomModal");

@@ -35,9 +35,7 @@
                 <li>
                     <a href='@Url.Content("~/Security/ViewRoles/")'>Roles</a>
                 </li>
-
                 <li class="active" id="PageId" style="display:none">@ViewBag.Id</li>
-
 
             </ul><!-- /.breadcrumb -->
         </div>
@@ -49,12 +47,11 @@
                         <i class="ace-icon fa fa-angle-double-right"></i>
                         ViewRoles
                     </small>
-                    <select style="display:inline ; font-size:small" id="selectType1" >
+                    <select style="display:inline ; font-size:small" id="selectType1">
                         <option value="-1">All</option>
                         <option value="1">Active</option>
                         <option value="0">InActive</option>
                     </select>
-
                     <a role="button" class="btn-new-mail pull-right" data-toggle="modal" id="newrole">
                         <span class="btn btn-purple no-border">
                             <i class="menu-icon fa fa-pencil-square-o"></i>
@@ -62,7 +59,6 @@
                         </span>
                     </a>
                 </h1>
-
                 <div id="modal-form" class=" in" tabindex="-1" style="display:none;">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -74,7 +70,6 @@
                                 <div class="row">
                                     <div style="padding-left:50px;">
                                         <input type="hidden" name="hiddenid" id="hiddenid" />
-
                                         <div class="col-xs-5">
                                             <label class="asterisk" for="form-field-first"><b>Name : </b></label>
                                             <input type="text" class="input-sm form-control" id="rolename" />
@@ -142,55 +137,21 @@
                 </div>
             </div><!-- PAGE CONTENT ENDS -->
         </div><!-- main.cont -->
-        
-    @*<div id="SaveAlert" class="modal in" tabindex="-1" style="display: none;">
-            <div class="modal-dialog" style="width:400px">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" id="AlertModalClose" data-dismiss="modal">×</button>
-                        <h4 class="blue bigger">Alert</h4>
-                    </div>
-                    <div class="modal-body" style="width:400px">
-                        <div class="row">
-                            <div class="col-xs-8">
-                                <p>Do you want to continue?</p>
-                                <div class="modal-footer" style="background:none;border:none;">
-                                    <button class="btn btn-sm btn-primary" id="save_yes">
-                                        Yes
-                                    </button>
-                                    <button class="btn btn-sm btn-primary" id="save_no">
-                                        No
-                                    </button>
-                                </div>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>*@
-    
-            <div id="EditPermissionsModal" class="modal in" tabindex="-1" style="display: none; width:45%;">
+
+        <div id="EditPermissionsModal" class="modal in" tabindex="-1" style="display: none; width:45%;">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-
                         <h4 class="primary bigger">
-                            Edit Permissions <button id="closeedit" class="btn btn-primary pull-right">
-                                x
-                            </button>
+                            Permissions Assignment 
+                            <button type="button" id="closeedit" class="close" data-dismiss="modal">×</button>
                         </h4>
-
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-xs-12 col-sm-11">
-
                                 <div class="space-4"></div>
-                                <div class="space-4"></div>
-                                <label>
-                                    <i class="ace-icon fa fa-users bigger-130 green"></i> &nbsp;<span><b>Permissions</b></span>
-                                </label>
                                 <div class="row">
                                     <div id="draggable" style="max-height:250px;overflow-y:auto">
                                         <ol id="sortable1" style="list-style-type:none"></ol>
@@ -199,71 +160,43 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer" style="background:none;border:none;">
-                        <div class="btn-group pull-right">
-                            <button id="SaveMappings" class="btn btn-sm btn-primary">
-
-                                Save
-                            </button>
-                        </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-sm" data-dismiss="modal" id="CancelPermModal">
+                            <i class="ace-icon fa fa-times"></i>
+                            Cancel
+                        </button>
+                        <button class="btn btn-sm btn-primary" id="SaveMappings">
+                            <i class="ace-icon fa fa-check"></i>
+                            Save
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-        @*<div id="UpdateAlert" class="modal in" tabindex="-1" style="display: none;">
-            <div class="modal-dialog" style="width:400px">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" id="UpdateAlertModalClose" data-dismiss="modal">×</button>
-                        <h4 class="blue bigger">Alert</h4>
-                    </div>
-                    <div class="modal-body" style="width:400px">
-                        <div class="row">
-                            <div class="col-xs-8">
-                                <p>Do you want to continue?</p>
-                                <div class="modal-footer" style="background:none;border:none;">
-                                    <button class="btn btn-sm btn-primary" id="update_yes">
-                                        Yes
-                                    </button>
-                                    <button class="btn btn-sm btn-primary" id="update_no">
-                                        No
-                                    </button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>*@
 
         @{
             Html.RenderAction("YesNoModal", "Partial");
         }
-
         <script id="RoleTemplate" type="text/x-handlebars-template">
-
             <thead>
                 <tr id="#">
-
                     <th>Name</th>
                     <th>Description</th>
                     <th scope="col" width="5%">Edit</th>
-                    <th scope="col" width="5%">Delete</th>
+                    <th scope="col" width="5%">Enable/Disable</th>
                     <th scope="col" width="5%">Manage Permissions</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each RoleList}}
                 <tr id="{{Id}}">
-
                     <td>
                         <a href="#">{{Name}}</a>
                     </td>
                     <td>{{Description}}</td>
                     <td align="center" align="middle">
                         <div class="tblActions">
-                            <a role="button" data-toggle="modal" class="edit btn-xs btn-new-mail  btn btn-purple no-border lnkEdit" title="Click to edit" >
+                            <a role="button" data-toggle="modal" class="edit btn-xs btn-new-mail  btn btn-purple no-border lnkEdit" title="Click to edit">
                                 <i class="menu-icon fa fa-pencil-square-o"></i>
                                 <span class="bigger-110"></span>
                             </a>
@@ -272,12 +205,12 @@
                     <td align="center" align="middle">
                         <div class="tblActions">
                             {{#ifEqual IsActive false}}
-                            <a href="#" class="btn btn-xs btn-round widget-color-green lnkDelete" title="Click to activate" >
+                            <a href="#" class="btn btn-xs btn-round widget-color-green lnkDelete" title="Click to activate">
                                 <i class="ace-icon icon-off"></i>
                             </a>
                             {{/ifEqual}}
                             {{#ifEqual IsActive true}}
-                            <a href="#" class='delete btn btn-xs btn-danger btn-round lnkDelete' title="Click to deactivate" >
+                            <a href="#" class='delete btn btn-xs btn-danger btn-round lnkDelete' title="Click to deactivate">
                                 <i class="ace-icon icon-off"></i>
                             </a>
                             {{/ifEqual }}
@@ -303,13 +236,12 @@
             {{/each}}
 
         </script>
-        <script id="EditMappingTemplate" type="text/x-handlebars-template">
-            {{#each PerMappings}}
 
+        <script id="PermissionTemplate" type="text/x-handlebars-template">
+            {{#each PermissionList}}
             <li class="dd-handle nondrag" id="{{Id}}">
-                <input id="percheck" type="checkbox" {{#if exist}}checked{{ />if}} >
+                <input type="checkbox" >
                 {{Name}}
             </li>
-
             {{/each}}
         </script>

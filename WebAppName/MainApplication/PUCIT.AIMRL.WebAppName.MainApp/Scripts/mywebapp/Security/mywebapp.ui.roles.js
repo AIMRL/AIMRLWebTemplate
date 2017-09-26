@@ -5,12 +5,14 @@ MyWebApp.UI.Role = (function () {
     var _isInitialized = false;
    
     var rolesData;
+    var temp_perdata;
 
     function initialisePage() {
         if (_isInitialized == false) {
             _isInitialized = true;
             BindEvents();
             getAllRoles();
+            getActivePermissions();
         }
     }
 
@@ -68,11 +70,18 @@ MyWebApp.UI.Role = (function () {
 
         $("#ModalClose, #Cancel").click(function (e) {
             e.preventDefault();
-            hideAll();
+            $.bsmodal.hide("#modal-form");
             return false;
         });
-    }
 
+        $("#SaveMappings").unbind('click').bind('click',function(){
+            SavePermissionMapping();
+            return false;
+        });
+
+    }
+    
+    //-----------------Role Management + Grid Event Handling
     function saveRole(dataObj) {
         debugger;
         var roleObjToSend = {
@@ -87,11 +96,9 @@ MyWebApp.UI.Role = (function () {
 
             if (result.success === true) {
                 MyWebApp.UI.showRoasterMessage(result.error, Enums.MessageType.Success, 2000);
-                hideAll();
 
                 var roleObj = rolesData.RoleList.find(p => p.Id == roleObjToSend.Id);
-                debugger;
-
+                
                 if(roleObj){
                     roleObj.Name = roleObjToSend.Name;
                     roleObj.Description = roleObjToSend.Description;
@@ -106,13 +113,21 @@ MyWebApp.UI.Role = (function () {
 
             } else {
                 MyWebApp.UI.showRoasterMessage('some error has occurred', Enums.MessageType.Error);
-                hideAll();
             }
+            $.bsmodal.hide("#modal-form");
         }, function (xhr, ajaxoptions, thrownerror) {
             MyWebApp.UI.showMessage("#spstatus", 'A problem has occurred while saving this Role: "' + thrownerror + '". Please try again.', Enums.MessageType.Error);
         });
 
     }
+    function clearFeilds() {
+        
+        $("#hiddenid").val("");
+        //$("#IsActive2").val("-1");
+        $("#rolename").val("");
+        $("#roledescription").val("");
+    }
+
     function EnableDisableRole(dataObj) {
         var roleData = {
             Id: dataObj.RoleId,
@@ -126,7 +141,6 @@ MyWebApp.UI.Role = (function () {
 
             if (result.success === true) {
                 
-                hideAll();
                 var roleObj = rolesData.RoleList.find(p => p.Id == roleData.Id);
                 roleObj.IsActive = roleData.IsActive;
                
@@ -135,8 +149,7 @@ MyWebApp.UI.Role = (function () {
                 $("#selectType1").trigger("change");
 
             } else {
-                MyWebApp.UI.showRoasterMessage('some error has occurred', Enums.MessageType.Error);
-                hideAll();
+                MyWebApp.UI.showRoasterMessage('some error has occurred', Enums.MessageType.Error);                
             }
         }, function (xhr, ajaxoptions, thrownerror) {
             MyWebApp.UI.showMessage("#spstatus", 'A problem has occurred while saving this Role: "' + thrownerror + '". Please try again.', Enums.MessageType.Error);
@@ -176,6 +189,8 @@ MyWebApp.UI.Role = (function () {
         $("#simple-table").append(html);
         BindGridEvents();
     }
+    
+
     function BindGridEvents(){
         $("#simple-table .lnkEdit" ).unbind('click').bind('click', function(){
             var id = $(this).closest('tr').attr('id');
@@ -192,11 +207,12 @@ MyWebApp.UI.Role = (function () {
 
         $("#simple-table .lnkEditMapping" ).unbind('click').bind('click', function(){
             var id = $(this).closest('tr').attr('id');
-            alert('clicked');
+            GeneratePermissionsHTML(temp_perdata);
+            GetPermissionsByRoleID(id);
+            
             return false;
         });
     }
- 
     function HandleEditRole(RoleId){
 
         if (rolesData ) {
@@ -215,7 +231,6 @@ MyWebApp.UI.Role = (function () {
             }//end of roleObj
         }//end of rolesData
     }
-
     function HandleEnableDisableRole(RoleId){
 
         if (rolesData ) {
@@ -237,23 +252,96 @@ MyWebApp.UI.Role = (function () {
         }//end of rolesData
     }
 
-    function hideAll() {
-        $.bsmodal.hide("#modal-form");
-        clearFeilds();
+    //-------------------------- Permissions/Mappings Code
+
+    function getActivePermissions() {
+
+        var url = "Security/getActivePermissions";
+        MyWebApp.Globals.MakeAjaxCall("GET", url, "{}", function (result) {
+            if (result.success === true) {
+                temp_perdata = result.data;
+                GeneratePermissionsHTML(temp_perdata);
+            } else {
+                MyWebApp.UI.showRoasterMessage(result.error, Enums.MessageType.Error);
+            }
+        }, function (xhr, ajaxOptions, thrownError) {
+            MyWebApp.UI.showRoasterMessage('A problem has occurred while getting Permissions: "' + thrownError + '". Please try again.', Enums.MessageType.Error);
+        }, false);
+    }
+    function GeneratePermissionsHTML(Permissions) {
+        $("#sortable1").html("");
+
+        if (!Permissions)
+            return;
+
+        try {
+            var source = $("#PermissionTemplate").html();
+            var template = Handlebars.compile(source);
+            var html = template(Permissions);
+
+            $("#sortable1").append(html);
+        }
+        catch (e) {
+            ////debugger;
+        }
+    }
+    function GetPermissionsByRoleID(pRoleID){
+
+        var url = "Security/GetPermissionsByRoleID?pRoleID=" + pRoleID;
+        MyWebApp.Globals.MakeAjaxCall("GET", url, "{}", function (result) {
+            if (result.success === true) {
+                SelectPermissionsInPopupForCurrentRole(result.data.Permissions,pRoleID);
+            } else {
+                MyWebApp.UI.showRoasterMessage(result.error, Enums.MessageType.Error);
+            }
+        }, function (xhr, ajaxOptions, thrownError) {
+            MyWebApp.UI.showRoasterMessage('A problem has occurred while getting Permissions: "' + thrownError + '". Please try again.', Enums.MessageType.Error);
+        }, false);
+    }
+    function SelectPermissionsInPopupForCurrentRole(permissionIds,pRoleID){
+
+        $("#sortable1 li").each(function(){
+            var id = parseInt($(this).attr("id"));
+            if( permissionIds.indexOf(id) >= 0)
+                $(this).find("input[type=checkbox]").attr("checked",true);
+        });
+
+        $("#EditPermissionsModal").data('RoleID',pRoleID);
+        $.bsmodal.show("#EditPermissionsModal",{top:"5%",left:"25%",closeid:"#closeedit,#CancelPermModal"});
     }
 
-    function clearFeilds() {
+    function SavePermissionMapping(){
+        var permList = [];
+        $("#sortable1 li :checked").each(function(){
+            var permId = $(this).closest('li').attr("id");
+            permList.push(parseInt(permId));
+        });
+
+        var roleID = $("#EditPermissionsModal").data('RoleID');
+        var dataToSend = {};
+        dataToSend.RoleID = roleID;
+        dataToSend.Permissions = permList;
+
+        dataToSend = JSON.stringify(dataToSend);
+        var url = "Security/SaveRolePermissionMapping";
+        MyWebApp.Globals.MakeAjaxCall("POST", url, dataToSend, function (result) {
+
+            if (result.success === true) {
+                MyWebApp.UI.showRoasterMessage(result.error, Enums.MessageType.Success, 2000);
+                debugger;
+                $.bsmodal.hide("#EditPermissionsModal");
+            } else {
+                MyWebApp.UI.showRoasterMessage('some error has occurred', Enums.MessageType.Error);
+            }
+        }, function (xhr, ajaxoptions, thrownerror) {
+            MyWebApp.UI.showMessage("#spstatus", 'A problem has occurred while saving: "' + thrownerror + '". Please try again.', Enums.MessageType.Error);
+        });
         
-        $("#hiddenid").val("");
-        //$("#IsActive2").val("-1");
-        $("#rolename").val("");
-        $("#roledescription").val("");
     }
 
     return {
 
         readyMain: function () {
-            debugger;
             initialisePage();
 
         }

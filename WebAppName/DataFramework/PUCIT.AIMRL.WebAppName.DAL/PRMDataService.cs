@@ -136,6 +136,42 @@ namespace PUCIT.AIMRL.WebAppName.DAL
             }
         }
 
+        public List<int> GetPermissionsByRoleID(int pRoleID)
+        {
+            using (var db = new PRMDataContext())
+            {
+                var result = db.PermissionsMapping.Where(p => p.RoleId == pRoleID).Select(p => p.PermissionId).ToList();
+                return result;
+            }
+        }
+
+        public int SaveRolePermissionMapping(int pRoleID, List<int> pPermissionsList)
+        {
+            using (var db = new PRMDataContext())
+            {
+
+                DataTable dt = new DataTable();
+                dt.Columns.Add("ID");
+
+                foreach (var p in pPermissionsList)
+                {
+                    DataRow row = dt.NewRow();
+                    dt.Rows.Add(p);
+                }
+
+                string query = "execute dbo.SaveRolePermissionMapping @0, @1";
+
+                var args = new DbParameter[] {
+                     new SqlParameter { ParameterName = "@0", Value = pRoleID},
+                     new SqlParameter { ParameterName = "@1", Value = dt, SqlDbType = SqlDbType.Structured, TypeName = "dbo.ArrayInt" },
+                };
+
+                var data = db.Database.SqlQuery<int>(query, args).FirstOrDefault();
+
+                return data;
+            }
+        }
+
         #endregion
 
         #region Users

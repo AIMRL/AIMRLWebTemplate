@@ -53,16 +53,33 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
         {
             return Repository.getPermissions();
         }
-        [HttpPost]
-        public Object UpdateMappings(customUpdateMappings m)
+
+        [HttpGet]
+        public Object getActivePermissions()
         {
-            return Repository.UpdateMappings(m);
+            return Repository.getActivePermissions();
+        }
+        [HttpGet]
+        public Object GetPermissionsByRoleID(int pRoleID)
+        {
+            return Repository.GetPermissionsByRoleID(pRoleID);
         }
         [HttpPost]
-        public Object DeleteMappings(int roleid)
+        public Object SaveRolePermissionMapping(TempRolePermMapping r)
         {
-            return Repository.DeleteMappings(roleid);
+            return Repository.SaveRolePermissionMapping(r.RoleID, r.Permissions);
         }
+
+        //[HttpPost]
+        //public Object UpdateMappings(customUpdateMappings m)
+        //{
+        //    return Repository.UpdateMappings(m);
+        //}
+        //[HttpPost]
+        //public Object DeleteMappings(int roleid)
+        //{
+        //    return Repository.DeleteMappings(roleid);
+        //}
         [HttpPost]
         public Object SavePermission(PermissionsWithRoleID r)
         {
@@ -92,5 +109,10 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
         {
             return Repository.EnableDisableUser(u);
         }
+    }
+    public class TempRolePermMapping
+    {
+        public int RoleID { get; set; }
+        public List<int> Permissions { get; set; }
     }
 }

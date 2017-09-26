@@ -53,6 +53,30 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
                 });
             }
         }
+        public object getActivePermissions()
+        {
+            try
+            {
+                var List = DataService.GetAllPermissions().Where(p=>p.IsActive == true).ToList();
+                return (new
+                {
+                    data = new
+                    {
+                        PermissionList = List
+                    },
+                    success = true,
+                    error = ""
+                });
+            }
+            catch (Exception ex)
+            {
+                return (new
+                {
+                    success = false,
+                    error = "Some Error has occurred"
+                });
+            }
+        }
         public object EnableDisablePermission(PermissionsWithRoleID r)
         {
             String msg = " ";
@@ -109,6 +133,57 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
                     },
                     success = true,
                     error = msg
+                });
+            }
+            catch (Exception ex)
+            {
+                return (new
+                {
+                    success = false,
+                    error = "Some Error has occurred"
+                });
+            }
+        }
+        public object GetPermissionsByRoleID(int pRoleID)
+        {
+            try
+            {
+                var List = DataService.GetPermissionsByRoleID(pRoleID);
+
+                return (new
+                {
+                    data = new
+                    {
+                        Permissions = List
+                    },
+                    success = true,
+                    error = ""
+                });
+            }
+            catch (Exception ex)
+            {
+                return (new
+                {
+                    success = false,
+                    error = "Some Error has occurred"
+                });
+            }
+        }
+
+        public object SaveRolePermissionMapping(int pRoleID, List<int> pPermissionsList)
+        {
+            try
+            {
+                var List = DataService.SaveRolePermissionMapping(pRoleID, pPermissionsList);
+
+                return (new
+                {
+                    data = new
+                    {
+                        Permissions = List
+                    },
+                    success = true,
+                    error = ""
                 });
             }
             catch (Exception ex)
