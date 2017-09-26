@@ -22,7 +22,7 @@ namespace PUCIT.AIMRL.WebAppName.Entities.DBEntities
         {
             get
             {
-                return HelperMethods.ConvertOnlyDateToStr(this.LoginTime);
+                return HelperMethods.ConvertDTToStr(this.LoginTime);
             }
         }
     }

@@ -299,6 +299,12 @@ namespace PUCIT.AIMRL.WebAppName.DAL
             {
                 string query = "select * from dbo.LoginHistory Order by LoginTime Desc";
                 List<LoginHistory> log = db.Database.SqlQuery<LoginHistory>(query).ToList();
+
+                foreach (var l in log)
+                {
+                    l.LoginTime = l.LoginTime.ToTimeZoneTime(tzi);
+                }
+
                 return log;
             }
         }
