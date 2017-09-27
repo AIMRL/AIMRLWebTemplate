@@ -45,37 +45,12 @@ MyWebApp.UI.Header = (function () {
                 });
             }
         });
-        //$('#logoutadmin').click(function () {
-        //    debugger
-        //    var url = "Admin/LogOut";
-
-        //    MyWebApp.Globals.MakeAjaxCall("POST", url, {}, function (result) {
-        //        console.log(result);
-        //        if (result.success === true) {
-
-        //            MyWebApp.UI.showRoasterMessage("Login is successful, entering into the application...", Enums.MessageType.Success);
-        //            debugger
-        //            var returnUrl = MyWebApp.UI.getURLParameterByName("ReturnURL");
-
-                  
-        //                window.location.href = "/PRMDev/Home";
-                  
-        //        } else {
-        //            MyWebApp.UI.showRoasterMessage(result.error, Enums.MessageType.Error, 5000);
-        //        }
-        //    }, function (xhr, ajaxOptions, thrownError) {
-        //        //debugger;
-        //        MyWebApp.UI.showRoasterMessage('There was a problem authenticating your credentials: "' + xhr.responseText + '". Please try again.', Enums.MessageType.Error);
-        //    });
-     //   e.preventDefault();
-        //    return false;
-        //});
+        
         $("#SearchButton").click(function (e) {
             debugger;
             var number = $("#SearchDiary").val();
             window.location = window.MyWebAppBasePath + "Home/ApplicationView/" + number;
         });
-
 
         $(".user-menu .designation a").click(function (e) {
             e.preventDefault();
