@@ -24,31 +24,25 @@
         });
     </script>
 }
+@section BreadCrumb
+{
+    <li>
+        <a href='@Url.Content("~/Security/")'>Security</a>
+    </li>
+    <li>
+        <a href='@Url.Content("~/Security/Roles/")'>Roles</a>
+    </li>
+}
 <div class="main-container ace-save-state" id="main-container">
     <div class="main-content-inner">
-        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-            <ul class="breadcrumb">
-                <li>
-                    <i class="ace-icon fa fa-home home-icon"></i>
-                    <a href='@Url.Content("~/Home/")'> Home</a>
-                </li>
-                <li>
-                    <a href='@Url.Content("~/Security/Roles/")'>Roles</a>
-                </li>
-            </ul><!-- /.breadcrumb -->
-        </div>
         <div class="page-content">
             <div class="page-header">
                 <h1>
                     Roles
-                    <small>
-                        <i class="ace-icon fa fa-angle-double-right"></i>
-                        ViewRoles
-                    </small>
                     <select style="display:inline ; font-size:small" id="selectType1">
                         <option value="-1">All</option>
                         <option value="1">Active</option>
-                        <option value="0">InActive</option>
+                        <option value="0">In Active</option>
                     </select>
                     <a role="button" class="btn-new-mail pull-right" data-toggle="modal" id="newrole">
                         <span class="btn btn-purple no-border">
@@ -70,7 +64,7 @@
                             </div>
                         </div>
                     </div><!-- /.row -->
-                    <div class="hr hr-18 dotted hr-double"></div>
+                    @*<div class="hr hr-18 dotted hr-double"></div>*@
                     <div class="modal-footer no-margin-top">
                         <ul class="pagination pull-right no-margin">
                             <li class="prev disabled">

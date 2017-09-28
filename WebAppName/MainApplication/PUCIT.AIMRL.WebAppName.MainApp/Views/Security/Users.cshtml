@@ -9,7 +9,6 @@
 @section scripts
 {
     <script type="text/javascript">
-        try { ace.settings.loadState('main-container') } catch (e) { }
 
         $(document).ready(function () {
             MyWebApp.UI.Header.readyMain();
@@ -17,34 +16,27 @@
     </script>
     <script type="text/javascript">
 
-        try { ace.settings.loadState('main-container') } catch (e) { }
-
         $(document).ready(function () {
             MyWebApp.UI.User.readyMain();
         });
     </script>
 }
+@section BreadCrumb
+{
+    <li>
+        <a href='@Url.Content("~/Security/")'>Security</a>
+    </li>
+    <li>
+        <a href='@Url.Content("~/Security/Users/")'>Users</a>
+    </li>
+}
 <div class="main-container ace-save-state" id="main-container">
     <div class="main-content-inner">
-        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-            <ul class="breadcrumb">
-                <li>
-                    <i class="ace-icon fa fa-home home-icon"></i>
-                    <a href='@Url.Content("~/Home/")'> Home</a>
-                </li>
-                <li>
-                    <a href='@Url.Content("~/Security/Users/")'>Users</a>
-                </li>
-            </ul><!-- /.breadcrumb -->
-        </div>
+        
         <div class="page-content">
             <div class="page-header">
                 <h1>
                     Users
-                    <small>
-                        <i class="ace-icon fa fa-angle-double-right"></i>
-                        ViewUsers
-                    </small>
                     <select style="display:inline ; font-size:small" id="selectType1">
                         <option value="-1">All</option>
                         <option value="1">Active</option>
@@ -70,7 +62,7 @@
                             </div>
                         </div>
                     </div><!-- /.row -->
-                    <div class="hr hr-18 dotted hr-double"></div>
+                    @*<div class="hr hr-18 dotted hr-double"></div>*@
                     <div class="modal-footer no-margin-top">
                         <ul class="pagination pull-right no-margin">
                             <li class="prev disabled">

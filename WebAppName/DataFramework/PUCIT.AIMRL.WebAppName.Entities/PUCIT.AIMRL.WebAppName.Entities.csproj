@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomClasses.cs" />
     <Compile Include="DBEntities\Login.cs" />
     <Compile Include="DBEntities\LoginHistory.cs" />
     <Compile Include="DBEntities\Permissions.cs" />
@@ -59,7 +58,6 @@
     </Compile>
     <Compile Include="EmailRequest.cs" />
     <Compile Include="Security\PasswordEntity.cs" />
-    <Compile Include="Security\SearchEntity.cs" />
     <Compile Include="Samples\SampleEntity.cs" />
     <Compile Include="Security\SecUserDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

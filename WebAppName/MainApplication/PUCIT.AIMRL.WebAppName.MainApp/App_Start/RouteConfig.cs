@@ -18,12 +18,6 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
                 url: "{controller}/{action}/{id}",
                 defaults: new
                 {
-                    //controller = "Security",
-                    //action = "Index",
-                    //id = UrlParameter.Optional
-
-
-
                     controller = "Home",
                     action = "Index",
                     id = UrlParameter.Optional

@@ -10,6 +10,18 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Controllers
 {
     public class SecurityController : BaseController
     {
+        public ActionResult Index()
+        {
+            if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perManageSecurityUsers == false)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Permissions");
+            }
+        }
+
         //
         // GET: /Admin/
         public ActionResult Users()

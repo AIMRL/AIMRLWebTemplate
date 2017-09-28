@@ -9,7 +9,6 @@
 @section scripts
 {
     <script type="text/javascript">
-        try { ace.settings.loadState('main-container') } catch (e) { }
 
         $(document).ready(function () {
             MyWebApp.UI.Header.readyMain();
@@ -17,39 +16,31 @@
     </script>
     <script type="text/javascript">
 
-        try { ace.settings.loadState('main-container') } catch (e) { }
-
         $(document).ready(function () {
             MyWebApp.UI.Permission.readyMain();
         });
     </script>
 }
+@section BreadCrumb
+{
+    <li>
+        <a href='@Url.Content("~/Security/")'>Security</a>
+    </li>
+    <li>
+        <a href='@Url.Content("~/Security/Permissions/")'>Permissions</a>
+    </li>
+}
 <div class="main-container ace-save-state" id="main-container">
     <div class="main-content-inner">
-        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-            <ul class="breadcrumb">
-                <li>
-                    <i class="ace-icon fa fa-home home-icon"></i>
-                    <a href='@Url.Content("~/Home/")'> Home</a>
-                </li>
-                <li>
-                    <a href='@Url.Content("~/Security/ViewPermissions/")'>Permissions</a>
-                </li>
-                <li class="active" id="PageId" style="display:none">@ViewBag.Id</li>
-            </ul><!-- /.breadcrumb -->
-        </div>
         <div class="page-content">
             <div class="page-header">
                 <h1>
                     Permissions
-                    <small>
-                        <i class="ace-icon fa fa-angle-double-right"></i>
-                        ViewPermissions
-                    </small>
-                    <select style="display:inline ; font-size:small" id="selectType1" >
+                    
+                    <select style="display:inline ; font-size:small" id="selectType1">
                         <option value="-1">All</option>
                         <option value="1">Active</option>
-                        <option value="0">InActive</option>
+                        <option value="0">In Active</option>
                     </select>
                     <a role="button" class="btn-new-mail pull-right" data-toggle="modal" id="newpermission">
                         <span class="btn btn-purple no-border">
@@ -58,49 +49,48 @@
                         </span>
                     </a>
                 </h1>
-            </div>
-        </div>
-
-    </div><!-- /.page-header -->
-    <div class="row">
-        <div class="col-xs-12">
-            <!-- PAGE CONTENT BEGINS -->
+            </div><!-- /.page-header -->
             <div class="row">
                 <div class="col-xs-12">
-                    <div class="message-list-container">
-                        <div class="message-list" id="Permissions">
-                            <table id="simple-table2" class="table  table-bordered table-hover"></table>
+                    <!-- PAGE CONTENT BEGINS -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="message-list-container">
+                                <div class="message-list" id="Permissions">
+                                    <table id="simple-table2" class="table  table-bordered table-hover"></table>
+                                </div>
+                            </div>
                         </div>
+                    </div><!-- /.row -->
+                    @*<div class="hr hr-18 dotted hr-double"></div>*@
+                    <div class="modal-footer no-margin-top">
+                        <ul class="pagination pull-right no-margin">
+                            <li class="prev disabled">
+                                <a href="#">
+                                    <i class="ace-icon fa fa-angle-double-left"></i>
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="#">1</a>
+                            </li>
+                            <li>
+                                <a href="#">2</a>
+                            </li>
+                            <li>
+                                <a href="#">3</a>
+                            </li>
+                            <li class="next">
+                                <a href="#">
+                                    <i class="ace-icon fa fa-angle-double-right"></i>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
+                    <!-- /.modal-content -->
                 </div>
-            </div><!-- /.row -->
-            <div class="hr hr-18 dotted hr-double"></div>
-            <div class="modal-footer no-margin-top">
-                <ul class="pagination pull-right no-margin">
-                    <li class="prev disabled">
-                        <a href="#">
-                            <i class="ace-icon fa fa-angle-double-left"></i>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="#">1</a>
-                    </li>
-                    <li>
-                        <a href="#">2</a>
-                    </li>
-                    <li>
-                        <a href="#">3</a>
-                    </li>
-                    <li class="next">
-                        <a href="#">
-                            <i class="ace-icon fa fa-angle-double-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.modal-content -->
+            </div><!-- PAGE CONTENT ENDS -->
         </div>
-    </div><!-- PAGE CONTENT ENDS -->
+    </div>
 </div><!-- main.cont -->
 @{
     Html.RenderAction("YesNoModal", "Partial");
@@ -128,14 +118,14 @@
                         </div>
                     </div>
                     @*<div style="padding-left:50px;">
-                        <div class="col-xs-5">
-                            <label class="asterisk" for="form-field-first"><b>Is Active : </b></label>
-                            <select class="input-sm form-control" id="IsActive2"  autofocus>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
-                            </select>
-                        </div>
-                    </div>*@
+                            <div class="col-xs-5">
+                                <label class="asterisk" for="form-field-first"><b>Is Active : </b></label>
+                                <select class="input-sm form-control" id="IsActive2"  autofocus>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                        </div>*@
                 </div>
             </div>
             <div class="modal-footer">
