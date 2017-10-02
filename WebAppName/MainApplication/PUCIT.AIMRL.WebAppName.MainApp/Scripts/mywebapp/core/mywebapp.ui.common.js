@@ -66,13 +66,17 @@ MyWebApp.UI.Common = (function () {
                     $(this).html(name.substring(0, length) + "..");
             });
         },
-        setHandlebarTemplate: function (templateSelector, selectorToApply, data) {
-            $(selectorToApply).html('');
+        setHandlebarTemplate: function (templateSelector, targetContainerselector, data, appendOnly, callbackFn) {
+            if (appendOnly != true)
+                $(targetContainerselector).html('');
+
             var source = $(templateSelector).html();
             var template = Handlebars.compile(source);
-
             var html = template(data);
-            $(selectorToApply).html(html);
+            $(targetContainerselector).append(html);
+
+            if (callbackFn)
+                callbackFn();
         }
         , registerCallbacks: function (cbacks) {
             callbacks = $.extend(callbacks, cbacks);

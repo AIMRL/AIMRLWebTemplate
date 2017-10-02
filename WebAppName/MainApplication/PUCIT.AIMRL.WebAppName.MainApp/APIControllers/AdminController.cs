@@ -38,12 +38,10 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
             }
         }
         
-        
-        
-        public Object searchUsers(User u)
-        {
-            return Repository.SearchUsers(u);
-        }
+        //public Object searchUsers(User u)
+        //{
+        //    return Repository.SearchUsers(u);
+        //}
 
         [HttpPost]
         public Object ValidateUser(Login pLogin)

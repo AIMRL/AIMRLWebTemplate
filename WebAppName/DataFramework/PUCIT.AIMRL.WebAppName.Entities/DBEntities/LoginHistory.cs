@@ -25,5 +25,13 @@ namespace PUCIT.AIMRL.WebAppName.Entities.DBEntities
                 return HelperMethods.ConvertDTToStr(this.LoginTime);
             }
         }
+        [NotMapped]
+        public String LoginDateTimeStr
+        {
+            get
+            {
+                return HelperMethods.ChangeDTFormat(this.LoginTime);
+            }
+        }
     }
 }

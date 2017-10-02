@@ -91,11 +91,15 @@
     <link href="@Url.Content("~/Content/style/PineNotifications/jquery.pnotify.default.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/style/PineNotifications/icons/jquery.pnotify.default.icons.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/style/PineNotifications/bootstrap.css")" rel="stylesheet" type="text/css" />
+    
+    <script type="text/javascript" src="@Url.Content("~/Scripts/mywebapp/core/mywebapp.ui.header.js")"></script>
 
-
-    @*<script src="~/Scripts/jquery-2.1.4.min.js"></script>*@
     <script src="~/Scripts/bootstrap.min.js"></script>
-
+    <script type="text/javascript">
+        $(document).ready(function () {
+            MyWebApp.UI.Header.readyMain();
+        });
+    </script>
     @RenderSection("Header", false)
 </head>
 <body class="no-skin">
@@ -176,8 +180,13 @@
 
             <div class="navbar-buttons navbar-header pull-right" role="navigation">
                 <ul class="nav ace-nav">
-
-                    @if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perViewLoginHistoryReport == true)
+                    <li class="light-blue">
+                        <a href='@Url.Content("~/Home/Inbox")' class="btn-new-mail">
+                            <span class="bigger-110">Inbox</span>
+                        </a>
+                    </li>
+                    
+                    @if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perViewLoginHistoryReport == true )
                     {
                         <li class="light-blue dropdown-modal">
                             <a data-toggle="dropdown" href="#" class="dropdown-toggle">
@@ -192,14 +201,13 @@
                             <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                                 @if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perViewLoginHistoryReport == true)
                                 {
-                                <li>
-                                    <a href='@Url.Content("~/Reports/UserLoginHistory")'>
-                                        <i class="ace-icon fa fa-user"></i>
-                                        User Login History
-                                    </a>
-                                </li>
+                                    <li>
+                                        <a href='@Url.Content("~/Reports/UserLoginHistory")'>
+                                            <i class="ace-icon fa fa-user"></i>
+                                            User Login History
+                                        </a>
+                                    </li>
                                 }
-                                <li class="divider"></li>
 
                             </ul>
                         </li>
@@ -217,16 +225,6 @@
                             </a>
 
                             <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-                                @if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perManageSecurityRoles == true)
-                                {
-                                    <li>
-                                        <a href='@Url.Content("~/Security/Roles")'>
-                                            <i class="ace-icon fa fa-user"></i>
-                                            Roles
-                                        </a>
-                                    </li>
-                                }
-                                <li class="divider"></li>
                                 @if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perManageSecurityPermissions == true)
                                 {
                                     <li>
@@ -235,8 +233,20 @@
                                             Permissions
                                         </a>
                                     </li>
+                                    <li class="divider"></li>
                                 }
-                                <li class="divider"></li>
+
+                                @if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perManageSecurityRoles == true)
+                                {
+                                    <li>
+                                        <a href='@Url.Content("~/Security/Roles")'>
+                                            <i class="ace-icon fa fa-user"></i>
+                                            Roles
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                }
+
                                 @if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perManageSecurityUsers == true)
                                 {
                                     <li>
@@ -249,7 +259,7 @@
                             </ul>
                         </li>
                     }
-                    @if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perCanLoginAsOtherUser == true)
+                    @if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perCanLoginAsOtherUser == true )
                     {
                         <li class="light-blue dropdown-modal">
                             <a data-toggle="dropdown" href="#" class="dropdown-toggle">
@@ -262,7 +272,6 @@
                             </a>
 
                             <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-                                <li class="divider"></li>
                                 @if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perCanLoginAsOtherUser == true)
                                 {
                                     <li>
@@ -271,6 +280,7 @@
                                             Login as another User
                                         </a>
                                     </li>
+                                    <li class="divider"></li>
                                 }
                             </ul>
                         </li>
@@ -278,7 +288,7 @@
                     <li class="light-blue dropdown-modal">
                         <a data-toggle="dropdown" href="#" class="dropdown-toggle"
                            @if (PUCIT.AIMRL.WebAppName.UI.Common.SessionManager.LogsInAsOtherUser) {  @: style="background-color: #aee68a;"
-                                                                       }>
+                                                                                                                                                                                                                                         }>
                             <img class="nav-user-photo" src="~/images/avatars/web_hi_res_512.png" alt=Jason's photo" />
                             <span class="user-info">
                                 <small>
@@ -291,28 +301,11 @@
                         <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 
                             <li>
-                                <a href="#profileModal" role="button" data-toggle="modal">
+                                <a href="#" role="button" id="lnkProfileModal">
                                     <i class="ace-icon fa fa-user"></i>
                                     View Profile
                                 </a>
                             </li>
-                            @if (ViewBag.IsContributor == true)
-                            {
-                                <li class="divider"></li>
-                                foreach (var obj in ViewBag.ApproverDesignations)
-                                {
-                                    <li class="designation">
-                                        @if (ViewBag.CurrentApproverID == obj.ApproverID)
-                                        {
-                                            <a href="#" aid="@obj.ApproverID" class="selected">@obj.Designation.Trim()</a>
-                                        }
-                                        else
-                                        {
-                                            <a href="#" aid="@obj.ApproverID">@obj.Designation.Trim()</a>
-                                        }
-                                    </li>
-                                }
-                            }
                             <li class="divider"></li>
                             <li>
                                 <a href='@Url.Action("ChangePassword", "Home")'>
@@ -334,12 +327,8 @@
                             </li>
                         </ul>
                     </li>
-
                 </ul>
-
-
             </div>
-
             <div class="input-group col-sm-2 pull-right" role="navigation" style="margin-top:7px; margin-right:7px">
                 <input type="number" class="form-control" id="SearchDiary" placeholder="Diary No. e.g. 12" />
                 <div class="input-group-btn">
@@ -350,11 +339,46 @@
             </div>
         </div><!-- /.navbar-container -->
     </div>
-    <div id="profileModal" class="modal in" tabindex="-1" style="display:none">
+
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <div class="breadcrumb">
+            <ul class="breadcrumb">
+                <li>
+                    <a href='@Url.Content("~/Home")'>
+                        <i class="ace-icon fa fa-home home-icon">
+                        </i>
+                    </a>
+                </li>
+                @RenderSection("BreadCrumb", false)
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-container ace-save-state" id="main-container">
+        <div class="main-content-inner">
+            @RenderBody()
+            <div class="footer">
+                <div class="footer-inner">
+                    <div class="footer-content">
+                        <span class="bigger-120">
+                            <span class="blue bolder">PUCIT</span>
+                        </span>
+                        &nbsp; &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.page-header -->
+
+    </div><!-- main.cont -->
+
+
+
+    <div id="profileModal" tabindex="-1" style="display:none">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <button type="button" class="close" data-dismiss="modal" id="btnCloseProfileModal">×</button>
                     <h4 class="blue bigger">My Profile</h4>
                 </div>
                 <div class="modal-body">
@@ -391,8 +415,9 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="modal-footer">
-                    <button class="btn btn-sm" data-dismiss="modal">
+                    <button class="btn btn-sm" id="btnCloseProfileModal2">
                         <i class="ace-icon fa fa-times"></i>
                         Cancel
                     </button>
@@ -402,33 +427,6 @@
     </div>
 
 
-    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-        <div class="breadcrumb">
-            <ul class="breadcrumb">
-                <li>
-                    <a href='@Url.Content("~/Home")'>
-                        <i class="ace-icon fa fa-home home-icon">
-                        </i>
-                    </a>
-                </li>
-                @RenderSection("BreadCrumb", false)
-
-            </ul>
-        </div>
-        
-
-    </div>
-
-    @RenderBody()
-    <div class="footer">
-        <div class="footer-inner">
-            <div class="footer-content">
-                <span class="bigger-120">
-                    <span class="blue bolder">PUCIT</span>
-                </span>
-                &nbsp; &nbsp;
-            </div>
-        </div>
-    </div>
+    @RenderSection("PopupsAndTemplates", false)
 </body>
 </html>

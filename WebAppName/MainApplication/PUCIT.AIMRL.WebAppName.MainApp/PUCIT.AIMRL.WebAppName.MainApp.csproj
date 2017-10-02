@@ -391,8 +391,8 @@
     <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\mywebapp\Admin\mywebapp.ui.LoginAsOtherUsers.js" />
-    <Content Include="Scripts\mywebapp\Reports\mywebapp.ui.reports.js" />
-    <Content Include="Scripts\mywebapp\ApplicationView\mywebapp.ui.header.js" />
+    <Content Include="Scripts\mywebapp\Reports\mywebapp.ui.LoginHistoryReport.js" />
+    <Content Include="Scripts\mywebapp\core\mywebapp.ui.header.js" />
     <Content Include="Scripts\mywebapp\ChangePassword\mywebapp.ui.ResetPassword1.js" />
     <Content Include="Scripts\mywebapp\ChangePassword\mywebapp.ui.ChangePassword.js" />
     <Content Include="Scripts\mywebapp\core\mywebapp.debugger.js" />
@@ -568,7 +568,6 @@
     <Content Include="Views\Shared\_HeaderLayout.cshtml" />
     <Content Include="Views\Admin\Users.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
-    <Content Include="Views\Admin\ViewUsers.cshtml" />
     <Content Include="Views\Home\ChangePassword.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Login\ResetPassword1.cshtml" />
@@ -576,7 +575,6 @@
     <Content Include="Views\Admin\UsersOperations.cshtml" />
     <Content Include="Views\Security\Permissions.cshtml" />
     <Content Include="Views\Security\Roles.cshtml" />
-    <Content Include="Views\Admin\ApplicationWorkFlow.cshtml" />
     <Content Include="Views\Admin\Search.cshtml" />
     <Content Include="Views\Admin\LoginAsAnotherUser.cshtml" />
     <Content Include="Views\Reports\UserLoginHistory.cshtml" />

@@ -6,36 +6,25 @@ MyWebApp.UI.User = (function () {
    
     var usersData;
     var temp_roleData;
+    var current_page = 0;
 
     function initialisePage() {
         if (_isInitialized == false) {
             _isInitialized = true;
             BindEvents();
-            getAllUsers();
+            SearchUsers();
             getActiveRoles();
         }
     }
 
     function BindEvents() {
         
-        $("#selectType1").change(function (e) {
+        $("#cmbPageSizeSearch").change(function(e){
             e.preventDefault();
-            debugger;
-            var selected_dropdownindex1 = parseInt($('#selectType1').val());
-            var data = {};
-            data.UserList = [];
+            SearchUsers();
+            return false;
+        });
 
-            if (selected_dropdownindex1 == -1) {
-                data = usersData;
-            }
-            else {
-                data.UserList = usersData.UserList.filter(p=> p.IsActive == Boolean(selected_dropdownindex1));
-            }
-
-            displayAllUsers(data);
-
-        }); //End of Save Click
-        
         $("#newuser").click(function (e) {
             e.preventDefault();
             clearFeilds();
@@ -84,9 +73,73 @@ MyWebApp.UI.User = (function () {
             return false;
         });
 
+        $("#search").unbind("click").bind("click", function (e) {
+            e.preventDefault();
+            current_page = 0;
+            SearchUsers();
+            return false;
+        });
     }
     
     //-----------------User Management + Grid Event Handling
+    function SearchUsers(){
+        if(current_page == 0)
+            current_page = 1;
+
+        var searchObject = {
+            TextToSearch: $("#txtTextToSearch").val().trim(),
+            IsActive:  $("#cmbIsActiveSearch").val(),
+            PageSize: $("#cmbPageSizeSearch").val(),
+            PageIndex: current_page - 1
+        };
+
+        var url = "Security/SearchUsers";
+        var Data = JSON.stringify(searchObject);
+
+        MyWebApp.Globals.MakeAjaxCall("POST", url, Data, function (result) {
+            if (result.success === true) {
+                usersData = result.data;
+                $("#spResultsFound").text("(" + result.data.Count + " Users are found)");
+                CreatePages(result.data.Count);
+                displayAllUsers(result.data);
+            } else {
+                MyWebApp.UI.showRoasterMessage(result.error, Enums.MessageType.Error);
+            }
+        }, function (xhr, ajaxOptions, thrownError) {
+            MyWebApp.UI.showRoasterMessage('A problem has occurred while getting applications: "' + thrownError + '". Please try again.', Enums.MessageType.Error);
+        });
+    }
+    function CreatePages(recordCount){
+        var pageSize = Number($("#cmbPageSizeSearch").val());
+
+        if (isNaN(pageSize) || pageSize <= 0) {
+            alert('Invalid Page Size');
+            return;
+        }
+        var pages = Math.ceil(recordCount / pageSize);
+        CreateNavButtonForPage(pages);
+    }
+    function CreateNavButtonForPage(pageNo) {
+        $(".pagination").empty();
+        for (var i = 1; i <= pageNo; i++) {
+            var li = $("<li>").attr("id", "pageNo").attr("pageNo1", i).attr("value", i).attr("style", "color:white");
+            if(i == current_page)
+                li.addClass("active");
+            var i1 = $("<a>").text(i);
+            li.append(i1);
+            $(".pagination").append(li);
+        }
+
+        $(".pagination #pageNo").unbind("click").bind("click", function (e) {
+            var pgNo = $(this).closest("li").attr("pageNo1");
+            if(current_page != pgNo){
+                current_page = pgNo;
+                SearchUsers();
+            }
+                
+            return false;
+        });
+    }
     function saveUser(dataObj) {
         debugger;
         var userObjToSend = {
@@ -109,13 +162,13 @@ MyWebApp.UI.User = (function () {
                     userObj.Name = userObjToSend.Name;
                     userObj.Description = userObjToSend.Description;
                 }
-                else {
-                    userObjToSend.UserId = result.data.UserId;
-                    userObjToSend.IsActive = true;
-                    usersData.UserList.push(userObjToSend);
-                }
+                //else {
+                //    userObjToSend.UserId = result.data.UserId;
+                //    userObjToSend.IsActive = true;
+                //    usersData.UserList.push(userObjToSend);
+                //}
               
-                $("#selectType1").trigger("change");
+                displayAllUsers(usersData);
 
             } else {
                 MyWebApp.UI.showRoasterMessage('some error has occurred', Enums.MessageType.Error);
@@ -152,7 +205,7 @@ MyWebApp.UI.User = (function () {
                
                 MyWebApp.UI.showRoasterMessage(result.error, Enums.MessageType.Success, 2000);
 
-                $("#selectType1").trigger("change");
+                displayAllUsers(usersData);
 
             } else {
                 MyWebApp.UI.showRoasterMessage('some error has occurred', Enums.MessageType.Error);                
@@ -161,39 +214,10 @@ MyWebApp.UI.User = (function () {
             MyWebApp.UI.showMessage("#spstatus", 'A problem has occurred while saving this User: "' + thrownerror + '". Please try again.', Enums.MessageType.Error);
         });
     }
-    function getAllUsers() {
-
-        var url = "Security/getUsers";
-        MyWebApp.Globals.MakeAjaxCall("GET", url, "{}", function (result) {
-            if (result.success === true) {
-                displayAllUsers(result.data);
-                usersData = result.data;
-
-            } else {
-                MyWebApp.UI.showRoasterMessage(result.error, Enums.MessageType.Error);
-            }
-        }, function (xhr, ajaxOptions, thrownError) {
-            MyWebApp.UI.showRoasterMessage('A problem has occurred while getting Users: "' + thrownError + '". Please try again.', Enums.MessageType.Error);
-        }, false);
-
-    }
+    
     function displayAllUsers(UserList) {
 
-        $("#simple-table").html("");
-
-        if (!UserList)
-            return;
-
-        try {
-            var source = $("#UserTemplate").html();
-            var template = Handlebars.compile(source);
-            var html = template(UserList);
-        } catch (e) {
-            debugger;
-        }
-        debugger;
-        $("#simple-table").append(html);
-        BindGridEvents();
+        MyWebApp.UI.Common.setHandlebarTemplate("#UserTemplate","#simple-table",UserList,false,BindGridEvents);
     }
     
 
@@ -277,21 +301,7 @@ MyWebApp.UI.User = (function () {
         }, false);
     }
     function GenerateRolesHTML(Roles) {
-        $("#sortable1").html("");
-
-        if (!Roles)
-            return;
-
-        try {
-            var source = $("#RoleTemplate").html();
-            var template = Handlebars.compile(source);
-            var html = template(Roles);
-
-            $("#sortable1").append(html);
-        }
-        catch (e) {
-            ////debugger;
-        }
+        MyWebApp.UI.Common.setHandlebarTemplate("#RoleTemplate","#sortable1",Roles);
     }
     function GetRolesByUserID(pUserID){
 

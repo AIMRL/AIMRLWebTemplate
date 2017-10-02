@@ -40,36 +40,36 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
         
         
         
-        public Object SearchUsers(User pSearchParam)
-        {
+        //public Object SearchUsers(User pSearchParam)
+        //{
 
 
-            try
-            {
+        //    try
+        //    {
 
 
-                var List = DataService.SearchUsers(pSearchParam);
+        //        var List = DataService.SearchUsers(pSearchParam);
 
 
-                return (new
-                {
-                    data = new
-                    {
-                        UserList = List
-                    },
-                    success = true,
-                    error = ""
-                });
-            }
-            catch (Exception ex)
-            {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
-            }
-        }
+        //        return (new
+        //        {
+        //            data = new
+        //            {
+        //                UserList = List
+        //            },
+        //            success = true,
+        //            error = ""
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return (new
+        //        {
+        //            success = false,
+        //            error = "Some Error has occurred"
+        //        });
+        //    }
+        //}
         public Object SearchUser(string key)
         {
             try

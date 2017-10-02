@@ -98,11 +98,11 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
         }
 
 
-        [HttpGet]
-        public Object getUsers()
-        {
-            return Repository.getUsers();
-        }
+        //[HttpGet]
+        //public Object getUsers()
+        //{
+        //    return Repository.getUsers();
+        //}
 
         [HttpPost]
         public object SaveUsers(User u)
@@ -110,6 +110,11 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
             return Repository.SaveUsers(u);
         }
 
+        [HttpPost]
+        public Object SearchUsers(UserSearchParam u)
+        {
+            return Repository.SearchUsers(u);
+        }
         [HttpPost]
         public object EnableDisableUser(User u)
         {

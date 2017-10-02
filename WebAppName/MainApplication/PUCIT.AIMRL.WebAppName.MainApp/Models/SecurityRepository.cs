@@ -495,7 +495,32 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
             }
         }
 
+        public Object SearchUsers(UserSearchParam pSearchParam)
+        {
+            try
+            {
+                var result = DataService.SearchUsers(pSearchParam);
 
+                return (new
+                {
+                    data = new
+                    {
+                        Count = result.ResultCount,
+                        UserList = result.Result
+                    },
+                    success = true,
+                    error = ""
+                });
+            }
+            catch (Exception ex)
+            {
+                return (new
+                {
+                    success = false,
+                    error = "Some Error has occurred"
+                });
+            }
+        }
         #endregion
 
         //public Object getMappings()

@@ -34,4 +34,26 @@ namespace PUCIT.AIMRL.WebAppName.Entities.DBEntities
 
         public int WorkFlowStatus { get; set; }
     }
+
+    public class UserSearchParam
+    {
+        public String TextToSearch { get; set; }
+        public int IsActive { get; set; }
+        public int PageSize { get; set; }
+        public int PageIndex { get; set; }
+    }
+
+    public class UserSearchResultObj
+    {
+        public int UserId { get; set; }
+        public String Login { get; set; }
+        public String Name { get; set; }
+        public Boolean IsActive { get; set; }
+    }
+
+    public class UserSearchResult
+    {
+        public int ResultCount { get; set; }
+        public List<UserSearchResultObj> Result { get; set; }
+    }
 }

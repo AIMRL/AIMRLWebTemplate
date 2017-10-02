@@ -266,20 +266,54 @@ namespace PUCIT.AIMRL.WebAppName.DAL
                 return result;
             }
         }
-        public List<User> SearchUsers(User entity)
+
+        //public List<User> SearchUsers(User entity)
+        //{
+        //    using (var ctx = new PRMDataContext())
+        //    {
+        //        string query = "execute dbo.SearchUsers @0, @1";
+        //        var args = new DbParameter[] {
+        //            new SqlParameter { ParameterName = "@0", Value = entity.Name },
+        //            new SqlParameter { ParameterName = "@1", Value = entity.Email}
+        //         };
+
+        //        var list = ctx.Database.SqlQuery<User>(query, args).ToList();
+        //        return list;
+        //    }
+        //}
+
+        public UserSearchResult SearchUsers(UserSearchParam entity)
         {
             using (var ctx = new PRMDataContext())
             {
-                string query = "execute dbo.SearchUsers @0, @1";
-                var args = new DbParameter[] {
-                    new SqlParameter { ParameterName = "@0", Value = entity.Name },
-                    new SqlParameter { ParameterName = "@1", Value = entity.Email}
-                 };
+                UserSearchResult result = new Entities.DBEntities.UserSearchResult();
 
-                var list = ctx.Database.SqlQuery<User>(query, args).ToList();
-                return list;
+                string query = "execute dbo.SearchUsers @0, @1, @2,@3";
+
+                var cmd = ctx.Database.Connection.CreateCommand();
+                cmd.CommandText = query;
+
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@0", Value = entity.TextToSearch });
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@1", Value = entity.IsActive });
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@2", Value = entity.PageSize });
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@3", Value = entity.PageIndex });
+
+                ctx.Database.Connection.Open();
+                var reader = cmd.ExecuteReader();
+
+                result.ResultCount = ((IObjectContextAdapter)ctx)
+                   .ObjectContext
+                   .Translate<int>(reader).FirstOrDefault();
+
+                reader.NextResult();
+                result.Result = ((IObjectContextAdapter)ctx)
+                                .ObjectContext
+                                .Translate<UserSearchResultObj>(reader).ToList();
+
+                return result;
             }
         }
+
         public List<Approver> SearchUser(string key)
         {
             using (var ctx = new PRMDataContext())

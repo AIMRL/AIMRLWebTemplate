@@ -3,7 +3,6 @@
 }
 @section Header{
     <script type="text/javascript" src="@Url.Content("~/Scripts/mywebapp/Dashboard/mywebapp.ui.dashboard.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/mywebapp/ApplicationView/mywebapp.ui.header.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/highcharts/highcharts.js")"></script>
     <link rel="stylesheet" href="~/Content/jquery-ui.min.css" />
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
@@ -15,15 +14,9 @@
 {
     @*<script src="https://code.highcharts.com/highcharts.js"></script>*@
     <script type="text/javascript">
-        try { ace.settings.check('main-container', 'fixed') } catch (e) { }
-
         $(document).ready(function () {
             MyWebApp.UI.Dashboard.readyMain();
-            MyWebApp.UI.Header.readyMain();
         });
-    </script>
-    <script type="text/javascript">
-        try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
     </script>
 }
 <div class="main-container" id="main-container">

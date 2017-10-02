@@ -11,40 +11,15 @@ MyWebApp.UI.Header = (function () {
         }
     }
     function BindEvents() {
-        $("#uploadsignature").unbind('click').bind('click', function (e) {
-            
-            var sign = $("#signImage").get(0).files;
-            // Add the uploaded image content to the form data collection
-            if (sign.length == 0) {
-                $('#_result_ID').text("Please upload image of your signature");
-                $('#_result_ID').css("color", "red");
-            }
-            else {
-                var data = new FormData();
-                // Add the uploaded image content to the form data collection
-                if (sign.length > 0) {
-                    data.append("Signature", sign[0]);
-                }
+        
+        $("#lnkProfileModal").unbind('click').bind('click', function (e) {
+            e.preventDefault();
 
-                var ajaxRequest = $.ajax({
-                    type: "POST",
-                    url: window.MyWebAppBasePath + "aapi/Forms/UploadSignature",
-                    contentType: false,
-                    processData: false,
-                    data: data,
-                    success: function (response) {
-                        MyWebApp.UI.showRoasterMessage('Signature Uploaded', Enums.MessageType.Success);
-                        setTimeout(function () { 
-                            location.reload();
-                        },1000);
-                    },
-                    error: function (response) {
-                        hideAll();
-                        MyWebApp.UI.showRoasterMessage('Some error', Enums.MessageType.Error);
-                    }
-                });
-            }
+            $.bsmodal.show("#profileModal", { top: "5%", left: "25%", closeid: "#btnCloseProfileModal,#btnCloseProfileModal2" });
+
+            return false;
         });
+
         
         $("#SearchButton").click(function (e) {
             debugger;
