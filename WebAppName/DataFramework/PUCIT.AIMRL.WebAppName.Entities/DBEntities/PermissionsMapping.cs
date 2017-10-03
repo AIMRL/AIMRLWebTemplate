@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PUCIT.AIMRL.WebAppName.Entities.DBEntities
 {
-    [Table("dbo.PermissionsMapping")]
+    [Table("sec.PermissionsMapping")]
     public class PermissionsMapping
     {
         [Key]

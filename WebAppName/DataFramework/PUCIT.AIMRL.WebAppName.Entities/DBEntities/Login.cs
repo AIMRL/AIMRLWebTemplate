@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace PUCIT.AIMRL.WebAppName.Entities.DBEntities
 {
 
-    [Table("dbo.Users")]
+    [Table("sec.Users")]
     public class User
     {
         [Key]
@@ -24,16 +24,6 @@ namespace PUCIT.AIMRL.WebAppName.Entities.DBEntities
 
     }
 
-    public class Approver
-    {
-        public int UserId { get; set; }
-        public String Login { get; set; }
-        public String Name { get; set; }
-        public String Designation { get; set; }
-        public String Email { get; set; }
-
-        public int WorkFlowStatus { get; set; }
-    }
 
     public class UserSearchParam
     {
@@ -43,14 +33,18 @@ namespace PUCIT.AIMRL.WebAppName.Entities.DBEntities
         public int PageIndex { get; set; }
     }
 
-    public class UserSearchResultObj
+    public class UserSmallDTO
     {
         public int UserId { get; set; }
         public String Login { get; set; }
         public String Name { get; set; }
-        public Boolean IsActive { get; set; }
     }
 
+    public class UserSearchResultObj : UserSmallDTO
+    {
+        public Boolean IsActive { get; set; }
+    }
+    
     public class UserSearchResult
     {
         public int ResultCount { get; set; }

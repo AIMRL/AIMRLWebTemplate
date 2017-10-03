@@ -8,7 +8,7 @@ using PUCIT.AIMRL.Common;
 
 namespace PUCIT.AIMRL.WebAppName.Entities.DBEntities
 {
-    [Table("dbo.LoginHistory")]
+    [Table("sec.LoginHistory")]
     public class LoginHistory
     {
         [Key]

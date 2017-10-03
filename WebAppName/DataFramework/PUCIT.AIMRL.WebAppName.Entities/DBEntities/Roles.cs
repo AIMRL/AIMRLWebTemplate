@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PUCIT.AIMRL.WebAppName.Entities.DBEntities
 {
-    [Table("dbo.Roles")]
+    [Table("sec.Roles")]
     public class Roles
     {
         [Key]

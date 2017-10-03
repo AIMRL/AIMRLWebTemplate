@@ -48,7 +48,6 @@
   <ItemGroup>
     <Compile Include="DBEntities\Login.cs" />
     <Compile Include="DBEntities\LoginHistory.cs" />
-    <Compile Include="DBEntities\Permissions.cs" />
     <Compile Include="DBEntities\Permissions1.cs" />
     <Compile Include="DBEntities\PermissionsMapping.cs" />
     <Compile Include="DBEntities\Roles.cs" />

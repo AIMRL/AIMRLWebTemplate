@@ -47,7 +47,7 @@ namespace PUCIT.AIMRL.WebAppName.DAL
 
             using (var ctx = new PRMDataContext())
             {
-                string query = "execute dbo.SaveRoles @0, @1, @2,@3,@4";
+                string query = "execute sec.SaveRoles @0, @1, @2,@3,@4";
                 var args = new DbParameter[] {
                     new SqlParameter { ParameterName = "@0", Value = role.Id },
                     new SqlParameter { ParameterName = "@1", Value = role.Name},
@@ -64,7 +64,7 @@ namespace PUCIT.AIMRL.WebAppName.DAL
         {
             using (var ctx = new PRMDataContext())
             {
-                string query = "execute dbo.EnableDisableRole @0, @1, @2, @3";
+                string query = "execute sec.EnableDisableRole @0, @1, @2, @3";
 
                 var args = new DbParameter[] {
                      new SqlParameter { ParameterName = "@0", Value = pRoleID},
@@ -109,7 +109,7 @@ namespace PUCIT.AIMRL.WebAppName.DAL
                     dt.Rows.Add(p);
                 }
 
-                string query = "execute dbo.SaveUserRoleMapping @0, @1";
+                string query = "execute sec.SaveUserRoleMapping @0, @1";
 
                 var args = new DbParameter[] {
                      new SqlParameter { ParameterName = "@0", Value = pUserID},
@@ -130,7 +130,7 @@ namespace PUCIT.AIMRL.WebAppName.DAL
 
             using (var ctx = new PRMDataContext())
             {
-                string query = "execute dbo.SavePermission @0, @1,@2,@3,@4";
+                string query = "execute sec.SavePermission @0, @1,@2,@3,@4";
                 var args = new DbParameter[] {
                     new SqlParameter { ParameterName = "@0", Value = per.Id},
                     new SqlParameter { ParameterName = "@1", Value = per.Name},
@@ -147,7 +147,7 @@ namespace PUCIT.AIMRL.WebAppName.DAL
         {
             using (var ctx = new PRMDataContext())
             {
-                string query = "execute dbo.EnableDisablePermission @0, @1, @2, @3";
+                string query = "execute sec.EnableDisablePermission @0, @1, @2, @3";
 
                 var args = new DbParameter[] {
                      new SqlParameter { ParameterName = "@0", Value = pPermissionID},
@@ -166,7 +166,7 @@ namespace PUCIT.AIMRL.WebAppName.DAL
         {
             using (var db = new PRMDataContext())
             {
-                string query = "execute dbo.GetAllPermissions ";
+                string query = "execute sec.GetAllPermissions ";
                 var list = db.Database.SqlQuery<Permissions>(query).ToList();
                 return list;
             }
@@ -195,7 +195,7 @@ namespace PUCIT.AIMRL.WebAppName.DAL
                     dt.Rows.Add(p);
                 }
 
-                string query = "execute dbo.SaveRolePermissionMapping @0, @1";
+                string query = "execute sec.SaveRolePermissionMapping @0, @1";
 
                 var args = new DbParameter[] {
                      new SqlParameter { ParameterName = "@0", Value = pRoleID},
@@ -216,7 +216,7 @@ namespace PUCIT.AIMRL.WebAppName.DAL
 
             using (var ctx = new PRMDataContext())
             {
-                string query = "execute dbo.SaveUsers @0, @1, @2, @3,@4, @5,@6";
+                string query = "execute sec.SaveUsers @0, @1, @2, @3,@4, @5,@6";
                 var args = new DbParameter[] {
                     new SqlParameter { ParameterName = "@0", Value = u.UserId },
                     new SqlParameter { ParameterName = "@1", Value = u.Login},
@@ -235,7 +235,7 @@ namespace PUCIT.AIMRL.WebAppName.DAL
         {
             using (var ctx = new PRMDataContext())
             {
-                string query = "execute dbo.EnableDisableUser @0, @1, @2, @3";
+                string query = "execute sec.EnableDisableUser @0, @1, @2, @3";
 
                 var args = new DbParameter[] {
                      new SqlParameter { ParameterName = "@0", Value = pUserID},
@@ -267,28 +267,13 @@ namespace PUCIT.AIMRL.WebAppName.DAL
             }
         }
 
-        //public List<User> SearchUsers(User entity)
-        //{
-        //    using (var ctx = new PRMDataContext())
-        //    {
-        //        string query = "execute dbo.SearchUsers @0, @1";
-        //        var args = new DbParameter[] {
-        //            new SqlParameter { ParameterName = "@0", Value = entity.Name },
-        //            new SqlParameter { ParameterName = "@1", Value = entity.Email}
-        //         };
-
-        //        var list = ctx.Database.SqlQuery<User>(query, args).ToList();
-        //        return list;
-        //    }
-        //}
-
         public UserSearchResult SearchUsers(UserSearchParam entity)
         {
             using (var ctx = new PRMDataContext())
             {
                 UserSearchResult result = new Entities.DBEntities.UserSearchResult();
 
-                string query = "execute dbo.SearchUsers @0, @1, @2,@3";
+                string query = "execute sec.SearchUsers @0, @1, @2,@3";
 
                 var cmd = ctx.Database.Connection.CreateCommand();
                 cmd.CommandText = query;
@@ -314,16 +299,16 @@ namespace PUCIT.AIMRL.WebAppName.DAL
             }
         }
 
-        public List<Approver> SearchUser(string key)
+        public List<UserSmallDTO> SearchUser(string key)
         {
             using (var ctx = new PRMDataContext())
             {
-                string query = "execute dbo.SearchUserForAutoComplete @0";
+                string query = "execute sec.SearchUserForAutoComplete @0";
                 var args = new DbParameter[] {
                     new SqlParameter { ParameterName = "@0", Value = key }
                 };
 
-                var list = ctx.Database.SqlQuery<Approver>(query, args).ToList();
+                var list = ctx.Database.SqlQuery<UserSmallDTO>(query, args).ToList();
                 return list;
             }
         }
@@ -331,7 +316,7 @@ namespace PUCIT.AIMRL.WebAppName.DAL
         {
             using (var db = new PRMDataContext())
             {
-                string query = "select * from dbo.LoginHistory Order by LoginTime Desc";
+                string query = "select * from sec.LoginHistory Order by LoginTime Desc";
                 List<LoginHistory> log = db.Database.SqlQuery<LoginHistory>(query).ToList();
 
                 foreach (var l in log)
@@ -382,7 +367,7 @@ namespace PUCIT.AIMRL.WebAppName.DAL
 
             using (var ctx = new PRMDataContext())
             {
-                string query = "execute dbo.ValidateUser @0, @1, @2, @3,@4,@5";
+                string query = "execute sec.ValidateUser @0, @1, @2, @3,@4,@5";
 
                 var cmd = ctx.Database.Connection.CreateCommand();
                 cmd.CommandText = query;
@@ -456,7 +441,7 @@ namespace PUCIT.AIMRL.WebAppName.DAL
         {
             using (var ctx = new PRMDataContext())
             {
-                string query = "execute dbo.GetRolePermissionById @0";
+                string query = "execute sec.GetRolePermissionById @0";
                 var cmd = ctx.Database.Connection.CreateCommand();
                 cmd.CommandText = query;
 

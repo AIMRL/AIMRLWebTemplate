@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PUCIT.AIMRL.WebAppName.Entities.DBEntities
 {
-    [Table("dbo.Permissions")]
+    [Table("sec.Permissions")]
     public class Permissions
     {
         [Key]
@@ -19,5 +19,11 @@ namespace PUCIT.AIMRL.WebAppName.Entities.DBEntities
         public DateTime CreatedOn { get; set; }
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
+    }
+
+    public class PermissionsWithRoleID : Permissions
+    {
+        public int RoleId { get; set; }
+
     }
 }
