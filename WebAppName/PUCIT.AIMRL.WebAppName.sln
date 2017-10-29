@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PUCIT.AIMRL.Common.Logger",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB Scripts", "DB Scripts", "{2C0DD0A3-5FE2-4E07-9E39-CB4761282822}"
 	ProjectSection(SolutionItems) = preProject
-		DB Scripts\DB_Script.sql = DB Scripts\DB_Script.sql
+		DB Scripts\DB_Script.txt = DB Scripts\DB_Script.txt
 	EndProjectSection
 EndProject
 Global
