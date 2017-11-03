@@ -13,7 +13,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
                 BundleTable.EnableOptimizations = true;
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery/jquery-3.2.1.min.js"));
+                        "~/Scripts/jquery/jquery-2.1.4.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jqueryui/jquery-ui.js"));

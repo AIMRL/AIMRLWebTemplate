@@ -36,9 +36,11 @@
 
 
     @*--------------JQuery Main Files@*--------------*@
-    @*@Scripts.Render("~/bundles/jquery")*@
-
-    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    
+    @*<script src="~/Scripts/jquery-2.1.4.min.js"></script>*@
 
     <script>
         jQuery.browser = {};
@@ -52,7 +54,7 @@
         })();
     </script>
 
-    @Scripts.Render("~/bundles/jqueryui")
+    
 
 
     <!-- bootstrap & fontawesome -->
@@ -94,7 +96,7 @@
     
     <script type="text/javascript" src="@Url.Content("~/Scripts/mywebapp/core/mywebapp.ui.header.js")"></script>
 
-    <script src="~/Scripts/bootstrap.min.js"></script>
+    
     <script type="text/javascript">
         $(document).ready(function () {
             MyWebApp.UI.Header.readyMain();
