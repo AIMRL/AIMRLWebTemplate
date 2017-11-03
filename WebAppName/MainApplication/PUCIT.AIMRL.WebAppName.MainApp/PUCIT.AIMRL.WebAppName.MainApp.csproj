@@ -206,6 +206,9 @@
     <Content Include="Content\autoComplete\autocomplete.css" />
     <Content Include="Content\autoComplete\autocomplete.jquery.ui.override.css" />
     <Content Include="Content\autoComplete\images\close_icon.gif" />
+    <Content Include="Content\autoComplete\js\jquery-ui-autocomplete.js" />
+    <Content Include="Content\autoComplete\js\jquery-ui-autocomplete.min.js" />
+    <Content Include="Content\autoComplete\js\jquery.ui.autocomplete.wrapper.js" />
     <Content Include="Content\bootstrap-duallistbox.min.css" />
     <Content Include="Content\bootstrap-multiselect.min.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -383,12 +386,14 @@
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
+    <Content Include="Content\autoComplete\js\jquery.ui.autocomplete.wrapper_old.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.dataTables.bootstrap.min.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.hotkeys.index.min.js" />
     <Content Include="Scripts\jquery.mobile.custom.min.js" />
     <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
+    <Content Include="Scripts\jquery\jquery-3.2.1.min.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\mywebapp\Admin\mywebapp.ui.LoginAsOtherUsers.js" />
     <Content Include="Scripts\mywebapp\Reports\mywebapp.ui.LoginHistoryReport.js" />
@@ -413,8 +418,7 @@
     <Content Include="Scripts\mywebapp\user\mywebapp.ui.logon.js" />
     <Content Include="Scripts\mywebapp\user\mywebapp.ui.signup.js" />
     <Content Include="Scripts\jquery-plugins\Accordian\jquery.nestedAccordion.js" />
-    <Content Include="Scripts\jquery-plugins\AutoComplete\jquery.ui.autocomplete.js" />
-    <Content Include="Scripts\jquery-plugins\AutoComplete\jquery.ui.autocomplete.wrapper.js" />
+    <Content Include="Content\autoComplete\js\jquery.ui.autocomplete_old.js" />
     <Content Include="Scripts\jquery-plugins\Contextmenu\prettify\lang-apollo.js" />
     <Content Include="Scripts\jquery-plugins\Contextmenu\prettify\lang-clj.js" />
     <Content Include="Scripts\jquery-plugins\Contextmenu\prettify\lang-css.js" />
@@ -483,7 +487,6 @@
     <Content Include="Scripts\jquery-plugins\jQGrid\plugins\jquery.tablednd.js" />
     <Content Include="Scripts\jquery-plugins\jQGrid\plugins\ui.multiselect.js" />
     <Content Include="Scripts\jquery-plugins\jquery.cookie.js" />
-    <Content Include="Scripts\jquery-plugins\jquery.tmpl.js" />
     <Content Include="Scripts\jquery-plugins\jquery.tooltip.js" />
     <Content Include="Content\style\fonts\DroidSans-Bold-webfont.eot" />
     <Content Include="Content\style\fonts\DroidSans-Bold-webfont.ttf" />

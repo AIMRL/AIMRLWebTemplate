@@ -13,7 +13,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
                 BundleTable.EnableOptimizations = true;
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery/jquery-1.8.2.js"));
+                        "~/Scripts/jquery/jquery-3.2.1.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jqueryui/jquery-ui.js"));
@@ -55,7 +55,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
                         "~/Scripts/mywebapp/core/mywebapp.ui.common.js",
                         "~/Scripts/mywebapp/core/mywebapp.ui.datamanager.js"));
 
-            
+
 
             //Context Menu Component CSS
             var stBundle = new StyleBundle("~/Content/contextmenu");
@@ -80,7 +80,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
             stBundle.Include("~/Content/Slider/SliderStyle.css", new RewriteUrlTransform());
             bundles.Add(stBundle);
 
-            bundles.Add(new ScriptBundle("~/bundles/hicharts").Include("~/Scripts/jquery-plugins/hicharts/highcharts.src.js", 
+            bundles.Add(new ScriptBundle("~/bundles/hicharts").Include("~/Scripts/jquery-plugins/hicharts/highcharts.src.js",
                 "~/Scripts/jquery-plugins/hicharts/draggable-points.js"));
 
             //stBundle = new StyleBundle("~/Content/css");
@@ -114,11 +114,11 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
 
 
             bundles.Add(new ScriptBundle("~/bundles/autocomplete").Include(
-                        "~/Scripts/jquery-plugins/AutoComplete/jquery.ui.autocomplete.js"
-                        , "~/Scripts/jquery-plugins/AutoComplete/jquery.ui.autocomplete.wrapper.js"));
+                        "~/Content/autoComplete/js/jquery.ui.autocomplete.min.js"
+                        , "~/Content/autoComplete/js/jquery.ui.autocomplete.wrapper.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/JqueryTemplate").Include(
-                        "~/Scripts/jquery-plugins/jquery.tmpl.js"));
+            //bundles.Add(new ScriptBundle("~/bundles/JqueryTemplate").Include(
+            //            "~/Scripts/jquery-plugins/jquery.tmpl.js"));
 
             //Table Sorter plugin + its widgets
             bundles.Add(new ScriptBundle("~/bundles/plugins/tablesorter").Include(
@@ -147,7 +147,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
             stBundle = new StyleBundle("~/Content/newtimepicker");
             stBundle.Include("~/Content/style/bootstrap-timepicker.css", new RewriteUrlTransform());
             bundles.Add(stBundle);
-           
+
 
             //for calender scheduler 
             bundles.Add(new ScriptBundle("~/bundles/fullcalender").Include(
@@ -192,7 +192,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
 
             bundles.Add(new ScriptBundle("~/bundles/mywebapp.ui.forms").Include(
                         "~/Scripts/mywebapp/Forms/mywebapp.ui.forms.js"));
-           
+
         }
     }
 
