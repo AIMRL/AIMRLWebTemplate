@@ -381,6 +381,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\Deployment.pubxml" />
+    <Content Include="Scripts\jquery-plugins\Template\handlebars_old.js" />
     <Content Include="Scripts\jquery\jquery-2.1.4.min.js" />
     <Content Include="Content\autoComplete\js\jquery.ui.autocomplete.wrapper_old.js" />
     <Content Include="Scripts\jquery.dataTables.bootstrap.min.js" />
@@ -586,7 +587,9 @@
     <Folder Include="UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\PUCIT.AIMRL.Common.Logger\PUCIT.AIMRL.Common.Logger.csproj">
