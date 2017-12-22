@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+
+    <script type="text/javascript">
+        window.AccessToken = '@ViewBag.AccessToken';
+        window.AppBasePath = '@Url.Content("~")';
+        window.ApiBasePath = 'http://localhost:22935/';
+
+        var counter = 0;
+        function MakeAjaxCall(httpmethod, URL, data, successCallback, failureCallback, aynch, showProgress, contentType, processData, kendoWindow) {
+
+
+            if (typeof aynch == 'undefined')
+                aynch = true;
+
+            if (typeof showProgress == 'undefined')
+                showProgress = true;
+            if (typeof contentType == 'undefined')
+                contentType = 'application/json';
+
+            if (showProgress) {
+                counter++;
+                if (counter > 0) {
+                    $('#divProgressOverlay').show();
+                    $('#divProgressStatus').show();
+                    $('div.loaderBody').show();
+                    //ShowSpinner();
+                }
+            }
+
+            var urltocall = window.ApiBasePath + "api/" + URL;
+            var authorizationToken = window.AccessToken;
+            console.log(urltocall);
+            console.log(authorizationToken);
+            //debugger;
+            var defObj = $.ajax({
+                type: httpmethod, //"POST"
+                url: urltocall,
+                data: data,
+                async: aynch,
+                processData: processData,
+                contentType: contentType,
+                beforeSend: function (jqXHR, settings) {
+                    jqXHR.setRequestHeader("Authorization", "Bearer " + authorizationToken);
+                },
+                success: function (resp) {
+
+                    // debugger;
+                    try {
+                        //var result = JSON.parse(resp);
+                        if (successCallback)
+                            successCallback(resp);
+                    } catch (err) {
+                    }
+                },
+                error: function (err, type, httpStatus) {
+                    console.log(err);
+                    debugger;
+                    if (err.status == 406) {
+
+                        var retPath = "";
+                        if (window.location.pathname) {
+                            retPath = "?ReturnURL=" + window.location.pathname;
+                        }
+
+                        return;
+                    }
+                    if (err.status == 401) {
+
+                        //Refresh Token
+
+                        var url = "Login/RefreshToken";
+                        var settings = {
+                            type: "GET",
+                            url: window.AppBasePath + "Home/RefreshToken",
+                            data: "{}",
+                            async: true,
+                            contentType: 'application/json',
+                            success: function (res) {
+                                if (res && res.accessToken) {
+                                    window.AccessToken = res.accessToken;
+                                    MakeAjaxCall(httpmethod, URL, data, successCallback, failureCallback, aynch, showProgress, contentType, processData, kendoWindow);
+                                }
+                            },
+                            error: function (err) {
+
+                            }
+                        };
+
+                        $.ajax(settings);
+
+                    }
+                    if (failureCallback)
+                        failureCallback(err, type, httpStatus);
+                    else {
+                        //alert(err.status + " - " + err.responseText + " - " + httpStatus);
+                    }
+                },
+                complete: function () {
+                    if (showProgress) {
+                        counter--;
+                        if (counter <= 0) {
+                            $('div.loaderBody').hide();
+                            $('#divProgressOverlay').hide();
+                            $('#divProgressStatus').hide();
+                            //$('.scrollerList').slimScroll({
+                            //    height: '280px'
+                            //});
+
+                            // HideSpinner();
+                        }
+                    }
+                    if (kendoWindow == true)
+                        $('div.overlayDiv').show();
+                    //debugger;
+                    var actionName = window.location.hash.toLowerCase().substring(1, window.location.hash.toLowerCase().length);
+                    if (actionName != "" && actionName != "infoedit") {
+                        $('.customTabs li').removeClass('active');
+                        $('.customTabs li.' + actionName).addClass('active');
+                    }
+
+                }
+            });
+
+            return defObj;
+        } //End of MakeAjaxCall
+
+
+        $(document).ready(function () {
+
+            $("#btnTest").click(function () {
+
+                MakeAjaxCall("GET", "Test/Get", "{}", function (res) {
+                    console.log(res);
+                    alert('testing');
+                });
+
+                return false;
+            });
+
+        });
+
+    </script>
+</head>
+<body>
+    <button id="btnTest">Test AJAX Call</button>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
