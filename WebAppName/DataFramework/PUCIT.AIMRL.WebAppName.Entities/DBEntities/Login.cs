@@ -51,4 +51,28 @@ namespace PUCIT.AIMRL.WebAppName.Entities.DBEntities
         public int ResultCount { get; set; }
         public List<UserSearchResultObj> Result { get; set; }
     }
+
+    public class LoginHistorySearchParam
+    {
+        public LoginHistorySearchParam()
+        {
+            SDate = new DateTime(1900, 1, 1);
+            EDate = DateTime.MaxValue;
+            Login = "";
+            MachineIp = "";
+            PageSize = 10;
+            PageIndex = 0;
+        }
+        public String Login { get; set; }
+        public String MachineIp { get; set; }
+        public DateTime SDate { get; set; }
+        public DateTime EDate { get; set; }
+        public int PageSize { get; set; }
+        public int PageIndex { get; set; }
+    }
+    public class LoginHistorySearchResult
+    {
+        public int ResultCount { get; set; }
+        public List<LoginHistory> Result { get; set; }
+    }
 }

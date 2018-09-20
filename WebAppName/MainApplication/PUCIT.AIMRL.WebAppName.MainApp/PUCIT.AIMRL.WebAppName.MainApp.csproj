@@ -377,6 +377,7 @@
     <Content Include="Scripts\jquery\jquery-3.2.1.min.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\mywebapp\Admin\mywebapp.ui.LoginAsOtherUsers.js" />
+    <Content Include="Scripts\mywebapp\Reports\mywebapp.ui.forgotpasswordlog.js" />
     <Content Include="Scripts\mywebapp\Reports\mywebapp.ui.LoginHistoryReport.js" />
     <Content Include="Scripts\mywebapp\core\mywebapp.ui.header.js" />
     <Content Include="Scripts\mywebapp\ChangePassword\mywebapp.ui.ResetPassword1.js" />
@@ -560,6 +561,7 @@
     <Content Include="Views\Reports\UserLoginHistory.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Partial\YesNoModal.cshtml" />
+    <Content Include="Views\Reports\ForgotPasswordLog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

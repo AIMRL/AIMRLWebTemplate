@@ -312,21 +312,78 @@ namespace PUCIT.AIMRL.WebAppName.DAL
                 return list;
             }
         }
-        public List<LoginHistory> GetLoginHistory()
+        public LoginHistorySearchResult SearchLoginHistory(LoginHistorySearchParam entity)
         {
-            using (var db = new PRMDataContext())
+            using (var ctx = new PRMDataContext())
             {
-                string query = "select * from sec.LoginHistory Order by LoginTime Desc";
-                List<LoginHistory> log = db.Database.SqlQuery<LoginHistory>(query).ToList();
+                LoginHistorySearchResult result = new Entities.DBEntities.LoginHistorySearchResult();
 
-                foreach (var l in log)
+                string query = "execute sec.SearchLoginHistory @0, @1, @2,@3,@4,@5";
+
+                var cmd = ctx.Database.Connection.CreateCommand();
+                cmd.CommandText = query;
+
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@0", Value = entity.Login });
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@1", Value = entity.MachineIp });
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@2", Value = entity.SDate });
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@3", Value = entity.EDate });
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@4", Value = entity.PageSize });
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@5", Value = entity.PageIndex });
+
+                ctx.Database.Connection.Open();
+                var reader = cmd.ExecuteReader();
+
+                result.ResultCount = ((IObjectContextAdapter)ctx)
+                   .ObjectContext
+                   .Translate<int>(reader).FirstOrDefault();
+
+                reader.NextResult();
+                result.Result = ((IObjectContextAdapter)ctx)
+                                .ObjectContext
+                                .Translate<LoginHistory>(reader).ToList();
+                foreach (var d in result.Result)
                 {
-                    l.LoginTime = l.LoginTime.ToTimeZoneTime(tzi);
+                    d.LoginTime = d.LoginTime.ToTimeZoneTime(tzi);
                 }
-
-                return log;
+                return result;
             }
         }
+        public ForgotPasswordSearchResult SearchForgotPasswordLog(ForgotPasswordSearchParam entity)
+        {
+            using (var ctx = new PRMDataContext())
+            {
+                ForgotPasswordSearchResult result = new ForgotPasswordSearchResult();
+
+                string query = "execute sec.SearchForgotPasswordLog @0, @1, @2,@3,@4";
+
+                var cmd = ctx.Database.Connection.CreateCommand();
+                cmd.CommandText = query;
+
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@0", Value = entity.Login });
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@1", Value = entity.SDate });
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@2", Value = entity.EDate });
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@3", Value = entity.PageSize });
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@4", Value = entity.PageIndex });
+
+                ctx.Database.Connection.Open();
+                var reader = cmd.ExecuteReader();
+
+                result.ResultCount = ((IObjectContextAdapter)ctx)
+                   .ObjectContext
+                   .Translate<int>(reader).FirstOrDefault();
+
+                reader.NextResult();
+                result.Result = ((IObjectContextAdapter)ctx)
+                                .ObjectContext
+                                .Translate<ForgotPasswordLogDTO>(reader).ToList();
+                foreach (var d in result.Result)
+                {
+                    d.EntyDate = d.EntyDate.ToTimeZoneTime(tzi);
+                }
+                return result;
+            }
+        }
+
         //public int changePassword(PasswordEntity pass)
         //{
         //    var username = SessionManager.GetUserLogin();

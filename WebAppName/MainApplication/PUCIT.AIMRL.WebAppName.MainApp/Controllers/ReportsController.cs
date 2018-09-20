@@ -15,13 +15,23 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Controllers
 
         public ActionResult UserLoginHistory()
         {
-            if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perViewLoginHistoryReport== false)
+            if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perViewLoginHistoryReport == false)
             {
                 return RedirectToAction("Index", "Home");
             }
             else
             {
-                ViewBag.Id = 2;
+                return View();
+            }
+        }
+        public ActionResult ForgotPasswordLog()
+        {
+            if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perViewLoginHistoryReport == false)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
                 return View();
             }
         }

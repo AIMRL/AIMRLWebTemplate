@@ -28,22 +28,56 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
         }
 
 
-        public ResponseResult GetLoginHistory()
+        public ResponseResult SearchLoginHistory(LoginHistorySearchParam pSearchParam)
         {
-
             try
             {
-                var List = DataService.GetLoginHistory();
+                if (pSearchParam.SDate <= DateTime.MinValue)
+                    pSearchParam.SDate = new DateTime(1900, 1, 1);
+
+                if (pSearchParam.EDate <= DateTime.MinValue)
+                    pSearchParam.EDate = DateTime.MaxValue;
+
+                var result = DataService.SearchLoginHistory(pSearchParam);
+
                 return ResponseResult.GetSuccessObject(new
                 {
-                    LoginHistoryList = List
+                    Count = result.ResultCount,
+                    LoginHistoryList = result.Result
+                });
+                
+            }
+            catch (Exception ex)
+            {
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
+            }
+        }
+
+        public ResponseResult SearchForgotPasswordLog(ForgotPasswordSearchParam pSearchParam)
+        {
+            try
+            {
+                if (pSearchParam.SDate <= DateTime.MinValue)
+                    pSearchParam.SDate = new DateTime(1900, 1, 1);
+
+                if (pSearchParam.EDate <= DateTime.MinValue)
+                    pSearchParam.EDate = DateTime.MaxValue;
+
+                var result = DataService.SearchForgotPasswordLog(pSearchParam);
+
+                return ResponseResult.GetSuccessObject(new
+                {
+                    Count = result.ResultCount,
+                    ForgotPasswordLogList = result.Result
                 });
 
                 //return (new
                 //{
                 //    data = new
                 //    {
-                //        LoginHistoryList = List
+                //        Count = result.ResultCount,
+                //        ForgotPasswordLogList = result.Result
                 //    },
                 //    success = true,
                 //    error = ""
@@ -55,6 +89,5 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
                 return ResponseResult.GetErrorObject();
             }
         }
-
     }
 }

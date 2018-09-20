@@ -61,6 +61,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="EmailRequest.cs" />
+    <Compile Include="ForgotPasswordLog.cs" />
     <Compile Include="ResponseResult.cs" />
     <Compile Include="Security\PasswordEntity.cs" />
     <Compile Include="Samples\SampleEntity.cs" />

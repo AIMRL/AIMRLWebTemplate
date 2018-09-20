@@ -28,12 +28,17 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
                 return _repository;
             }
         }
-      
-        [HttpGet]
-        public ResponseResult getLoginHistory()
+
+        [HttpPost]
+        public ResponseResult SearchLoginHistory(LoginHistorySearchParam u)
         {
-            return Repository.GetLoginHistory();
+            return Repository.SearchLoginHistory(u);
         }
 
+        [HttpPost]
+        public ResponseResult SearchForgotPasswordLog(ForgotPasswordSearchParam u)
+        {
+            return Repository.SearchForgotPasswordLog(u);
+        }
     }
 }

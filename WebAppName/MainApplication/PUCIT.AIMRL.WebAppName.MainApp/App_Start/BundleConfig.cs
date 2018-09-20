@@ -196,6 +196,12 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
             bundles.Add(new ScriptBundle("~/bundles/resetpassword").Include(
                         "~/Scripts/mywebapp/ChangePassword/mywebapp.ui.ResetPassword1.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/LoginHistoryReport").Include(
+                        "~/Scripts/mywebapp/reports/mywebapp.ui.LoginHistoryReport.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/ForgotPasswordLog").Include(
+                        "~/Scripts/mywebapp/reports/mywebapp.ui.ForgotPasswordLog.js"));
+
         }
     }
 
