@@ -1,4 +1,5 @@
-﻿using PUCIT.AIMRL.WebAppName.DAL;
+﻿using PUCIT.AIMRL.Common;
+using PUCIT.AIMRL.WebAppName.DAL;
 using PUCIT.AIMRL.WebAppName.Entities;
 using PUCIT.AIMRL.WebAppName.Entities.DBEntities;
 using PUCIT.AIMRL.WebAppName.MainApp.Util;
@@ -449,6 +450,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
             try
             {
                 String msg;
+                u.Password = PasswordSaltedHashingUtility.HashPassword("123");           
                 var result = DataService.SaveUsers(u, DateTime.UtcNow, SessionManager.CurrentUser.UserId);
                 if (result > 0)
                 {
@@ -464,17 +466,6 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
                     {
                         UserId = result,
                     }, msg);
-
-                    //return (new
-                    //{
-                    //    data = new
-                    //    {
-                    //        UserId = result
-                    //    },
-                    //    success = true,
-                    //    error = msg
-                    //});
-
                 }
                 else
                 {

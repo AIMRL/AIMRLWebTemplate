@@ -25,12 +25,32 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Controllers
         }
         public ActionResult ResetPassword1(string rt)
         {
-            //rt = HttpUtility.UrlDecode(rt);
-        var emailaddress = EncryptDecryptUtility.Decrypt(rt);
+            if (SessionManager.IsUserLoggedIn)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                try
+                {
+                    UserInfoRepository repo = new UserInfoRepository();
+                    if (repo.IsValidResetToken(rt))
+                    {
+                        ViewBag.data = rt;
+                        return View();
+                    }
+                    else
+                    {
+                        TempData["Msg"] = "Invalid password reset token!";
+                        return RedirectToAction("Index");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
 
-            ViewBag.data = rt;
-
-            return View();
         }
         public ActionResult ForgotPassword()
         {
@@ -55,7 +75,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Controllers
             if (SessionManager.IsUserLoggedIn && SessionManager.LogsInAsOtherUser)
             {
                 UserInfoRepository repo = new UserInfoRepository();
-                repo.ValidateUser(SessionManager.ActualUserLoginID,"",true,false);
+                repo.ValidateUser(SessionManager.ActualUserLoginID, "", "", true, false);
                 
                 SessionManager.ActualUserUserID = 0;
                 SessionManager.LogsInAsOtherUser = false;

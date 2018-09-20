@@ -53,6 +53,10 @@
       <Project>{1263615f-7040-416f-96a3-631e2898dae7}</Project>
       <Name>PUCIT.AIMRL.WebAppName.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PUCIT.AIMRL.Common\PUCIT.AIMRL.Common.csproj">
+      <Project>{70f7021a-a698-4489-a279-822d0efcbdcb}</Project>
+      <Name>PUCIT.AIMRL.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

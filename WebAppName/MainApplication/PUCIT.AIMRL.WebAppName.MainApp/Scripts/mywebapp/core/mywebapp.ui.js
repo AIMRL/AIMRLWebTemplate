@@ -1,10 +1,4 @@
-﻿/*** 
-* Used for defining the MyWebApp UI
-* @module UI
-* @namespace MyWebApp
-*/
-
-
+﻿
 MyWebApp.namespace("UI");
 
 MyWebApp.UI = (function () {
@@ -13,11 +7,18 @@ MyWebApp.UI = (function () {
     var stack_bottomright = { "dir1": "up", "dir2": "left", "firstpos1": 25, "firstpos2": 25 };
 
     return {
+
         ShowLastMsgAndRefresh: function (msg) {
-                MyWebApp.UI.showRoasterMessage(msg, Enums.MessageType.Success);
+            MyWebApp.UI.showRoasterMessage(msg, Enums.MessageType.Success);
             setTimeout(function () {
                 location.reload();
             }, 1000);
+        },
+        ShowLastMsgAndRedirect: function (msg, url) {
+            MyWebApp.UI.showRoasterMessage(msg, Enums.MessageType.Success);
+            setTimeout(function () {
+                window.location.href = url
+            }, 2000);
         },
 
         showRoasterMessage: function (message, type, _delay) {

@@ -70,18 +70,14 @@ MyWebApp.UI.Logon = (function () {
     }//End of ClearFields
 
     function sendEmail() {
-        var Email = $('#emailID').val();
-        alert(Email);
-       
-        debugger;
-        var url = "UserInfoData/sendEmail/?emailAddress=" + Email;
-
-        MyWebApp.Globals.MakeAjaxCall("GET", url, "{}", function (result) {
+        var Email = $('#emailID').val().trim();
+        var url = "UserInfoData/sendEmail";
+        var data = JSON.stringify({ emailAddress: Email });
+        MyWebApp.Globals.MakeAjaxCall("POST", url, data, function (result) {
             debugger;
-            if (result.success === true) {
-                console.log(result);   
-                    alert("Email sent to your account");
-            
+            if (result.success == true) {
+
+                MyWebApp.UI.showRoasterMessage('An email has been sent to your email address!', Enums.MessageType.Success);
             } else {
                 MyWebApp.UI.showRoasterMessage(result.error, Enums.MessageType.Error);
             }
@@ -130,7 +126,8 @@ MyWebApp.UI.Logon = (function () {
 
         var login = {
             UserName: userName,
-            Password: password
+            Password: password,
+            Email: ''
         }
 
         var data = JSON.stringify(login);

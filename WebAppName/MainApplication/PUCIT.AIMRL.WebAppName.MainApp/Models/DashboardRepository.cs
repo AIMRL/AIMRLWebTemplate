@@ -12,6 +12,7 @@ using PUCIT.AIMRL.WebAppName.UI.Common;
 using PUCIT.AIMRL.WebAppName.Entities;
 using PUCIT.AIMRL.WebAppName.Entities.DBEntities;
 using PUCIT.AIMRL.WebAppName.Entities.Enum;
+using PUCIT.AIMRL.Common;
 
 namespace PUCIT.AIMRL.WebAppName.MainApp.Models
 {
@@ -36,48 +37,34 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
 
         public ResponseResult ChangePassword(PasswordEntity pass)
         {
-            if (PUCIT.AIMRL.WebAppName.UI.Common.SessionManager.LogsInAsOtherUser == true)
-            {
-                return ResponseResult.GetErrorObject("You Are Not Allowed");
-                //return (new
-                //{
-                //    success = false,
-                //    error = "You Are Not Allowed"
-                //});
-            }
+            
             try
             {
-                var id = DataService.changePassword(pass);
-                if (id == 0)
+                if (PUCIT.AIMRL.WebAppName.UI.Common.SessionManager.LogsInAsOtherUser == true)
+                {
+                    return ResponseResult.GetErrorObject("You Are Not Allowed");
+                }
+                if (GlobalDataManager.IgnoreHashing == false)
+                {
+                    pass.CurrentPassword = PasswordSaltedHashingUtility.HashPassword(pass.CurrentPassword);
+                    pass.NewPassword = PasswordSaltedHashingUtility.HashPassword(pass.NewPassword);
+                }
+
+                var userObj = SessionManager.CurrentUser;
+
+                var isSuccess = DataService.UpdatePassword(userObj.Login, pass.CurrentPassword, pass.NewPassword, userObj.UserId, DateTime.UtcNow, true);
+
+                if (isSuccess == false)
                 {
 
                     return ResponseResult.GetErrorObject("Password Change Failure.");
-                    //return (new
-                    //{
-                    //    data = new
-                    //    {
-                    //        Id = id
-                    //    },
-                    //    success = false,
-                    //    error = "Wrong Password"
-                    //});
                 }
                 else
                 {
                     return ResponseResult.GetSuccessObject(new
                     {
-                        Id = id
+                        Id = isSuccess
                     }, "Password is changed");
-
-                    //return (new
-                    //{
-                    //    data = new
-                    //    {
-                    //        Id = id
-                    //    },
-                    //    success = true,
-                    //    error = "Password Changed"
-                    //});
                 }
             }
             catch (Exception ex)

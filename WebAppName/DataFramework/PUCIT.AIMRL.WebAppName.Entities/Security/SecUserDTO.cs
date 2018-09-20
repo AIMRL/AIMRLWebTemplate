@@ -17,5 +17,7 @@ namespace PUCIT.AIMRL.WebAppName.Entities.Security
         public Boolean IsActive { get; set; }
         public List<String> Permissions { get; set; }
         public List<String> Roles { get; set; }
+
+        public Boolean IsDisabledForLogin { get; set; }
     }
 }

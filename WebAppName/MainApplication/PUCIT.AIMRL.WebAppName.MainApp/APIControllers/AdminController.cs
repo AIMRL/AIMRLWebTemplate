@@ -46,7 +46,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
             try
             {
                 UserInfoRepository userInfoRepo = new UserInfoRepository();
-                return userInfoRepo.ValidateUser(pLogin.UserName, "", true, true);
+                return userInfoRepo.ValidateUser(pLogin.UserName, "", "", true, true);
             }
             catch (Exception ex)
             {

@@ -26,32 +26,26 @@ MyWebApp.UI.ResetPassword1 = (function () {
     function changePassword() {
 
         if ($('#form-field-pass2').val() != $('#form-field-pass3').val()) {
-            alert("The two password fields doesn't match ");
+            //alert("The two password fields doesn't match ");
+            MyWebApp.UI.showRoasterMessage("New Password & Confirm Password are not same.", Enums.MessageType.Error);
         }
         else {
-            var password = {
-                CurrentPassword: $('#form-field-pass1').val(),
+            var data = {
                 NewPassword: $('#form-field-pass2').val(),
-                ID: $("#txtData").val()
+                Token: $("#txtData").val()
             }
-            var pass = JSON.stringify(password);
+            var dataToSend = JSON.stringify(data);
             var url = "UserInfoData/resetPassword";
-            //  jQuery.support.cors = true;
-            debugger;
-            MyWebApp.Globals.MakeAjaxCall("POST", url, pass, function (result) {
-                console.log(result);
-                debugger;
 
-                if (result.success === true) {
-                    MyWebApp.UI.showRoasterMessage(result.success, Enums.MessageType.Error);
+            MyWebApp.Globals.MakeAjaxCall("POST", url, dataToSend, function (result) {
 
+                if (result.success == true) {
+                    MyWebApp.UI.ShowLastMsgAndRedirect("Password is Reset Succesfully", MyWebApp.Resources.Views.LoginURL);
                 } else {
-                    // alert("Password not Changed Successfully");
-                    MyWebApp.UI.showRoasterMessage(result.error, Enums.MessageType.Error);
-
+                    MyWebApp.UI.showRoasterMessage("It seems token is not valid, Try with new token", Enums.MessageType.Error);
                 }
             }, function (xhr, ajaxoptions, thrownerror) {
-                alert(thrownerror);
+                MyWebApp.UI.showRoasterMessage("Some problem has occurred", Enums.MessageType.Error);
             });
         }
     }

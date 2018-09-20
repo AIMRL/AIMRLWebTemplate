@@ -5,65 +5,141 @@ using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace PUCIT.AIMRL.Common
 {
-    public class EmailHandler
+    public interface IEmailHandler
     {
-        private String _SMTPHost;
-        private String _defaultCCIds;
-        private String _defaultBCCIds;
+        String SMTPHost { get; set; }
+        String Port { get; set; }
+        String FromEmailAddress { get; set; }
+        String FromDisplayName { get; set; }
+        Boolean SendEmail(EmailMessageParam param);
+    }
 
-        public String SMTPHost
+    public class GmailEmailHandler : IEmailHandler
+    {
+        public String SMTPHost { get; set; }
+        public String Port { get; set; }
+        public String FromEmailAddress { get; set; }
+        public String FromDisplayName { get; set; }
+        public String UserLogin { get; set; }
+        public String Password { get; set; }
+
+        public GmailEmailHandler(String pSMTPHost, String pPort, String pUserLogin, String pPassword, String pFromEmailAddress, String pFromDisplayName)
         {
-            get
-            {
-                return _SMTPHost;
-            }
+            this.SMTPHost = pSMTPHost;
+            this.Port = pPort;
+            this.FromEmailAddress = pFromEmailAddress;
+            this.FromDisplayName = pFromDisplayName;
+            this.UserLogin = pUserLogin;
+            this.Password = pPassword;
         }
 
-        public EmailHandler(String pSMTPHost)
-        {
-            this._SMTPHost = pSMTPHost;
-        }
-        public EmailHandler(String pSMTPHost, String defaultCCIds, String defaultBCCIds)
-        {
-            this._SMTPHost = pSMTPHost;
-            this._defaultCCIds = defaultCCIds;
-            this._defaultBCCIds = defaultBCCIds;
-        }
-        public static Boolean SendEmail(String toEmailAddress, String subject, String body)
+        public bool SendEmail(EmailMessageParam param)
         {
             try
             {
-                String fromDisplayEmail = "pucitaimrl@gmail.com";
-                String fromPassword = "PUCIT123";
+                //String SMTPServer = System.Configuration.ConfigurationManager.AppSettings["SMTPServer"];
+                //String SMTPPort = System.Configuration.ConfigurationManager.AppSettings["SMTPPort"];
+                //String UserLogin = System.Configuration.ConfigurationManager.AppSettings["SMTPUser"];
+                //String UserPassword = System.Configuration.ConfigurationManager.AppSettings["SMTPPassword"];
 
-                String fromDisplayName = "Student Request Portal"; //This can be any text
-                MailAddress fromAddress = new MailAddress(fromDisplayEmail, fromDisplayName);
+                //String fromEmailAddress = System.Configuration.ConfigurationManager.AppSettings["FromAddress"];
 
-                MailAddress toAddress = new MailAddress(toEmailAddress);
+                //String fromDisplayName = "Student Request Portal";
+
+                MailAddress fromAddress = new MailAddress(this.FromEmailAddress, this.FromDisplayName);
+
+                MailAddress toAddress = new MailAddress(param.ToIDs);
 
                 System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient
                 {
-                    Host = "smtp.gmail.com",
-                    Port = 587,
+                    Host = this.SMTPHost,
+                    Port = Convert.ToInt32(this.Port),
                     EnableSsl = true,
                     DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-
+                    UseDefaultCredentials = true,
+                    Credentials = new NetworkCredential(this.UserLogin, this.Password)
                 };
 
                 using (var message = new MailMessage(fromAddress, toAddress)
                 {
-                    Subject = subject,
-                    Body = body
+                    Subject = param.Subject,
+                    Body = param.Body,
+                    IsBodyHtml = true
                 })
                 {
-
                     smtp.Send(message);
                 }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+    }
+
+    public class GoDaddyEmailHandler : IEmailHandler
+    {
+        public String SMTPHost { get; set; }
+        public String Port { get; set; }
+        public String FromEmailAddress { get; set; }
+        public String FromDisplayName { get; set; }
+
+
+        public GoDaddyEmailHandler(String pSMTPHost, String pPort, String pFromEmailAddress, String pFromDisplayName)
+        {
+            this.SMTPHost = pSMTPHost;
+            this.Port = pPort;
+            this.FromEmailAddress = pFromEmailAddress;
+            this.FromDisplayName = pFromDisplayName;
+        }
+
+        public Boolean SendEmail(EmailMessageParam param)
+        {
+            try
+            {
+                //String SMTPServer = System.Configuration.ConfigurationManager.AppSettings["SMTPServer"];
+                //String SMTPPort = System.Configuration.ConfigurationManager.AppSettings["SMTPPort"];
+                //String UserLogin = System.Configuration.ConfigurationManager.AppSettings["SMTPUser"];
+                //String UserPassword = System.Configuration.ConfigurationManager.AppSettings["SMTPPassword"];
+
+                //String fromEmailAddress = System.Configuration.ConfigurationManager.AppSettings["FromAddress"];
+
+                //String fromDisplayName = "Student Request Portal";
+
+                MailAddress fromAddress = new MailAddress(this.FromEmailAddress, this.FromDisplayName);
+
+                MailAddress toAddress = new MailAddress(param.ToIDs);
+
+
+                MailMessage msg = new MailMessage();
+                //Add your email address to the recipients
+                msg.To.Add(toAddress);
+
+                //Configure the address we are sending the mail from
+                msg.From = fromAddress;
+                msg.Subject = param.Subject;
+                msg.Body = param.Body;
+                msg.IsBodyHtml = true;
+
+                SmtpClient client = new SmtpClient();
+                //client.Host = "relay-hosting.secureserver.net";
+                //client.Port = 25;
+
+                client.Host = this.SMTPHost;
+                client.Port = Convert.ToInt32(this.Port);
+
+                Task.Factory.StartNew(() =>
+                {
+                    //Send the msg
+                    client.Send(msg);
+                });
+
                 return true;
             }
             catch (Exception ex)
@@ -74,6 +150,141 @@ namespace PUCIT.AIMRL.Common
 
         }
     }
+
+    /*
+     public class EmailHandler
+     {
+         private String _SMTPHost;
+         private String _defaultCCIds;
+         private String _defaultBCCIds;
+
+         public String SMTPHost
+         {
+             get
+             {
+                 return _SMTPHost;
+             }
+         }
+
+         public EmailHandler(String pSMTPHost)
+         {
+             this._SMTPHost = pSMTPHost;
+         }
+         public EmailHandler(String pSMTPHost, String defaultCCIds, String defaultBCCIds)
+         {
+             this._SMTPHost = pSMTPHost;
+             this._defaultCCIds = defaultCCIds;
+             this._defaultBCCIds = defaultBCCIds;
+         }
+         public static Boolean SendEmail(String toEmailAddress, String subject, String body)
+         {
+             try
+             {
+                 String SMTPServer = System.Configuration.ConfigurationManager.AppSettings["SMTPServer"];
+                 String SMTPPort = System.Configuration.ConfigurationManager.AppSettings["SMTPPort"];
+                 String UserLogin = System.Configuration.ConfigurationManager.AppSettings["SMTPUser"];
+                 String UserPassword = System.Configuration.ConfigurationManager.AppSettings["SMTPPassword"];
+
+                 String fromEmailAddress = System.Configuration.ConfigurationManager.AppSettings["FromAddress"];
+
+                 String fromDisplayName = "Student Request Portal";
+                 MailAddress fromAddress = new MailAddress(fromEmailAddress, fromDisplayName);
+
+                 MailAddress toAddress = new MailAddress(toEmailAddress);
+
+                 System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient
+                 {
+                     Host = SMTPServer,
+                     Port = Convert.ToInt32(SMTPPort),
+                     EnableSsl = true,
+                     DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
+                     UseDefaultCredentials = false,
+                     Credentials = new NetworkCredential(UserLogin, UserPassword)
+                 };
+
+                 using (var message = new MailMessage(fromAddress, toAddress)
+                 {
+                     Subject = subject,
+                     Body = body
+                 })
+                 {
+                     smtp.Send(message);
+                 }
+                 return true;
+             }
+             catch (Exception ex)
+             {
+                 return false;
+             }
+
+
+         }
+
+         public static Boolean SendEmail1(String toEmailAddress, String subject, String body)
+         {
+             try
+             {
+                 String SMTPServer = System.Configuration.ConfigurationManager.AppSettings["SMTPServer"];
+                 String SMTPPort = System.Configuration.ConfigurationManager.AppSettings["SMTPPort"];
+                 String UserLogin = System.Configuration.ConfigurationManager.AppSettings["SMTPUser"];
+                 String UserPassword = System.Configuration.ConfigurationManager.AppSettings["SMTPPassword"];
+
+                 String fromEmailAddress = System.Configuration.ConfigurationManager.AppSettings["FromAddress"];
+
+                 String fromDisplayName = "Student Request Portal";
+                 MailAddress fromAddress = new MailAddress(fromEmailAddress, fromDisplayName);
+
+                 MailAddress toAddress = new MailAddress(toEmailAddress);
+
+
+                 MailMessage msg = new MailMessage();
+                 //Add your email address to the recipients
+                 msg.To.Add(toAddress);
+
+                 //Configure the address we are sending the mail from
+                 //MailAddress address = new MailAddress("mr@abc.net");
+                 //msg.From = address;
+                 msg.From = fromAddress;
+                 msg.Subject = subject;
+                 msg.Body = body;
+
+                 SmtpClient client = new SmtpClient();
+                 client.Host = "relay-hosting.secureserver.net";
+                 client.Port = 25;
+
+                 //Send the msg
+                 client.Send(msg);
+
+                 //System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient
+                 //{
+                 //    Host = SMTPServer,
+                 //    Port = Convert.ToInt32(SMTPPort),
+                 //    EnableSsl = true,
+                 //    DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
+                 //    UseDefaultCredentials = false,
+                 //    Credentials = new NetworkCredential(UserLogin, UserPassword)
+                 //};
+
+                 //using (var message = new MailMessage(fromAddress, toAddress)
+                 //{
+                 //    Subject = subject,
+                 //    Body = body
+                 //})
+                 //{
+                 //    smtp.Send(message);
+                 //}
+                 return true;
+             }
+             catch (Exception ex)
+             {
+                 return false;
+             }
+
+
+         }
+     }
+
+     */
     //public Boolean SendEmail(EmailMessageParam emailMessage)
     //    {
     //        try
@@ -167,7 +378,7 @@ namespace PUCIT.AIMRL.Common
 
     //        return true;
     //    }
-        
+
 
     //    /*
     //    To display images in an email, images are embeded as 'LinkedResource'
@@ -202,7 +413,7 @@ namespace PUCIT.AIMRL.Common
 
     //    }
 
-   // }
+    // }
 
     public class EmailMessageParam
     {

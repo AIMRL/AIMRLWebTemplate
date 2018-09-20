@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
@@ -61,5 +62,21 @@ namespace PUCIT.AIMRL.Common
         {
             return TimeZoneInfo.ConvertTimeFromUtc(time, tzi);
         }
+    }
+
+    public static class PasswordSaltedHashingUtility
+    {
+        private static byte[] salt = { 23, 128, 56, 98, 45, 76, 34, 98, 114, 203, 118, 23, 10, 71, 178, 215 };
+
+        public static String HashPassword(String Password)
+        {
+            var pbkdf2 = new Rfc2898DeriveBytes(Password, salt, 10000);
+            byte[] hash = pbkdf2.GetBytes(20);
+            byte[] hashBytes = new byte[36];
+            Array.Copy(salt, 0, hashBytes, 0, 16);
+            Array.Copy(hash, 0, hashBytes, 16, 20);
+            return Convert.ToBase64String(hashBytes);
+        }
+
     }
 }

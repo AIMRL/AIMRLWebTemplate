@@ -20,6 +20,17 @@ namespace PUCIT.AIMRL.WebAppName.UI.Common
         public static String BasePath = VirtualPathUtility.ToAbsolute("~");
 
 
+        public static Boolean EnableOptimization = false;
+        public static Boolean IgnoreHashing = false;
+        public static Boolean UseGmailSMTP = false;
+        public static String FromAddress = "";
+        public static String SMTPServer = "";
+        public static String SMTPPort = "";
+        public static String SMTPUser = "";
+        public static String SMTPPassword = "";
+
+        public static PUCIT.AIMRL.Common.IEmailHandler _emailhandler = null;
+
         //public static List<Messages> MessagesList
         //{
         //    get

@@ -20,6 +20,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
         {
             public String UserName { get; set; }
             public String Password { get; set; }
+            public String Email { get; set; }
         }
 
         private readonly UserInfoRepository _repository;
@@ -42,7 +43,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
             try
             {
                 Util.CustomUtility.LogData("Going to validate Login:" + pLogin.UserName);
-                return Repository.ValidateUser(pLogin.UserName, pLogin.Password,false,false);
+                return Repository.ValidateUser(pLogin.UserName, pLogin.Password, pLogin.Email, false, false);
             }
             catch (Exception ex)
             {
@@ -50,11 +51,11 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
                 return ResponseResult.GetErrorObject();
             }
         }
-       
-        [HttpGet]
-        public ResponseResult sendEmail(string emailAddress)
+
+        [HttpPost]
+        public ResponseResult sendEmail(UserEmail obj)
         {
-            return Repository.SendEmail(emailAddress);
+            return Repository.SendEmail(obj.emailAddress);
         }
         //[AuthorizedForWebAPI]
         public ResponseResult resetPassword(PasswordEntity pass)
@@ -71,5 +72,9 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
         }
         
         
+    }
+    public class UserEmail
+    {
+        public string emailAddress { get; set; }
     }
 }

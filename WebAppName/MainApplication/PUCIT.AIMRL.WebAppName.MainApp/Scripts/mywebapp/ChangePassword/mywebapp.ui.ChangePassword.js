@@ -49,7 +49,7 @@ MyWebApp.UI.ChangePassword = (function () {
 
                 }
             }, function (xhr, ajaxoptions, thrownerror) {
-                alert("Error Has occured");
+                MyWebApp.UI.showRoasterMessage("Some problem has occurred", Enums.MessageType.Error);
             });
         }
     }

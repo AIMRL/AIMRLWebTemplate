@@ -327,24 +327,40 @@ namespace PUCIT.AIMRL.WebAppName.DAL
                 return log;
             }
         }
-        public int changePassword(PasswordEntity pass)
+        //public int changePassword(PasswordEntity pass)
+        //{
+        //    var username = SessionManager.GetUserLogin();
+
+        //    using (var db = new PRMDataContext())
+        //    {
+        //        var query = db.Users.Where(x => (x.Login == username) && (x.Password == pass.CurrentPassword)).FirstOrDefault();
+
+        //        if (query != null)
+        //        {
+        //            query.Password = pass.NewPassword;
+
+        //            db.SaveChanges();
+        //            return 1;
+
+        //        }
+        //        else return 0;
+
+        //    }
+        //}
+        public Boolean UpdatePassword(String emailAddress_login, String currentPassword, String Newpassword, int pModifiedBy, DateTime pModifiedOn, Boolean IsChangePassword)
         {
-            var username = SessionManager.GetUserLogin();
-
-            using (var db = new PRMDataContext())
+            try
             {
-                var query = db.Users.Where(x => (x.Login == username) && (x.Password == pass.CurrentPassword)).FirstOrDefault();
-
-                if (query != null)
+                using (var db = new PRMDataContext())
                 {
-                    query.Password = pass.NewPassword;
-
-                    db.SaveChanges();
-                    return 1;
-
+                    var query = String.Format("Execute sec.UpdatePassword '{0}','{1}','{2}','{3}','{4}','{5}'", emailAddress_login, currentPassword, Newpassword, pModifiedOn, pModifiedBy, IsChangePassword);
+                    var result = db.Database.SqlQuery<Boolean>(query).FirstOrDefault();
+                    return result;
                 }
-                else return 0;
-
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
         public int resetPassword(String emailAddress, String password)
@@ -362,12 +378,46 @@ namespace PUCIT.AIMRL.WebAppName.DAL
                 return 1;
             }
         }
-        public SecUserDTO ValidateUserSP(String pLogin, String pPassword, DateTime pCurrTime, String pMachineIP, Boolean pIgnorePassword, String pLoggerLoginID)
+
+        public String UpdateResetToken(String emailAddress_login, String pGuid, String pIPAddress, DateTime pCurrTime, string pUrl)
+        {
+            try
+            {
+                using (var db = new PRMDataContext())
+                {
+                    var query = String.Format("Execute sec.UpdateResetPasswordToken '{0}','{1}','{2}','{3}','{4}'", emailAddress_login, pGuid, pIPAddress, pCurrTime, pUrl);
+                    var result = db.Database.SqlQuery<String>(query).FirstOrDefault();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+        }
+        public Boolean IsValidResetToken(String pReset_Token)
+        {
+            try
+            {
+                using (var db = new PRMDataContext())
+                {
+                    var query = String.Format("Execute sec.IsValidResetToken '{0}'", pReset_Token);
+                    var result = db.Database.SqlQuery<Boolean>(query).FirstOrDefault();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public SecUserDTO ValidateUserSP(String pLogin, String pPassword, String pEmail, DateTime pCurrTime, String pMachineIP, Boolean pIgnorePassword, String pLoggerLoginID)
         {
 
             using (var ctx = new PRMDataContext())
             {
-                string query = "execute sec.ValidateUser @0, @1, @2, @3,@4,@5";
+                string query = "execute sec.ValidateUser @0, @1, @2, @3,@4,@5,@6";
 
                 var cmd = ctx.Database.Connection.CreateCommand();
                 cmd.CommandText = query;
@@ -378,7 +428,7 @@ namespace PUCIT.AIMRL.WebAppName.DAL
                 cmd.Parameters.Add(new SqlParameter { ParameterName = "@3", Value = pMachineIP });
                 cmd.Parameters.Add(new SqlParameter { ParameterName = "@4", Value = pIgnorePassword });
                 cmd.Parameters.Add(new SqlParameter { ParameterName = "@5", Value = pLoggerLoginID });
-
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "@6", Value = pEmail });
 
                 ctx.Database.Connection.Open();
                 var reader = cmd.ExecuteReader();
@@ -392,9 +442,10 @@ namespace PUCIT.AIMRL.WebAppName.DAL
                 if (user != null)
                 {
                     var secUserForSession = new SecUserDTO();
-                    if (user.IsActive == false)
+                    if (user.IsActive == false || user.IsDisabledForLogin == true)
                     {
                         secUserForSession.IsActive = user.IsActive;
+                        secUserForSession.IsDisabledForLogin = user.IsDisabledForLogin;
                     }
                     else
                     {
@@ -557,7 +608,15 @@ namespace PUCIT.AIMRL.WebAppName.DAL
                     var list = new List<long>();
                     foreach (var email in pEmailRequests)
                     {
-                        EmailHandler.SendEmail(email.EmailTo, email.Subject, email.MessageBody);
+                        //EmailHandler.SendEmail(email.EmailTo, email.Subject, email.MessageBody);
+
+                        GlobalDataManager._emailhandler.SendEmail(new EmailMessageParam()
+                        {
+                            ToIDs = email.EmailTo,
+                            Subject = email.Subject,
+                            Body = email.MessageBody
+                        });
+
                         list.Add(email.EmailRequestID);
                     }
                     ProcessEmailRequests(list);

@@ -35,7 +35,11 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Util
         }
         public static String GetUserIPAddress()
         {
-            return HttpContext.Current.Request.UserHostAddress.ToString();
+            var ipAddress = HttpContext.Current.Request.Headers["X-Forwarded-For"];
+            if (String.IsNullOrEmpty(ipAddress))
+                ipAddress = HttpContext.Current.Request.UserHostAddress.ToString();
+
+            return ipAddress;
         }
 
         /// <summary>
@@ -86,6 +90,46 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Util
             Boolean flag = false;
             Boolean.TryParse(ConfigurationManager.AppSettings["IsCSEncrypted"], out flag);
             GlobalDataManager.IsCSEncrypted = flag;
+
+            Boolean.TryParse(ConfigurationManager.AppSettings["EnableOptimization"], out flag);
+            GlobalDataManager.EnableOptimization = flag;
+
+            Boolean.TryParse(ConfigurationManager.AppSettings["IgnoreHashing"], out flag);
+            GlobalDataManager.IgnoreHashing = flag;
+
+            Boolean.TryParse(ConfigurationManager.AppSettings["UseGmailSMTP"], out flag);
+            GlobalDataManager.UseGmailSMTP = flag;
+
+            String FromAddress = ConfigurationManager.AppSettings["FromAddress"];
+            String FromDisplayName = ConfigurationManager.AppSettings["FromDisplayName"];
+            String SMTPServer = ConfigurationManager.AppSettings["SMTPServer"];
+            String SMTPPort = ConfigurationManager.AppSettings["SMTPPort"];
+            String SMTPUser = ConfigurationManager.AppSettings["SMTPUser"];
+            String SMTPPassword = ConfigurationManager.AppSettings["SMTPPassword"];
+
+
+            if (GlobalDataManager.UseGmailSMTP)
+            {
+                GlobalDataManager._emailhandler = new PUCIT.AIMRL.Common.GmailEmailHandler(
+                    pSMTPHost: SMTPServer,
+                    pPort: SMTPPort,
+                    pUserLogin: SMTPUser,
+                    pPassword: SMTPPassword,
+                    pFromEmailAddress: FromAddress,
+                    pFromDisplayName: FromDisplayName
+                );
+            }
+            else
+            {
+                GlobalDataManager._emailhandler = new PUCIT.AIMRL.Common.GoDaddyEmailHandler(
+                    pSMTPHost: SMTPServer,
+                    pPort: SMTPPort,
+                    pFromEmailAddress: FromAddress,
+                    pFromDisplayName: FromDisplayName
+                );
+            }
+
+
             GlobalDataManager.PageTitlePrefix = ConfigurationManager.AppSettings["PageTitlePrefix"];
             GlobalDataManager.BuildVersion = ConfigurationManager.AppSettings["BuildVersion"];
 

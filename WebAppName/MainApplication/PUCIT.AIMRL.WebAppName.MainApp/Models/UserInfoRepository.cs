@@ -34,7 +34,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
             }
         }
 
-        public ResponseResult ValidateUser(String login, String pPassword, Boolean pIgnorePassword, Boolean pLoginAsOtherUser)
+        public ResponseResult ValidateUser(String login, String pPassword, String pEmail, Boolean pIgnorePassword, Boolean pLoginAsOtherUser)
         {
             //Object dataToReturn = null;
             //Check to see if the user is provided the rights on the application
@@ -56,8 +56,16 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
                     SessionManager.ActualUserUserID = 0;
                     SessionManager.ActualUserLoginID = "";
                 }
-
-                var secUserForSession = DataService.ValidateUserSP(login, pPassword, currTime, ipAddress, pIgnorePassword, SessionManager.ActualUserLoginID);
+                if (pEmail != "")
+                {
+                    pIgnorePassword = true;
+                }
+                else
+                {
+                    if (GlobalDataManager.IgnoreHashing == false)
+                        pPassword = PasswordSaltedHashingUtility.HashPassword(pPassword);
+                }
+                var secUserForSession = DataService.ValidateUserSP(login, pPassword,pEmail, currTime, ipAddress, pIgnorePassword, SessionManager.ActualUserLoginID);
 
                 if (secUserForSession != null)
                 {
@@ -66,11 +74,12 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
                         CustomUtility.LogData("User Is Inactive, can't log in");
                         SessionManager.CurrentUser = null;
                         return ResponseResult.GetErrorObject("Your account is not active, Please Contact Administrator");
-                        //dataToReturn = new
-                        //{
-                        //    success = false,
-                        //    error = "Your account is not active, Please Contact Administrator"
-                        //};
+                        
+                    }
+                    else if (secUserForSession.IsDisabledForLogin == true)
+                    {
+                        SessionManager.CurrentUser = null;
+                        return ResponseResult.GetErrorObject("Your account is disabled, Please Contact Administrator");
                     }
                     else
                     {
@@ -87,13 +96,6 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
                         {
                             redirect = RedirectURl
                         });
-
-                        //dataToReturn = new
-                        //{
-                        //    redirect = RedirectURl,
-                        //    success = true,
-                        //    error = ""
-                        //};
                     }
                 }
 
@@ -103,29 +105,21 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
                     CustomUtility.LogData("Invalid Login: " + login + " Password: " + pPassword);
                     SessionManager.CurrentUser = null;
                     return ResponseResult.GetErrorObject("Invalid Login/Password");
-                    //dataToReturn = new
-                    //{
-                    //    success = false,
-                    //    error = "Invalid Login/Password"
-                    //};
                 }
-                //return (dataToReturn);
             }
             catch (Exception ex)
             {
                 CustomUtility.HandleException(ex);
                 SessionManager.CurrentUser = null;
                 return ResponseResult.GetErrorObject();
-
-                //var exception = new
-                //{
-                //    success = false,
-                //    error = "Some problem has occurred, Please Try again!"
-                //};
-                //return (exception);
             }
         }
-        
+
+        public Boolean IsValidResetToken(String pReset_Token)
+        {
+            return DataService.IsValidResetToken(pReset_Token);
+        }
+
         //public Object UpdateDesign(int aid)
         //{
         //    var returnObj = (new
@@ -179,70 +173,49 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
         //    }
         //}
 
-        public ResponseResult SendEmail(string emailAddress)
+        public ResponseResult SendEmail(string email_login)
         {
             if (PUCIT.AIMRL.WebAppName.UI.Common.SessionManager.LogsInAsOtherUser == true)
             {
-                return ResponseResult.GetErrorObject("You Are Not Allowed");
-
-                //return (new
-                //{
-                //    success = false,
-                //    error = "You Are Not Allowed"
-                //});
+                return ResponseResult.GetErrorObject("You are not allowed");
             }
             try
             {
-                var userObj = DataService.GetUserByEmail(emailAddress);
+                var ipAddress = CustomUtility.GetUserIPAddress();
+                var currTime = DateTime.UtcNow;
 
-                if (userObj != null)
+                String token = Guid.NewGuid().ToString();
+
+                String url = PUCIT.AIMRL.WebAppName.UI.Common.Resources.GetCompletePath("~/Login/ResetPassword1");
+                url = String.Format("{0}?rt={1}", url, token);
+                String userEmail = DataService.UpdateResetToken(email_login, token, ipAddress, currTime, url);
+
+                if (!String.IsNullOrEmpty(userEmail))
                 {
-                    string token = "";
-                    token = HttpUtility.UrlEncode(EncryptDecryptUtility.Encrypt(emailAddress));
-
-                    String url = PUCIT.AIMRL.WebAppName.UI.Common.Resources.GetCompletePath("~/Login/ResetPassword1");
-                    url = String.Format("{0}?rt={1}", url, token);
-
                     String subject = "Reset Password";
-                    String msg = String.Format("Click the link below to reset your password \n {0}", url);
+                    String msg = String.Format("Dear User, <br> Open the following link or copy and open in browser to reset your password <br><br> <a href='{0}' target='_blank'>{0}</a> <br><br> If you hadn't generated this request, Kindly ignore it.", url);
 
-                    EmailHandler.SendEmail(emailAddress, subject, msg);
-               }
+                    var flag = GlobalDataManager._emailhandler.SendEmail(new EmailMessageParam()
+                    {
+                        ToIDs = userEmail,
+                        Subject = subject,
+                        Body = msg
+                    });
+                    return ResponseResult.GetSuccessObject(new
+                    {
+                        Id = email_login
+                    });
+                    
+                }
                 else
                 {
-                    return ResponseResult.GetErrorObject("Email not correct");
-
-                    //return (new
-                    //{
-                    //    success = false,
-                    //    error = "email not correct"
-                    //});
+                    return ResponseResult.GetErrorObject("Unable to recognize provided Login/Email ID");
                 }
-
-                return ResponseResult.GetSuccessObject(new
-                {
-                    Id = emailAddress
-                });
-
-                //return (new
-                //{
-                //    data = new
-                //    {
-                //        Id = emailAddress
-                //    },
-                //    success = true,
-                //    error = ""
-                //});
             }
             catch (Exception ex)
             {
                 CustomUtility.HandleException(ex);
                 return ResponseResult.GetErrorObject("Email not correct");
-                //return (new
-                //{
-                //    success = false,
-                //    error = "email not correct"
-                //});
             }
         }
 
@@ -286,38 +259,30 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
             if (PUCIT.AIMRL.WebAppName.UI.Common.SessionManager.LogsInAsOtherUser == true)
             {
                 return ResponseResult.GetErrorObject("You Are Not Allowed");
-                //return (new
-                //{
-                //    success = false,
-                //    error = "You Are Not Allowed"
-                //});
             }
             try
             {
-                var emailid = EncryptDecryptUtility.Decrypt(pass.ID);
                 var password = pass.NewPassword;
-
-                var id = DataService.resetPassword(emailid, password);
-
-                return ResponseResult.GetSuccessObject(new
+                if (GlobalDataManager.IgnoreHashing == false)
                 {
-                    Id = id
-                }, "Password Reset");
+                    password = PasswordSaltedHashingUtility.HashPassword(pass.NewPassword);
+                }
 
-                //return (new
-                //{
-                //    data = new
-                //    {
-                //        Id = id
-                //    },
-                //    success = true,
-                //    error = "Password Reset"
-                //});
+                var flag = DataService.UpdatePassword(pass.Token, "", password, 0, DateTime.UtcNow, false);
+
+                if (flag)
+                {
+                    return ResponseResult.GetSuccessObject(null, "Password is reset");
+                }
+                else
+                {
+                    return ResponseResult.GetErrorObject("Reset is failed");
+                }
             }
             catch (Exception ex)
             {
                 CustomUtility.HandleException(ex);
-                return ResponseResult.GetErrorObject("Email not correct");
+                return ResponseResult.GetErrorObject();
             }
         }
     }
