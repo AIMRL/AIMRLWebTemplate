@@ -21,7 +21,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Util
 {
 
     
-    public static class Utility
+    public static class CustomUtility
     {
 
         public static String GetRequestedPageName()

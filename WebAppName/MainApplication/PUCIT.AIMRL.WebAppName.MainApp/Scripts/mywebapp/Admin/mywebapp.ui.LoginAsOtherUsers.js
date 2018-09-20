@@ -189,11 +189,11 @@ MyWebApp.UI.LoginAsOtherUsers = (function () {
                 MyWebApp.UI.showRoasterMessage("Login is successful, entering into the application...", Enums.MessageType.Success);
 
                 var returnUrl = MyWebApp.UI.getURLParameterByName("ReturnURL");
-
+                debugger;
                 if (returnUrl != "")
                     window.location.href = returnUrl;
                 else
-                    window.location.href = MyWebApp.Globals.baseURL + result.redirect;
+                    window.location.href = MyWebApp.Globals.baseURL + result.data.redirect;
 
             } else {
                 MyWebApp.UI.showRoasterMessage(result.error, Enums.MessageType.Error, 5000);

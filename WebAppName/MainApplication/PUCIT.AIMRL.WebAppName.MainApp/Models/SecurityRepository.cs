@@ -1,6 +1,7 @@
 ﻿using PUCIT.AIMRL.WebAppName.DAL;
 using PUCIT.AIMRL.WebAppName.Entities;
 using PUCIT.AIMRL.WebAppName.Entities.DBEntities;
+using PUCIT.AIMRL.WebAppName.MainApp.Util;
 using PUCIT.AIMRL.WebAppName.UI.Common;
 using System;
 using System.Collections.Generic;
@@ -29,55 +30,60 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
 
         #region Permissions
 
-        public object getPermissions()
+        public ResponseResult GetPermissions()
         {
             try
             {
                 var List = DataService.GetAllPermissions();
-                return (new
+                return ResponseResult.GetSuccessObject(new
                 {
-                    data = new
-                    {
-                        PermissionList = List
-                    },
-                    success = true,
-                    error = ""
+                    PermissionList = List
                 });
+
+                //return (new
+                //{
+                //    data = new
+                //    {
+                //        PermissionList = List
+                //    },
+                //    success = true,
+                //    error = ""
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
-        public object getActivePermissions()
+        public ResponseResult GetActivePermissions()
         {
             try
             {
                 var List = DataService.GetAllPermissions().Where(p => p.IsActive == true).ToList();
-                return (new
+
+                return ResponseResult.GetSuccessObject(new
                 {
-                    data = new
-                    {
-                        PermissionList = List
-                    },
-                    success = true,
-                    error = ""
+                    PermissionList = List
                 });
+
+                //return (new
+                //{
+                //    data = new
+                //    {
+                //        PermissionList = List
+                //    },
+                //    success = true,
+                //    error = ""
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
-        public object EnableDisablePermission(PermissionsWithRoleID r)
+        public ResponseResult EnableDisablePermission(PermissionsWithRoleID r)
         {
             String msg = " ";
             try
@@ -94,23 +100,26 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
                 {
                     msg = " ";
                 }
-                return (new
-                {
 
-                    success = true,
-                    error = msg
-                });
+                return ResponseResult.GetSuccessObject(new
+                {
+                    PermssionId = r.Id
+                }, msg);
+
+                //return (new
+                //{
+
+                //    success = true,
+                //    error = msg
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
-        public object SavePermission(PermissionsWithRoleID p)
+        public ResponseResult SavePermission(PermissionsWithRoleID p)
         {
             String msg = " ";
             try
@@ -125,105 +134,113 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
                     msg = "Permission Added Successfully";
                 }
 
-                return (new
+                return ResponseResult.GetSuccessObject(new
                 {
-                    data = new
-                    {
-                        PermssionId = permId
-                    },
-                    success = true,
-                    error = msg
-                });
+                    PermssionId = permId
+                }, msg);
+
+                //return (new
+                //{
+                //    data = new
+                //    {
+                //        PermssionId = permId
+                //    },
+                //    success = true,
+                //    error = msg
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
-        public object GetPermissionsByRoleID(int pRoleID)
+        public ResponseResult GetPermissionsByRoleID(int pRoleID)
         {
             try
             {
                 var List = DataService.GetPermissionsByRoleID(pRoleID);
-
-                return (new
+                return ResponseResult.GetSuccessObject(new
                 {
-                    data = new
-                    {
-                        Permissions = List
-                    },
-                    success = true,
-                    error = ""
+                    Permissions = List
                 });
+
+                //return (new
+                //{
+                //    data = new
+                //    {
+                //        Permissions = List
+                //    },
+                //    success = true,
+                //    error = ""
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
 
-        public object SaveRolePermissionMapping(int pRoleID, List<int> pPermissionsList)
+        public ResponseResult SaveRolePermissionMapping(int pRoleID, List<int> pPermissionsList)
         {
             try
             {
                 var List = DataService.SaveRolePermissionMapping(pRoleID, pPermissionsList);
 
-                return (new
+                return ResponseResult.GetSuccessObject(new
                 {
-                    data = new
-                    {
-                        Permissions = List
-                    },
-                    success = true,
-                    error = "Mappings are saved"
-                });
+                    Permissions = List
+                }, "Mappings are saved");
+
+                //return (new
+                //{
+                //    data = new
+                //    {
+                //        Permissions = List
+                //    },
+                //    success = true,
+                //    error = "Mappings are saved"
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
 
         #endregion
 
         #region Roles
-        public Object getRoles()
+        public ResponseResult GetRoles()
         {
             try
             {
                 var List = DataService.GetAllRoles();
-                return (new
+
+                return ResponseResult.GetSuccessObject(new
                 {
-                    data = new
-                    {
-                        RoleList = List
-                    },
-                    success = true,
-                    error = ""
+                    RoleList = List
                 });
+
+                //return (new
+                //{
+                //    data = new
+                //    {
+                //        RoleList = List
+                //    },
+                //    success = true,
+                //    error = ""
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
-        public Object EnableDisableRole(Roles pRoleObj)
+        public ResponseResult EnableDisableRole(Roles pRoleObj)
         {
             String msg = " ";
             try
@@ -239,23 +256,25 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
                 {
                     msg = " ";
                 }
-                return (new
+                return ResponseResult.GetSuccessObject(new
                 {
+                    RoleId = pRoleObj.Id
+                }, msg);
 
-                    success = true,
-                    error = msg
-                });
+                //return (new
+                //{
+
+                //    success = true,
+                //    error = msg
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
-        public Object SaveRole(Roles r)
+        public ResponseResult SaveRole(Roles r)
         {
             String msg = " ";
             try
@@ -269,99 +288,106 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
                 {
                     msg = "Role added Successfully";
                 }
-                return (new
+
+                return ResponseResult.GetSuccessObject(new
                 {
-                    data = new
-                    {
-                        RoleId = roleId
-                    },
-                    success = true,
-                    error = msg
-                });
+                    RoleId = roleId
+                }, msg);
+
+                //return (new
+                //{
+                //    data = new
+                //    {
+                //        RoleId = roleId
+                //    },
+                //    success = true,
+                //    error = msg
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
-        public object getActiveRoles()
+        public ResponseResult getActiveRoles()
         {
             try
             {
                 var List = DataService.GetAllRoles().Where(p => p.IsActive == true).ToList();
-                return (new
+
+                return ResponseResult.GetSuccessObject(new
                 {
-                    data = new
-                    {
-                        RoleList = List
-                    },
-                    success = true,
-                    error = ""
+                    RoleList = List
                 });
+
+                //return (new
+                //{
+                //    data = new
+                //    {
+                //        RoleList = List
+                //    },
+                //    success = true,
+                //    error = ""
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
 
-        public object GetRolesByUserID(int pUserID)
+        public ResponseResult GetRolesByUserID(int pUserID)
         {
             try
             {
                 var List = DataService.GetRolesByUserID(pUserID);
-
-                return (new
+                return ResponseResult.GetSuccessObject(new
                 {
-                    data = new
-                    {
-                        Roles = List
-                    },
-                    success = true,
-                    error = ""
+                    Roles = List
                 });
+                //return (new
+                //{
+                //    data = new
+                //    {
+                //        Roles = List
+                //    },
+                //    success = true,
+                //    error = ""
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
 
-        public object SaveUserRoleMapping(int pUserID, List<int> pRoles)
+        public ResponseResult SaveUserRoleMapping(int pUserID, List<int> pRoles)
         {
             try
             {
                 var List = DataService.SaveUserRoleMapping(pUserID, pRoles);
-
-                return (new
+                return ResponseResult.GetSuccessObject(new
                 {
-                    data = new
-                    {
-                        Roles = List
-                    },
-                    success = true,
-                    error = "Mappings are saved"
-                });
+                    Roles = List
+                }, "Mappings are saved");
+
+                //return (new
+                //{
+                //    data = new
+                //    {
+                //        Roles = List
+                //    },
+                //    success = true,
+                //    error = "Mappings are saved"
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
         #endregion
@@ -369,7 +395,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
 
         #region Users
 
-        public object EnableDisableUser(User pUserObj)
+        public ResponseResult EnableDisableUser(User pUserObj)
         {
             try
             {
@@ -388,42 +414,37 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
 
                 if (result == true)
                 {
-                    return (new
+                    return ResponseResult.GetSuccessObject(new
                     {
-                        data = new
-                        {
-                            UserList = result
-                        },
-                        success = true,
-                        error = msg
-                    });
+                        UserList = result
+                    }, msg);
+
+                    //return (new
+                    //{
+                    //    data = new
+                    //    {
+                    //        UserList = result
+                    //    },
+                    //    success = true,
+                    //    error = msg
+                    //});
 
                 }
                 else
                 {
-
-                    return (new
-                    {
-                        success = false,
-                        error = "Some Error has occurred"
-                    });
-
-
+                    return ResponseResult.GetErrorObject();
                 }
 
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
 
         }
 
-        public Object SaveUsers(User u)
+        public ResponseResult SaveUsers(User u)
         {
             try
             {
@@ -439,158 +460,87 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
                     {
                         msg = "User Added Successfully";
                     }
-
-                    return (new
+                    return ResponseResult.GetSuccessObject(new
                     {
-                        data = new
-                        {
-                            UserId = result
-                        },
-                        success = true,
-                        error = msg
-                    });
+                        UserId = result,
+                    }, msg);
+
+                    //return (new
+                    //{
+                    //    data = new
+                    //    {
+                    //        UserId = result
+                    //    },
+                    //    success = true,
+                    //    error = msg
+                    //});
 
                 }
                 else
                 {
-                    return (new
-                    {
-                        success = false,
-                        error = "Some Error has occurred"
-                    });
+                    return ResponseResult.GetErrorObject();
                 }
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
 
-        public Object getUsers()
+        public ResponseResult getUsers()
         {
             try
             {
                 var List = DataService.GetAllUsers();
-                return (new
+                return ResponseResult.GetSuccessObject(new
                 {
-                    data = new
-                    {
-                        UserList = List
-                    },
-                    success = true,
-                    error = ""
+                    UserList = List
                 });
+                //return (new
+                //{
+                //    data = new
+                //    {
+                //        UserList = List
+                //    },
+                //    success = true,
+                //    error = ""
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
 
-        public Object SearchUsers(UserSearchParam pSearchParam)
+        public ResponseResult SearchUsers(UserSearchParam pSearchParam)
         {
             try
             {
                 var result = DataService.SearchUsers(pSearchParam);
-
-                return (new
+                return ResponseResult.GetSuccessObject(new
                 {
-                    data = new
-                    {
-                        Count = result.ResultCount,
-                        UserList = result.Result
-                    },
-                    success = true,
-                    error = ""
+                    Count = result.ResultCount,
+                    UserList = result.Result
                 });
+                //return (new
+                //{
+                //    data = new
+                //    {
+                //        Count = result.ResultCount,
+                //        UserList = result.Result
+                //    },
+                //    success = true,
+                //    error = ""
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
         #endregion
-
-        //public Object getMappings()
-        //{
-        //    try
-        //    {
-        //        var List = DataService.getMappings();
-        //        return (new
-        //        {
-        //            data = new
-        //            {
-        //                MappingList = List
-        //            },
-        //            success = true,
-        //            error = ""
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return (new
-        //        {
-        //            success = false,
-        //            error = "Some Error has occurred"
-        //        });
-        //    }
-        //}
-        //public Object UpdateMappings(customUpdateMappings m)
-        //{
-        //    String msg = " ";
-        //    try
-        //    {
-        //        var flag = DataService.UpdateMappings(m);
-        //        msg = "mapping updated";
-        //        return (new
-        //        {
-        //            success = true,
-        //            error = msg
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return (new
-        //        {
-        //            success = false,
-        //            error = "Some Error has occurred"
-        //        });
-        //    }
-        //}
-        //public Object DeleteMappings(int rid)
-        //{
-        //    String msg = " ";
-        //    try
-        //    {
-        //        var flag = DataService.DeleteMappings(rid);
-        //        msg = "mapping Deleted";
-        //        return (new
-        //        {
-        //            success = true,
-        //            error = msg
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return (new
-        //        {
-        //            success = false,
-        //            error = "Some Error has occurred"
-        //        });
-        //    }
-        //}
-
     }
 }

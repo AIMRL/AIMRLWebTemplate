@@ -1,6 +1,7 @@
 ﻿using PUCIT.AIMRL.WebAppName.DAL;
 using PUCIT.AIMRL.WebAppName.Entities;
 using PUCIT.AIMRL.WebAppName.Entities.DBEntities;
+using PUCIT.AIMRL.WebAppName.MainApp.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,30 +27,32 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
             }
         }
 
-        
-        public object getLoginHistory()
+
+        public ResponseResult GetLoginHistory()
         {
 
             try
             {
                 var List = DataService.GetLoginHistory();
-                return (new
+                return ResponseResult.GetSuccessObject(new
                 {
-                    data = new
-                    {
-                        LoginHistoryList = List
-                    },
-                    success = true,
-                    error = ""
+                    LoginHistoryList = List
                 });
+
+                //return (new
+                //{
+                //    data = new
+                //    {
+                //        LoginHistoryList = List
+                //    },
+                //    success = true,
+                //    error = ""
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
 

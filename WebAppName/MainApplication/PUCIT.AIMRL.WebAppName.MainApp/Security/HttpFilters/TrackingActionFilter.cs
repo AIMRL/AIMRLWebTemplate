@@ -16,7 +16,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Utils.HttpFilters
 
         public void OnException(ExceptionContext filterContext)
         {
-            Util.Utility.HandleException(filterContext.Exception);
+            Util.CustomUtility.HandleException(filterContext.Exception);
         }
         public override void OnActionExecuted(System.Web.Http.Filters.HttpActionExecutedContext filterContext)
         {

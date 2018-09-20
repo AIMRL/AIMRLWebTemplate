@@ -34,53 +34,56 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
             }
         }
 
-        public Object changePassword(PasswordEntity pass)
+        public ResponseResult ChangePassword(PasswordEntity pass)
         {
             if (PUCIT.AIMRL.WebAppName.UI.Common.SessionManager.LogsInAsOtherUser == true)
             {
-                return (new
-                {
-                    success = false,
-                    error = "You Are Not Allowed"
-                });
+                return ResponseResult.GetErrorObject("You Are Not Allowed");
+                //return (new
+                //{
+                //    success = false,
+                //    error = "You Are Not Allowed"
+                //});
             }
             try
             {
-                //  var emailid = EncryptDecryptUtility.Decrypt(pass.ID);
-
                 var id = DataService.changePassword(pass);
                 if (id == 0)
                 {
-                    return (new
-                    {
-                        data = new
-                        {
-                            Id = id
-                        },
-                        success = false,
-                        error = "Wrong Password"
-                    });
+
+                    return ResponseResult.GetErrorObject("Password Change Failure.");
+                    //return (new
+                    //{
+                    //    data = new
+                    //    {
+                    //        Id = id
+                    //    },
+                    //    success = false,
+                    //    error = "Wrong Password"
+                    //});
                 }
                 else
                 {
-                    return (new
+                    return ResponseResult.GetSuccessObject(new
                     {
-                        data = new
-                        {
-                            Id = id
-                        },
-                        success = true,
-                        error = "Password Changed"
-                    });
+                        Id = id
+                    }, "Password is changed");
+
+                    //return (new
+                    //{
+                    //    data = new
+                    //    {
+                    //        Id = id
+                    //    },
+                    //    success = true,
+                    //    error = "Password Changed"
+                    //});
                 }
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
     }

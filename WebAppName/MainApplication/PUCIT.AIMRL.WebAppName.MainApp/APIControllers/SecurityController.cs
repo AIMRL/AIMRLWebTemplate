@@ -29,105 +29,85 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
             }
         }
         [HttpGet]
-        public Object getRoles()
+        public ResponseResult getRoles()
         {
-            return Repository.getRoles();
+            return Repository.GetRoles();
         }
         [HttpGet]
-        public Object getActiveRoles()
+        public ResponseResult getActiveRoles()
         {
             return Repository.getActiveRoles();
         }
 
         [HttpPost]
-        public Object SaveRole(Roles r)
+        public ResponseResult SaveRole(Roles r)
         {
             return Repository.SaveRole(r);
         }
         [HttpPost]
-        public Object EnableDisableRole(Roles r)
+        public ResponseResult EnableDisableRole(Roles r)
         {
             return Repository.EnableDisableRole(r);
         }
-        //[HttpGet]
-        //public Object getMappings()
-        //{
-        //    return Repository.getMappings();
-        //}
+        
         [HttpGet]
-        public Object getPermissions()
+        public ResponseResult getPermissions()
         {
-            return Repository.getPermissions();
+            return Repository.GetPermissions();
         }
 
         [HttpGet]
-        public Object getActivePermissions()
+        public ResponseResult getActivePermissions()
         {
-            return Repository.getActivePermissions();
+            return Repository.GetActivePermissions();
         }
         [HttpGet]
-        public Object GetPermissionsByRoleID(int pRoleID)
+        public ResponseResult GetPermissionsByRoleID(int pRoleID)
         {
             return Repository.GetPermissionsByRoleID(pRoleID);
         }
         [HttpPost]
-        public Object SaveRolePermissionMapping(TempRolePermMapping r)
+        public ResponseResult SaveRolePermissionMapping(TempRolePermMapping r)
         {
             return Repository.SaveRolePermissionMapping(r.RoleID, r.Permissions);
         }
 
-        //[HttpPost]
-        //public Object UpdateMappings(customUpdateMappings m)
-        //{
-        //    return Repository.UpdateMappings(m);
-        //}
-        //[HttpPost]
-        //public Object DeleteMappings(int roleid)
-        //{
-        //    return Repository.DeleteMappings(roleid);
-        //}
         [HttpPost]
-        public Object SavePermission(PermissionsWithRoleID r)
+        public ResponseResult SavePermission(PermissionsWithRoleID r)
         {
             return Repository.SavePermission(r);
         }
         [HttpPost]
-        public Object EnableDisablePermission(PermissionsWithRoleID r)
+        public ResponseResult EnableDisablePermission(PermissionsWithRoleID r)
         {
             return Repository.EnableDisablePermission(r);
         }
 
 
-        //[HttpGet]
-        //public Object getUsers()
-        //{
-        //    return Repository.getUsers();
-        //}
-
         [HttpPost]
-        public object SaveUsers(User u)
+        public ResponseResult SaveUsers(User u)
         {
             return Repository.SaveUsers(u);
         }
 
         [HttpPost]
-        public Object SearchUsers(UserSearchParam u)
+        public ResponseResult SearchUsers(UserSearchParam u)
         {
             return Repository.SearchUsers(u);
         }
         [HttpPost]
-        public object EnableDisableUser(User u)
+        public ResponseResult EnableDisableUser(User u)
         {
             return Repository.EnableDisableUser(u);
         }
 
         [HttpGet]
-        public Object GetRolesByUserID(int pUserID)
+        public ResponseResult GetRolesByUserID(int pUserID)
         {
             return Repository.GetRolesByUserID(pUserID);
         }
         [HttpPost]
-        public Object SaveUserRoleMapping(TempUserRoleMapping r)
+        public ResponseResult SaveUserRoleMapping(TempUserRoleMapping r)
         {
             return Repository.SaveUserRoleMapping(r.UserID, r.Roles);
         }

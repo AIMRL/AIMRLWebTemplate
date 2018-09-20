@@ -30,9 +30,9 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
         }
       
         [HttpGet]
-        public Object getLoginHistory()
+        public ResponseResult getLoginHistory()
         {
-            return Repository.getLoginHistory();
+            return Repository.GetLoginHistory();
         }
 
     }

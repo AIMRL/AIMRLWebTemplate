@@ -15,7 +15,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Utils.HttpFilters
     {
         public override void OnException(HttpActionExecutedContext context)
         {
-            Util.Utility.HandleException(context.Exception);
+            Util.CustomUtility.HandleException(context.Exception);
             
             HttpResponseMessage msg = new HttpResponseMessage(HttpStatusCode.InternalServerError)
                 {

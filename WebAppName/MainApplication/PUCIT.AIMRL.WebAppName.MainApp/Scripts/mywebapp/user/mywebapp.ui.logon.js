@@ -148,7 +148,7 @@ MyWebApp.UI.Logon = (function () {
                 if (returnUrl != "")
                     window.location.href = returnUrl;
                 else
-                    window.location.href = MyWebApp.Globals.baseURL + result.redirect;
+                    window.location.href = MyWebApp.Globals.baseURL + result.data.redirect;
 
             } else {
                 MyWebApp.UI.showRoasterMessage(result.error, Enums.MessageType.Error, 5000);

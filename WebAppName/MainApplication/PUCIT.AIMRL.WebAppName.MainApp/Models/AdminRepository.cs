@@ -36,45 +36,10 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
             }
         }
 
-
-        
-        
-        
-        //public Object SearchUsers(User pSearchParam)
-        //{
-
-
-        //    try
-        //    {
-
-
-        //        var List = DataService.SearchUsers(pSearchParam);
-
-
-        //        return (new
-        //        {
-        //            data = new
-        //            {
-        //                UserList = List
-        //            },
-        //            success = true,
-        //            error = ""
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return (new
-        //        {
-        //            success = false,
-        //            error = "Some Error has occurred"
-        //        });
-        //    }
-        //}
-        public Object SearchUser(string key)
+        public ResponseResult SearchUser(string key)
         {
             try
             {
-
                 var list = DataService.SearchUser(key);
 
                 var result = (from p in list
@@ -84,15 +49,14 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
                                   Login = p.Login,
                                   Name = p.Name
                               }).ToList();
-                return result;
+
+                return ResponseResult.GetSuccessObject(result);
+                //return result;
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
     }

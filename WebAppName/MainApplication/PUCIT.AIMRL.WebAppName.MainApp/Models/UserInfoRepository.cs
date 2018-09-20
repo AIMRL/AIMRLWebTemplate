@@ -34,11 +34,9 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
             }
         }
 
-        
-
-        public Object ValidateUser(String login, String pPassword,Boolean pIgnorePassword,Boolean pLoginAsOtherUser)
+        public ResponseResult ValidateUser(String login, String pPassword, Boolean pIgnorePassword, Boolean pLoginAsOtherUser)
         {
-            Object dataToReturn = null;
+            //Object dataToReturn = null;
             //Check to see if the user is provided the rights on the application
             try
             {
@@ -65,63 +63,66 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
                 {
                     if (secUserForSession.IsActive==false)
                     {
-                        Utility.LogData("User Is Inactive, can't log in");
+                        CustomUtility.LogData("User Is Inactive, can't log in");
                         SessionManager.CurrentUser = null;
-                        dataToReturn = new
-                        {
-                            success = false,
-                            error = "Your account is not active, Please Contact Administrator"
-                        };
-                      
+                        return ResponseResult.GetErrorObject("Your account is not active, Please Contact Administrator");
+                        //dataToReturn = new
+                        //{
+                        //    success = false,
+                        //    error = "Your account is not active, Please Contact Administrator"
+                        //};
                     }
                     else
                     {
                         PermissionManager.HandlePermissions(secUserForSession.Permissions);
                         secUserForSession.Permissions = null;
 
-                        //if (secUserForSession.ApproverDesignations.Count > 0 && secUserForSession.IsContributor)
-                        //{
-                        //    var desig = secUserForSession.ApproverDesignations.First();
-                        //    secUserForSession.CurrentApproverID = desig.ApproverID;
-                        //    secUserForSession.Desingtation = desig.Designation;
-                        //}
 
                         SessionManager.CurrentUser = secUserForSession;
 
                         var RedirectURl = Resources.PAGES_MANAGERS_DEFAULT_HOME_PAGE;
                         RedirectURl = RedirectURl.Replace("~/", "");
-                        dataToReturn = new
+                        
+                        return ResponseResult.GetSuccessObject(new
                         {
-                            redirect = RedirectURl,
-                            success = true,
-                            error = ""
-                        };
+                            redirect = RedirectURl
+                        });
+
+                        //dataToReturn = new
+                        //{
+                        //    redirect = RedirectURl,
+                        //    success = true,
+                        //    error = ""
+                        //};
                     }
                 }
 
                 else
                 {
                     //If the user was not detected as an authorized user
-                    Utility.LogData("Invalid Login: " + login + " Password: " + pPassword);
+                    CustomUtility.LogData("Invalid Login: " + login + " Password: " + pPassword);
                     SessionManager.CurrentUser = null;
-                    dataToReturn = new
-                    {
-                        success = false,
-                        error = "Invalid Login/Password"
-                    };
+                    return ResponseResult.GetErrorObject("Invalid Login/Password");
+                    //dataToReturn = new
+                    //{
+                    //    success = false,
+                    //    error = "Invalid Login/Password"
+                    //};
                 }
-                return (dataToReturn);
+                //return (dataToReturn);
             }
             catch (Exception ex)
             {
-                Utility.HandleException(ex);
+                CustomUtility.HandleException(ex);
                 SessionManager.CurrentUser = null;
-                var exception = new
-                {
-                    success = false,
-                    error = "Some problem has occurred, Please Try again!"
-                };
-                return (exception);
+                return ResponseResult.GetErrorObject();
+
+                //var exception = new
+                //{
+                //    success = false,
+                //    error = "Some problem has occurred, Please Try again!"
+                //};
+                //return (exception);
             }
         }
         
@@ -178,15 +179,17 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
         //    }
         //}
 
-        public Object sendEmail(string emailAddress)
+        public ResponseResult SendEmail(string emailAddress)
         {
             if (PUCIT.AIMRL.WebAppName.UI.Common.SessionManager.LogsInAsOtherUser == true)
             {
-                return (new
-                {
-                    success = false,
-                    error = "You Are Not Allowed"
-                });
+                return ResponseResult.GetErrorObject("You Are Not Allowed");
+
+                //return (new
+                //{
+                //    success = false,
+                //    error = "You Are Not Allowed"
+                //});
             }
             try
             {
@@ -207,80 +210,87 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
                }
                 else
                 {
-                    return (new
-                    {
-                        success = false,
-                        error = "email not correct"
-                    });
+                    return ResponseResult.GetErrorObject("Email not correct");
+
+                    //return (new
+                    //{
+                    //    success = false,
+                    //    error = "email not correct"
+                    //});
                 }
 
-
-                return (new
+                return ResponseResult.GetSuccessObject(new
                 {
-                    data = new
-                    {
-                        Id = emailAddress
-                    },
-                    success = true,
-                    error = ""
+                    Id = emailAddress
                 });
+
+                //return (new
+                //{
+                //    data = new
+                //    {
+                //        Id = emailAddress
+                //    },
+                //    success = true,
+                //    error = ""
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "email not correct"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject("Email not correct");
+                //return (new
+                //{
+                //    success = false,
+                //    error = "email not correct"
+                //});
             }
         }
 
-        public Object SignOut(Boolean pManualEclockLogout)
-        {
-            try
-            {
-                SessionManager.CurrentUser = null;
-                SessionManager.AbandonSession();
-                HttpContext.Current.Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                HttpContext.Current.Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(-1));
-                HttpContext.Current.Response.Cache.SetNoStore();
+        //public Object SignOut(Boolean pManualEclockLogout)
+        //{
+        //    try
+        //    {
+        //        SessionManager.CurrentUser = null;
+        //        SessionManager.AbandonSession();
+        //        HttpContext.Current.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        //        HttpContext.Current.Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(-1));
+        //        HttpContext.Current.Response.Cache.SetNoStore();
 
-                if (HttpContext.Current.Request.Cookies["breadcrumbs"] != null)
-                {
-                    HttpCookie myCookie = new HttpCookie("breadcrumbs");
-                    myCookie.Expires = DateTime.UtcNow.AddDays(-1d);
-                    HttpContext.Current.Response.Cookies.Add(myCookie);
-                }
+        //        if (HttpContext.Current.Request.Cookies["breadcrumbs"] != null)
+        //        {
+        //            HttpCookie myCookie = new HttpCookie("breadcrumbs");
+        //            myCookie.Expires = DateTime.UtcNow.AddDays(-1d);
+        //            HttpContext.Current.Response.Cookies.Add(myCookie);
+        //        }
 
-                var result = new
-                {
-                    success = true,
-                    error = ""
-                };
+        //        return ResponseResult.GetSuccessObject();
 
-                return (result);
+        //        //var result = new
+        //        //{
+        //        //    success = true,
+        //        //    error = ""
+        //        //};
 
-            }
-            catch (Exception ex)
-            {
-                Utility.HandleException(ex);
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
-            }
-        }
+        //        //return (result);
 
-        public Object resetPassword(PasswordEntity pass)
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CustomUtility.HandleException(ex);
+        //        return ResponseResult.GetErrorObject("Email not correct");
+        //    }
+        //}
+
+        public ResponseResult ResetPassword(PasswordEntity pass)
         {
             if (PUCIT.AIMRL.WebAppName.UI.Common.SessionManager.LogsInAsOtherUser == true)
             {
-                return (new
-                {
-                    success = false,
-                    error = "You Are Not Allowed"
-                });
+                return ResponseResult.GetErrorObject("You Are Not Allowed");
+                //return (new
+                //{
+                //    success = false,
+                //    error = "You Are Not Allowed"
+                //});
             }
             try
             {
@@ -289,23 +299,25 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Models
 
                 var id = DataService.resetPassword(emailid, password);
 
-                return (new
+                return ResponseResult.GetSuccessObject(new
                 {
-                    data = new
-                    {
-                        Id = id
-                    },
-                    success = true,
-                    error = "Password Reset"
-                });
+                    Id = id
+                }, "Password Reset");
+
+                //return (new
+                //{
+                //    data = new
+                //    {
+                //        Id = id
+                //    },
+                //    success = true,
+                //    error = "Password Reset"
+                //});
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject("Email not correct");
             }
         }
     }

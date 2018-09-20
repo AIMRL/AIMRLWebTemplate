@@ -10,6 +10,7 @@ using PUCIT.AIMRL.WebAppName.MainApp.Models;
 using PUCIT.AIMRL.WebAppName.MainApp.Security;
 using PUCIT.AIMRL.WebAppName.MainApp.Utils.HttpFilters;
 using PUCIT.AIMRL.WebAppName.Entities;
+using PUCIT.AIMRL.WebAppName.MainApp.Util;
 
 namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
 {
@@ -36,41 +37,34 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
         }
 
         [HttpPost]
-        public Object ValidateUser(Login pLogin)
+        public ResponseResult ValidateUser(Login pLogin)
         {
             try
             {
-                Util.Utility.LogData("Going to validate Login:" + pLogin.UserName);
+                Util.CustomUtility.LogData("Going to validate Login:" + pLogin.UserName);
                 return Repository.ValidateUser(pLogin.UserName, pLogin.Password,false,false);
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
-        //[AuthorizedForWebAPI]
-        //public Object GetUsername()
-        //{
-        //    return Repository.getUsername();
-        //}
+       
         [HttpGet]
-        public Object sendEmail(string emailAddress)
+        public ResponseResult sendEmail(string emailAddress)
         {
-            return Repository.sendEmail(emailAddress);
+            return Repository.SendEmail(emailAddress);
         }
         //[AuthorizedForWebAPI]
-        public Object resetPassword(PasswordEntity pass)
+        public ResponseResult resetPassword(PasswordEntity pass)
         {
-            return Repository.resetPassword(pass);
+            return Repository.ResetPassword(pass);
         }
 
         [AuthorizedForWebAPI]
         [HttpGet]
-        public Object ChangeDesig(int aid)
+        public ResponseResult ChangeDesig(int aid)
         {
             return null;
             //return Repository.UpdateDesign(aid);

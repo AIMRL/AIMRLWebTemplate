@@ -259,11 +259,12 @@ function JQUIAutoCompleteWrapper(options) {
                     u = decodeURIComponent(u);
 
                     MyWebApp.Globals.MakeAjaxCall("GET", u, "{}",
-                        function (data) {
+                        function (resp) {
+                            console.log(resp.data);
                             if (opts.enableCache === true) {
-                                cache[request.term] = data;
+                                cache[request.term] = resp.data;
                             }
-                            response(data);
+                            response(resp.data);
                         });
                 }
             },

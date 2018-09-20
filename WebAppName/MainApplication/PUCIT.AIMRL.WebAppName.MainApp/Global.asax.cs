@@ -38,7 +38,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
 
             try
             {
-                PUCIT.AIMRL.WebAppName.MainApp.Util.Utility.LoadGlobalSettings();
+                PUCIT.AIMRL.WebAppName.MainApp.Util.CustomUtility.LoadGlobalSettings();
             }
             catch (Exception ex)
             {

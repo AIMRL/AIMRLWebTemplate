@@ -37,11 +37,11 @@ MyWebApp.UI.ChangePassword = (function () {
             var dataToSend = JSON.stringify(password);
             var url = "Dashboard/changePassword";
             //  jQuery.support.cors = true;
-            debugger;
+            
             MyWebApp.Globals.MakeAjaxCall("POST", url, dataToSend, function (result) {
 
                 if (result.success === true) {
-                    MyWebApp.UI.showRoasterMessage(result.success, Enums.MessageType.Error);
+                    MyWebApp.UI.showRoasterMessage(result.error, Enums.MessageType.Success);
 
                 } else {
                    // alert("Password not Changed Successfully");

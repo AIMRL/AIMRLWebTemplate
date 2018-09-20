@@ -1,5 +1,7 @@
-﻿using PUCIT.AIMRL.WebAppName.Entities.DBEntities;
+﻿using PUCIT.AIMRL.WebAppName.Entities;
+using PUCIT.AIMRL.WebAppName.Entities.DBEntities;
 using PUCIT.AIMRL.WebAppName.MainApp.Models;
+using PUCIT.AIMRL.WebAppName.MainApp.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,13 +40,8 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
             }
         }
         
-        //public Object searchUsers(User u)
-        //{
-        //    return Repository.SearchUsers(u);
-        //}
-
         [HttpPost]
-        public Object ValidateUser(Login pLogin)
+        public ResponseResult ValidateUser(Login pLogin)
         {
             try
             {
@@ -53,11 +50,8 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
             }
             catch (Exception ex)
             {
-                return (new
-                {
-                    success = false,
-                    error = "Some Error has occurred"
-                });
+                CustomUtility.HandleException(ex);
+                return ResponseResult.GetErrorObject();
             }
         }
 
@@ -67,7 +61,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
         }
 
         [HttpGet]
-        public Object SearchUser(string key)
+        public ResponseResult SearchUser(string key)
         {
 
             return Repository.SearchUser(key);

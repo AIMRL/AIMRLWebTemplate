@@ -25,10 +25,10 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.APIControllers
             }
         }
         
-        [HttpGet]
-        public Object changePassword(PasswordEntity pass)
+        [HttpPost]
+        public ResponseResult changePassword(PasswordEntity pass)
         {
-            return Repository.changePassword(pass);
+            return Repository.ChangePassword(pass);
         }
     }
 }
