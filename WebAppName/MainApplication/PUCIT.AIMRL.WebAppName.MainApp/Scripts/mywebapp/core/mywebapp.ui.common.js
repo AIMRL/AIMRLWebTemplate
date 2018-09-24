@@ -81,7 +81,22 @@ MyWebApp.UI.Common = (function () {
         , registerCallbacks: function (cbacks) {
             callbacks = $.extend(callbacks, cbacks);
             return this;
-        } //registerCallbacks      
+        } //registerCallbacks   
+        ,ApplyPagination: function (selector, recordCount, pageSize,callbackFn) {
+            debugger;
+        $(selector).empty();
+        $(selector).pagination({
+            items: recordCount,
+            itemsOnPage: pageSize,
+            cssStyle: 'light-theme',
+            onPageClick: function (pageNumber, event)
+            {
+                debugger;
+                callbackFn(pageNumber);
+                return false;
+            }
+        });
+    }
     };
 }());
 

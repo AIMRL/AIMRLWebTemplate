@@ -5,17 +5,20 @@ MyWebApp.UI.LoginHistoryReport = (function () {
     var _isInitialized = false;
     var LoginList;
     var current_page = 0;
+    var create_pages = false;
     function initialisePage() {
         if (_isInitialized == false) {
             _isInitialized = true;
             BindEvents();
-
+            create_pages = true;
             SearchLoginHistory();
         }
     }
     function BindEvents() {
         $("#cmbPageSizeSearch").change(function (e) {
             e.preventDefault();
+            create_pages = true;
+            current_page = 0;
             SearchLoginHistory();
             return false;
         });
@@ -23,6 +26,7 @@ MyWebApp.UI.LoginHistoryReport = (function () {
             //debugger
             e.preventDefault();
             current_page = 0;
+            create_pages = true;
             SearchLoginHistory();
             return false;
         });
@@ -58,16 +62,29 @@ MyWebApp.UI.LoginHistoryReport = (function () {
             MyWebApp.UI.showRoasterMessage('A problem has occurred while getting records: "' + thrownError + '". Please try again.', Enums.MessageType.Error);
         });
     }
+    //function CreatePages(recordCount) {
+    //    var pageSize = Number($("#cmbPageSizeSearch").val());
+
+    //    if (isNaN(pageSize) || pageSize <= 0) {
+    //        alert('Invalid Page Size');
+    //        return;
+    //    }
+    //    var pages = Math.ceil(recordCount / pageSize);
+    //    CreateNavButtonForPage(pages);
+    //}
+
     function CreatePages(recordCount) {
         var pageSize = Number($("#cmbPageSizeSearch").val());
 
-        if (isNaN(pageSize) || pageSize <= 0) {
-            alert('Invalid Page Size');
-            return;
+        if (create_pages == true) {
+            MyWebApp.UI.Common.ApplyPagination("ul.pagination", recordCount, pageSize, function (pageNumber) {
+                current_page = pageNumber;
+                SearchLoginHistory();
+            });
+            create_pages = false;
         }
-        var pages = Math.ceil(recordCount / pageSize);
-        CreateNavButtonForPage(pages);
     }
+
     function CreateNavButtonForPage(pageNo) {
         $(".pagination").empty();
         for (var i = 1; i <= pageNo; i++) {
