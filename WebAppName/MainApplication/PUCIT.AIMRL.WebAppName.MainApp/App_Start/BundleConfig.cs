@@ -58,30 +58,30 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
 
 
             //Context Menu Component CSS
-            var stBundle = new StyleBundle("~/Content/contextmenu");
-            stBundle.Include("~/Content/style/contextmenu/jquery.contextMenu.css", new RewriteUrlTransform());
-            stBundle.Include("~/Content/style/contextmenu/screen.css", new RewriteUrlTransform());
-            stBundle.Include("~/Content/style/contextmenu/prettify.css", new RewriteUrlTransform());
-            bundles.Add(stBundle);
+            //var stBundle = new StyleBundle("~/Content/contextmenu");
+            //stBundle.Include("~/Content/style/contextmenu/jquery.contextMenu.css", new RewriteUrlTransform());
+            //stBundle.Include("~/Content/style/contextmenu/screen.css", new RewriteUrlTransform());
+            //stBundle.Include("~/Content/style/contextmenu/prettify.css", new RewriteUrlTransform());
+            //bundles.Add(stBundle);
 
-            //Context Menu Component JavaScript
-            bundles.Add(new ScriptBundle("~/bundles/contextmenu").Include(
-                       "~/Scripts/jquery-plugins/Contextmenu/screen.js",
-                       "~/Scripts/jquery-plugins/Contextmenu/src/jquery.contextMenu.js",
-                       "~/Scripts/jquery-plugins/Contextmenu/src/jquery.ui.position.js"));
+            ////Context Menu Component JavaScript
+            //bundles.Add(new ScriptBundle("~/bundles/contextmenu").Include(
+            //           "~/Scripts/jquery-plugins/Contextmenu/screen.js",
+            //           "~/Scripts/jquery-plugins/Contextmenu/src/jquery.contextMenu.js",
+            //           "~/Scripts/jquery-plugins/Contextmenu/src/jquery.ui.position.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/SliderJs").Include(
-                       "~/Scripts/jquery-plugins/Slider/jQuery-1.10.2.js",
-                       "~/Scripts/jquery-plugins/Slider/jQuery-Ui.js"));
+            //bundles.Add(new ScriptBundle("~/bundles/SliderJs").Include(
+            //           "~/Scripts/jquery-plugins/Slider/jQuery-1.10.2.js",
+            //           "~/Scripts/jquery-plugins/Slider/jQuery-Ui.js"));
 
-            stBundle = new StyleBundle("~/Content/SliderCss");
+            //stBundle = new StyleBundle("~/Content/SliderCss");
 
-            stBundle.Include("~/Content/Slider/Slider.css", new RewriteUrlTransform());
-            stBundle.Include("~/Content/Slider/SliderStyle.css", new RewriteUrlTransform());
-            bundles.Add(stBundle);
+            //stBundle.Include("~/Content/Slider/Slider.css", new RewriteUrlTransform());
+            //stBundle.Include("~/Content/Slider/SliderStyle.css", new RewriteUrlTransform());
+            //bundles.Add(stBundle);
 
-            bundles.Add(new ScriptBundle("~/bundles/hicharts").Include("~/Scripts/jquery-plugins/hicharts/highcharts.src.js",
-                "~/Scripts/jquery-plugins/hicharts/draggable-points.js"));
+            //bundles.Add(new ScriptBundle("~/bundles/hicharts").Include("~/Scripts/jquery-plugins/hicharts/highcharts.src.js",
+            //    "~/Scripts/jquery-plugins/hicharts/draggable-points.js"));
 
             //stBundle = new StyleBundle("~/Content/css");
 
@@ -97,11 +97,11 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
 
             //bundles.Add(new StyleBundle("~/Content/bsmodal").Include("~/Content/bsmodal/jquery.bsmodal.css"));
 
-            stBundle = new StyleBundle("~/Content/themes/base/css");
+            var  stBundle = new StyleBundle("~/Content/themes/base/css");
             stBundle.Include("~/Content/themes/base/jquery.ui.core.css", new RewriteUrlTransform());
             stBundle.Include("~/Content/themes/base/jquery.ui.resizable.css", new RewriteUrlTransform());
             stBundle.Include("~/Content/NotificationMenu/style_light.css", new RewriteUrlTransform());
-            stBundle.Include("~/Content/jCrumb/jCrumb.css", new RewriteUrlTransform());
+            //stBundle.Include("~/Content/jCrumb/jCrumb.css", new RewriteUrlTransform());
             stBundle.Include("~/Content/style/ui.spinner.css", new RewriteUrlTransform());
             stBundle.Include("~/Content/themes/base/jquery.ui.datepicker.css", new RewriteUrlTransform());
             bundles.Add(stBundle);
@@ -121,9 +121,72 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
             //            "~/Scripts/jquery-plugins/jquery.tmpl.js"));
 
             //Table Sorter plugin + its widgets
-            bundles.Add(new ScriptBundle("~/bundles/plugins/tablesorter").Include(
-                        "~/Scripts/jquery-plugins/tablesorter/jquery.tablesorter.js",
-                        "~/Scripts/jquery-plugins/tablesorter/jquery.tablesorter.staticrow.js"));
+            //bundles.Add(new ScriptBundle("~/bundles/plugins/tablesorter").Include(
+            //            "~/Scripts/jquery-plugins/tablesorter/jquery.tablesorter.js",
+            //            "~/Scripts/jquery-plugins/tablesorter/jquery.tablesorter.staticrow.js"));
+
+            
+
+            //////Time Picker JavaScript
+            //bundles.Add(new ScriptBundle("~/bundles/timepicker").Include(
+            //            "~/Scripts/common/jquery-ui-timepicker-addon.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/newtimepicker").Include(
+            "~/Scripts/jquery-plugins/Timepicker/js/bootstrap-timepicker.js"
+            , "~/Scripts/mywebapp/Core/mywebapp.ui.timepickercommon.js"));
+
+            //////Time Picker css
+            //stBundle = new StyleBundle("~/Content/timepicker");
+            //stBundle.Include("~/Content/style/jquery-ui-timepicker-addon.css", new RewriteUrlTransform());
+            //bundles.Add(stBundle);
+            stBundle = new StyleBundle("~/Content/newtimepicker");
+            stBundle.Include("~/Content/style/bootstrap-timepicker.css", new RewriteUrlTransform());
+            bundles.Add(stBundle);
+
+
+            //for calender scheduler 
+            //bundles.Add(new ScriptBundle("~/bundles/fullcalender").Include(
+            //            "~/Scripts/jquery-plugins/FullCalenderScheduler/fullcalendar.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/daterangepicker").Include(
+                       "~/Scripts/jquery-plugins/DateRangePicker/moment.min.js",
+                       "~/Scripts/jquery-plugins/DateRangePicker/daterangepicker.js"));
+
+            //bundles.Add(new ScriptBundle("~/bundles/fineuploader").Include(
+            //"~/Scripts/jquery-plugins/FineUploader/fineuploader.js",
+            //"~/Scripts/jquery-plugins/jquery.tooltip.js"));
+
+            //for calender scheduler 
+            //stBundle = new StyleBundle("~/Content/fullcalender");
+            //stBundle.Include("~/Content/style/FullCalenderScheduler/fullcalendar.css", new RewriteUrlTransform());
+            //stBundle.Include("~/Content/style/FullCalenderScheduler/fullcalendar.print.css", new RewriteUrlTransform());
+            //bundles.Add(stBundle);
+
+            //for multiselect script bundle
+            //bundles.Add(new ScriptBundle("~/bundles/multiselect").Include(
+            //            "~/Scripts/jquery-plugins/MultiSelect/jquery.multiselect.js",
+            //           "~/Scripts/jquery-plugins/MultiSelect/jquery.multiselect.filter.min.js"));
+
+            ////for multiselect css bundle
+            //stBundle = new StyleBundle("~/Content/multiselect");
+            //stBundle.Include("~/Scripts/jquery-plugins/MultiSelect/assets/style.css", new RewriteUrlTransform());
+            //stBundle.Include("~/Scripts/jquery-plugins/MultiSelect/jquery.multiselect.filter.css", new RewriteUrlTransform());
+            //stBundle.Include("~/Scripts/jquery-plugins/MultiSelect/jquery.multiselect.css", new RewriteUrlTransform());
+            //bundles.Add(stBundle);
+
+            //for multiselect css bundle
+            stBundle = new StyleBundle("~/Content/daterangepicker");
+            stBundle.Include("~/Scripts/jquery-plugins/DateRangePicker/daterangepicker.css", new RewriteUrlTransform());
+            bundles.Add(stBundle);
+
+            //for fineuploader css bundle
+            //stBundle = new StyleBundle("~/Content/fineuploader");
+            //stBundle.Include("~/Content/style/FineUploader/fineuploader.css", new RewriteUrlTransform());
+            //bundles.Add(stBundle);
+
+
+            //bundles.Add(new ScriptBundle("~/bundles/mywebapp.ui.forms").Include(
+            //            "~/Scripts/mywebapp/Forms/mywebapp.ui.forms.js"));
 
             //Login Page
             bundles.Add(new ScriptBundle("~/bundles/login").Include(
@@ -132,66 +195,8 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
             bundles.Add(new ScriptBundle("~/bundles/LoginAsOtherUsers").Include(
                        "~/scripts/mywebapp/Admin/mywebapp.ui.LoginAsOtherUsers.js"));
 
-            //////Time Picker JavaScript
-            bundles.Add(new ScriptBundle("~/bundles/timepicker").Include(
-                        "~/Scripts/common/jquery-ui-timepicker-addon.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/newtimepicker").Include(
-            "~/Scripts/jquery-plugins/Timepicker/js/bootstrap-timepicker.js"
-            , "~/Scripts/mywebapp/Core/mywebapp.ui.timepickercommon.js"));
-
-            //////Time Picker css
-            stBundle = new StyleBundle("~/Content/timepicker");
-            stBundle.Include("~/Content/style/jquery-ui-timepicker-addon.css", new RewriteUrlTransform());
-            bundles.Add(stBundle);
-            stBundle = new StyleBundle("~/Content/newtimepicker");
-            stBundle.Include("~/Content/style/bootstrap-timepicker.css", new RewriteUrlTransform());
-            bundles.Add(stBundle);
-
-
-            //for calender scheduler 
-            bundles.Add(new ScriptBundle("~/bundles/fullcalender").Include(
-                        "~/Scripts/jquery-plugins/FullCalenderScheduler/fullcalendar.min.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/daterangepicker").Include(
-                       "~/Scripts/jquery-plugins/DateRangePicker/moment.min.js",
-                       "~/Scripts/jquery-plugins/DateRangePicker/daterangepicker.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/fineuploader").Include(
-            "~/Scripts/jquery-plugins/FineUploader/fineuploader.js",
-            "~/Scripts/jquery-plugins/jquery.tooltip.js"));
-
-            //for calender scheduler 
-            stBundle = new StyleBundle("~/Content/fullcalender");
-            stBundle.Include("~/Content/style/FullCalenderScheduler/fullcalendar.css", new RewriteUrlTransform());
-            stBundle.Include("~/Content/style/FullCalenderScheduler/fullcalendar.print.css", new RewriteUrlTransform());
-            bundles.Add(stBundle);
-
-            //for multiselect script bundle
-            bundles.Add(new ScriptBundle("~/bundles/multiselect").Include(
-                        "~/Scripts/jquery-plugins/MultiSelect/jquery.multiselect.js",
-                       "~/Scripts/jquery-plugins/MultiSelect/jquery.multiselect.filter.min.js"));
-
-            //for multiselect css bundle
-            stBundle = new StyleBundle("~/Content/multiselect");
-            stBundle.Include("~/Scripts/jquery-plugins/MultiSelect/assets/style.css", new RewriteUrlTransform());
-            stBundle.Include("~/Scripts/jquery-plugins/MultiSelect/jquery.multiselect.filter.css", new RewriteUrlTransform());
-            stBundle.Include("~/Scripts/jquery-plugins/MultiSelect/jquery.multiselect.css", new RewriteUrlTransform());
-            bundles.Add(stBundle);
-
-            //for multiselect css bundle
-            stBundle = new StyleBundle("~/Content/daterangepicker");
-            stBundle.Include("~/Scripts/jquery-plugins/DateRangePicker/daterangepicker.css", new RewriteUrlTransform());
-            bundles.Add(stBundle);
-
-            //for fineuploader css bundle
-            stBundle = new StyleBundle("~/Content/fineuploader");
-            stBundle.Include("~/Content/style/FineUploader/fineuploader.css", new RewriteUrlTransform());
-            bundles.Add(stBundle);
-
-
-            bundles.Add(new ScriptBundle("~/bundles/mywebapp.ui.forms").Include(
-                        "~/Scripts/mywebapp/Forms/mywebapp.ui.forms.js"));
+            bundles.Add(new ScriptBundle("~/bundles/dashboard").Include(
+                        "~/Scripts/mywebapp/dashboard/mywebapp.ui.dashboard.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/resetpassword").Include(
                         "~/Scripts/mywebapp/ChangePassword/mywebapp.ui.ResetPassword1.js"));

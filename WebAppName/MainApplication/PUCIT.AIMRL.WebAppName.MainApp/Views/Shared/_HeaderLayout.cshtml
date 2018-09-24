@@ -5,17 +5,12 @@
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
     <link rel="shortcut icon" href="@Url.Content("~/images/avatars/favicon.ico")" />
 
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/themes/base/css", "~/Content/css")
-   
-   
     <title>PUCIT - Student Request Portal</title>
-
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
     <script type="text/javascript">
         window.MyWebAppBasePath = '@Url.Content("~")';
@@ -34,15 +29,52 @@
                 return -1;
             }
         }
-    </script>
 
+        String.prototype.format = function () {
+            var s = arguments[0];
+            for (var i = 0; i < arguments.length - 1; i++) {
+                var reg = new RegExp("\\{" + i + "\\}", "gm");
+                s = s.replace(reg, arguments[i + 1]);
+            }
+            return s;
+        }
+        String.prototype.endsWith = function (suffix) {
+            return (this.substr(this.length - suffix.length) === suffix);
+        }
+
+        String.prototype.startsWith = function (prefix) {
+            return (this.substr(0, prefix.length) === prefix);
+        }
+    </script>
+    
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css", "~/Content/css")
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/style_custom.css" />
+    <link rel="stylesheet" href="~/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/Content/daterangepicker.min.css" />
+    <!-- page specific plugin styles -->
+    <link rel="stylesheet" href="~/Content/bootstrap-duallistbox.min.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap-multiselect.min.css" />
+    <link rel="stylesheet" href="~/Content/select2.min.css" />
+    <!-- text fonts -->
+    <link rel="stylesheet" href="~/Content/fonts.googleapis.com.css" />
+    <!-- ace styles -->
+    <link rel="stylesheet" href="~/Content/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="~/Content/ace-part2.min.css" class="ace-main-stylesheet" />
+    <![endif]-->
+    @Styles.Render("~/Content/autocomplete1")
+
+    <link href="@Url.Content("~/Content/style/PineNotifications/jquery.pnotify.default.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/style/PineNotifications/icons/jquery.pnotify.default.icons.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/style/PineNotifications/bootstrap.css")" rel="stylesheet" type="text/css" />
 
     @*--------------JQuery Main Files@*--------------*@
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryui")
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    
-    @*<script src="~/Scripts/jquery-2.1.4.min.js"></script>*@
 
     <script>
         jQuery.browser = {};
@@ -56,46 +88,24 @@
         })();
     </script>
 
+    @Scripts.Render("~/bundles/jqueryui")
     
-
-
-    <!-- bootstrap & fontawesome -->
-    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/Content/style_custom.css" />
-    <link rel="stylesheet" href="~/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="~/Content/daterangepicker.min.css" />
-    <!-- page specific plugin styles -->
-    <link rel="stylesheet" href="~/Content/bootstrap-duallistbox.min.css" />
-    <link rel="stylesheet" href="~/Content/bootstrap-multiselect.min.css" />
-    <link rel="stylesheet" href="~/Content/select2.min.css" />
-
-    <!-- text fonts -->
-    <link rel="stylesheet" href="~/Content/fonts.googleapis.com.css" />
-
-    <!-- ace styles -->
-    <link rel="stylesheet" href="~/Content/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
-
-    <!--[if lte IE 9]>
-        <link rel="stylesheet" href="~/Content/ace-part2.min.css" class="ace-main-stylesheet" />
-    <![endif]-->
-    @Styles.Render("~/Content/autocomplete1")
-
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    
     @*@*--------------Shared Plugins--------------*@
     @Scripts.Render("~/bundles/sharedplugins")
     @Scripts.Render("~/bundles/autocomplete")
+
     @*@*--------------Global/Common@*--------------*@
     @Scripts.Render("~/bundles/common")
     @*----MyWebApp Core Javascript files-----*@
-    @Scripts.Render("~/bundles/mywebappmain")
-    @*----Case Javascript files-----*@
-    @*@Scripts.Render("~/bundles/base")*@
-
-    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-plugins/Template/handlebars.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-plugins/PineNotification/jquery.pnotify.js")"></script>
-    <link href="@Url.Content("~/Content/style/PineNotifications/jquery.pnotify.default.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/style/PineNotifications/icons/jquery.pnotify.default.icons.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/style/PineNotifications/bootstrap.css")" rel="stylesheet" type="text/css" />
     
+    @Scripts.Render("~/bundles/mywebappmain")
+    
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-plugins/Template/handlebars.js")"></script>
+    <script type="text/javascript" src='@Url.Content("~/Scripts/jquery-plugins/Template/handlebars_extensions.js")'></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-plugins/PineNotification/jquery.pnotify.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/mywebapp/core/mywebapp.ui.header.js")"></script>
 
     
@@ -126,22 +136,6 @@
     </div>
 
     <script type="text/javascript">
-
-        String.prototype.format = function () {
-            var s = arguments[0];
-            for (var i = 0; i < arguments.length - 1; i++) {
-                var reg = new RegExp("\\{" + i + "\\}", "gm");
-                s = s.replace(reg, arguments[i + 1]);
-            }
-            return s;
-        }
-        String.prototype.endsWith = function (suffix) {
-            return (this.substr(this.length - suffix.length) === suffix);
-        }
-
-        String.prototype.startsWith = function (prefix) {
-            return (this.substr(0, prefix.length) === prefix);
-        }
         //$.watermarker.setDefaults({left: 8 });
         if ($.watermark) {
             $.watermark.options = {
@@ -151,36 +145,7 @@
             };
         }
 
-        Handlebars.registerHelper('ifNotEqual', function (v1, v2, options) {
-            if (v1 != v2) {
-                return options.fn(this);
-            }
-            return options.inverse(this);
-        });
-
-        Handlebars.registerHelper('ifEqual', function (v1, v2, options) {
-            if (v1 == v2) {
-                return options.fn(this);
-            }
-            return options.inverse(this);
-        });
-
-        Handlebars.registerHelper('ifGreaterThan', function (v1, v2, options) {
-            if (v1 > v2) {
-                return options.fn(this);
-            }
-            return options.inverse(this);
-        });
-
-        Handlebars.registerHelper('ifLessThan', function (v1, v2, options) {
-            if (v1 < v2) {
-                return options.fn(this);
-            }
-            return options.inverse(this);
-        });
-
     </script>
-
 
     @RenderSection("scripts", required: false)
     <div id="navbar" class="navbar navbar-default ace-save-state">
