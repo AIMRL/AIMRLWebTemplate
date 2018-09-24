@@ -113,7 +113,8 @@ MyWebApp.UI.SampleStudent = (function () {
 
             var studentid = $("#txtPopStudentId").val();
             DeactivateStudent(studentid);
-            $.bsmodal.hide("#divStudentDeactivatePopUp", { closeid: "#btnPopCancel" });
+            
+            $('#divStudentDeactivatePopUp').modal('hide');
             return false;
         }); //End of Confirm Deactivate
 
@@ -190,7 +191,8 @@ MyWebApp.UI.SampleStudent = (function () {
             e.preventDefault();
             var studentid = $(this).closest("tr").find(".studentids").text();
             if (studentid != "") {
-                $.bsmodal.show("#divStudentDeactivatePopUp", { closeid: "#btnPopCancel" });
+
+                $('#divStudentDeactivatePopUp').modal('show');
 
                 $("#txtPopStudentId").val(studentid);
             }

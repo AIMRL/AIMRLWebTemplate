@@ -21,8 +21,7 @@ MyWebApp.UI.Header = (function () {
 
         $("#lnkProfileModal").unbind('click').bind('click', function (e) {
             e.preventDefault();
-
-            $.bsmodal.show("#profileModal", { top: "5%", left: "25%", closeid: "#btnCloseProfileModal,#btnCloseProfileModal2" });
+            $('#profileModal').modal('show');
 
             return false;
         });

@@ -147,7 +147,7 @@ MyWebApp.Globals = (function () {
             return "".format("{0}{1}/{2}", MyWebApp.Globals.baseURL, controllerName, actionName);
         },
         ShowYesNoPopup: function (settings) {
-            
+
             var $modal = $("#divYesNoCustomModal");
 
             if (settings.dataToPass) {
@@ -165,13 +165,13 @@ MyWebApp.Globals = (function () {
             $modal.find("#btnDivYesNoCustomNo,#btnDivYesNoCustomNoCloseButton").unbind("click").bind('click', function () {
                 if (settings.fnNoCallBack)
                     settings.fnNoCallBack($modal, $modal.data("dataToPass"));
-                $.bsmodal.hide("#divYesNoCustomModal");
+                $('#divYesNoCustomModal').modal('hide');
             });
 
-            $.bsmodal.show("#divYesNoCustomModal");
+            $('#divYesNoCustomModal').modal('show');
 
             $modal.hideMe = function () {
-                $.bsmodal.hide("#divYesNoCustomModal");
+                $('#divYesNoCustomModal').modal('hide');
             }
 
         }

@@ -28,7 +28,7 @@ MyWebApp.UI.User = (function () {
         $("#newuser").click(function (e) {
             e.preventDefault();
             clearFeilds();
-            $.bsmodal.show("#modal-form");
+            $('#modal-form').modal('show');
         });
 
         $("#Save").unbind('click').bind('click', function (e) {
@@ -42,7 +42,7 @@ MyWebApp.UI.User = (function () {
                 return;
             }
             else {
-                $.bsmodal.hide("#modal-form");
+                $('#modal-form').modal('hide');
 
                 MyWebApp.Globals.ShowYesNoPopup({
                     headerText: "Save",
@@ -64,7 +64,7 @@ MyWebApp.UI.User = (function () {
 
         $("#ModalClose, #Cancel").click(function (e) {
             e.preventDefault();
-            $.bsmodal.hide("#modal-form");
+            $('#modal-form').modal('hide');
             return false;
         });
 
@@ -173,7 +173,7 @@ MyWebApp.UI.User = (function () {
             } else {
                 MyWebApp.UI.showRoasterMessage('some error has occurred', Enums.MessageType.Error);
             }
-            $.bsmodal.hide("#modal-form");
+            $('#modal-form').modal('hide');
         }, function (xhr, ajaxoptions, thrownerror) {
             MyWebApp.UI.showMessage("#spstatus", 'A problem has occurred while saving this User: "' + thrownerror + '". Please try again.', Enums.MessageType.Error);
         });
@@ -259,7 +259,8 @@ MyWebApp.UI.User = (function () {
                 $("#txtEmail").val(userObj.Email);
                 $("#txtLogin").val(userObj.Login);
            
-                $.bsmodal.show("#modal-form");
+                $('#modal-form').modal('show');
+
             }//end of userObj
         }//end of usersData
     }
@@ -325,7 +326,8 @@ MyWebApp.UI.User = (function () {
         });
 
         $("#EditRolesModal").data('UserID',pUserID);
-        $.bsmodal.show("#EditRolesModal",{top:"5%",left:"25%",closeid:"#closeedit,#CancelPermModal"});
+
+        $('#EditRolesModal').modal('show');
     }
 
     function SaveRoleMapping(){
@@ -347,7 +349,7 @@ MyWebApp.UI.User = (function () {
             if (result.success === true) {
                 MyWebApp.UI.showRoasterMessage(result.error, Enums.MessageType.Success, 2000);
                 debugger;
-                $.bsmodal.hide("#EditRolesModal");
+                $('#EditRolesModal').modal('hide');
             } else {
                 MyWebApp.UI.showRoasterMessage('some error has occurred', Enums.MessageType.Error);
             }

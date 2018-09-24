@@ -37,7 +37,7 @@ MyWebApp.UI.Permission = (function () {
         $("#newpermission").click(function (e) {
             e.preventDefault();
             clearFeilds();
-            $.bsmodal.show("#modal-form1");
+            $('#modal-form1').modal('show');
         });
 
         $("#Saveper").unbind('click').bind('click', function (e) {
@@ -47,7 +47,7 @@ MyWebApp.UI.Permission = (function () {
                 MyWebApp.UI.showRoasterMessage("Empty Field(s)", Enums.MessageType.Error, 2000);
             }
             else {
-                $.bsmodal.hide("#modal-form1");
+                $('#modal-form1').modal('hide');
 
                 MyWebApp.Globals.ShowYesNoPopup({
                     headerText: "Save",
@@ -204,7 +204,8 @@ MyWebApp.UI.Permission = (function () {
                 $("#permissionname").val(permObj.Name);
                 $("#permissiondescription").val(permObj.Description);
            
-                $.bsmodal.show("#modal-form1");
+                $('#modal-form1').modal('show');
+
             }//end of permObj
         }//end of permissionsdata
     }
@@ -231,7 +232,8 @@ MyWebApp.UI.Permission = (function () {
     }
 
     function hideAll() {
-        $.bsmodal.hide("#modal-form1");
+        $('#modal-form1').modal('hide');
+
         clearFeilds();
     }
 

@@ -2,11 +2,12 @@
     Layout = null;
 }
 
-<div id="divYesNoCustomModal" tabindex="-1" style="display:none; top: 25%; left: 35%;">
+<div id="divYesNoCustomModal" class="modal in" tabindex="-1" data-backdrop="static">
     <div class="modal-dialog" style="width:400px">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="blue bigger"><span class="yesnoheader">Header Text</span>
+                <h4 class="blue bigger">
+                    <span class="yesnoheader">Header Text</span>
                     <button type="button" id="btnDivYesNoCustomNoCloseButton" class="close" data-dismiss="modal">×</button>
                 </h4>
             </div>
@@ -26,7 +27,7 @@
                     <i class="ace-icon fa fa-times"></i>
                     No
                 </button>
-                
+
             </div>
         </div>
     </div>

@@ -63,78 +63,78 @@
 
 @section PopupsAndTemplates
 {
-    <div id="modal-form" class=" in" tabindex="-1" style="display:none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" id="ModalClose" class="close" data-dismiss="modal">×</button>
-                    <h4 class="blue bigger">Role information</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div style="padding-left:50px;">
-                            <input type="hidden" name="hiddenid" id="hiddenid" />
-                            <div class="col-xs-5">
-                                <label class="asterisk" for="form-field-first"><b>Name : </b></label>
-                                <input type="text" class="input-sm form-control" id="rolename" />
-                            </div>
+    <div id="modal-form" tabindex="-1" class="modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="ModalClose" class="close" data-dismiss="modal">×</button>
+                <h4 class="blue bigger">Role information</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div style="padding-left:50px;">
+                        <input type="hidden" name="hiddenid" id="hiddenid" />
+                        <div class="col-xs-5">
+                            <label class="asterisk" for="form-field-first"><b>Name : </b></label>
+                            <input type="text" class="input-sm form-control" id="rolename" />
                         </div>
-                        <div style="padding-left:50px;">
-                            <div class="col-xs-5">
-                                <label class="asterisk" for="form-field-first"><b>Description : </b></label>
-                                <input type="text" class="input-sm form-control" id="roledescription" />
-                            </div>
+                    </div>
+                    <div style="padding-left:50px;">
+                        <div class="col-xs-5">
+                            <label class="asterisk" for="form-field-first"><b>Description : </b></label>
+                            <input type="text" class="input-sm form-control" id="roledescription" />
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-sm" data-dismiss="modal" id="Cancel">
-                        <i class="ace-icon fa fa-times"></i>
-                        Cancel
-                    </button>
-                    <button class="btn btn-sm btn-primary" id="Save">
-                        <i class="ace-icon fa fa-check"></i>
-                        Save
-                    </button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm" data-dismiss="modal" id="Cancel">
+                    <i class="ace-icon fa fa-times"></i>
+                    Cancel
+                </button>
+                <button class="btn btn-sm btn-primary" id="Save">
+                    <i class="ace-icon fa fa-check"></i>
+                    Save
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <div id="EditPermissionsModal" class="modal in" tabindex="-1" style="display: none; width:45%;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="primary bigger">
-                        Permissions Assignment
-                        <button type="button" id="closeedit" class="close" data-dismiss="modal">×</button>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-11">
-                            <div class="space-4"></div>
-                            <div class="row">
-                                <div id="draggable" style="max-height:250px;overflow-y:auto">
-                                    <ol id="sortable1" style="list-style-type:none"></ol>
-                                </div>
+    <div id="EditPermissionsModal" tabindex="-1" class="modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="primary bigger">
+                    Permissions Assignment
+                    <button type="button" id="closeedit" class="close" data-dismiss="modal">×</button>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-11">
+                        <div class="space-4"></div>
+                        <div class="row">
+                            <div id="draggable" style="max-height:250px;overflow-y:auto">
+                                <ol id="sortable1" style="list-style-type:none"></ol>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-sm" data-dismiss="modal" id="CancelPermModal">
-                        <i class="ace-icon fa fa-times"></i>
-                        Cancel
-                    </button>
-                    <button class="btn btn-sm btn-primary" id="SaveMappings">
-                        <i class="ace-icon fa fa-check"></i>
-                        Save
-                    </button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm" data-dismiss="modal" id="CancelPermModal">
+                    <i class="ace-icon fa fa-times"></i>
+                    Cancel
+                </button>
+                <button class="btn btn-sm btn-primary" id="SaveMappings">
+                    <i class="ace-icon fa fa-check"></i>
+                    Save
+                </button>
             </div>
         </div>
     </div>
+</div>
 
     @{
         Html.RenderAction("YesNoModal", "Partial");

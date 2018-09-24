@@ -203,7 +203,6 @@
     <Content Include="Content\bootstrap-duallistbox.min.css" />
     <Content Include="Content\bootstrap-multiselect.min.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\bsmodal\jquery.bsmodal.css" />
     <Content Include="Content\daterangepicker.min.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts.googleapis.com.css" />
@@ -480,7 +479,6 @@
     <Content Include="Scripts\jquery-plugins\jsTree\jquery.jstree.js" />
     <Content Include="Scripts\jquery-plugins\jsTree\jstree.js" />
     <Content Include="Scripts\jquery-plugins\LiveQuery\jquery.livequery.js" />
-    <Content Include="Scripts\jquery-plugins\ModalPopup\jquery.bsmodal.js" />
     <Content Include="Scripts\jquery-plugins\MultiSelect\assets\ba.hashchange.js" />
     <Content Include="Scripts\jquery-plugins\MultiSelect\assets\prettify.css" />
     <Content Include="Scripts\jquery-plugins\MultiSelect\assets\prettify.js" />
@@ -566,7 +564,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\bootstrap\js\" />
-    <Folder Include="Content\bsmodal\images\" />
     <Folder Include="Content\style\tablesorter\" />
     <Folder Include="Scripts\jquery-plugins\Timepicker\css\" />
     <Folder Include="Scripts\jquery-plugins\ToolTip\" />

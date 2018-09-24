@@ -18,10 +18,10 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jqueryui/jquery-ui.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/base").Include(
-                                            "~/Scripts/jquery-plugins/date.js",
-                                            "~/Scripts/jquery-plugins/style-select.js",
-                                            "~/Scripts/jquery-plugins/jquery.tooltip.js"));
+            //bundles.Add(new ScriptBundle("~/bundles/base").Include(
+            //                                "~/Scripts/jquery-plugins/date.js",
+            //                                "~/Scripts/jquery-plugins/style-select.js",
+            //                                "~/Scripts/jquery-plugins/jquery.tooltip.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/tooltip").Include(
                              "~/Scripts/jquery-plugins/jquery.tooltip.js"));
@@ -33,7 +33,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
                         "~/Scripts/spinner/jquery.spin.js",
                         "~/Scripts/spinner/ui.spinner.js",
                         "~/Scripts/spinner/ui.spinner.min.js,",
-                        "~/Scripts/jquery-plugins/modalpopup/jquery.bsmodal.js",
+                        //"~/Scripts/jquery-plugins/modalpopup/jquery.bsmodal.js",
                         "~/Scripts/jquery-plugins/Livequery/jquery.livequery.js"));
 
 
@@ -95,7 +95,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
             //stBundle.Include("~/Content/bsmodal/jquery.bsmodal.css", new RewriteUrlTransform());
             //bundles.Add(stBundle);
 
-            bundles.Add(new StyleBundle("~/Content/bsmodal").Include("~/Content/bsmodal/jquery.bsmodal.css"));
+            //bundles.Add(new StyleBundle("~/Content/bsmodal").Include("~/Content/bsmodal/jquery.bsmodal.css"));
 
             stBundle = new StyleBundle("~/Content/themes/base/css");
             stBundle.Include("~/Content/themes/base/jquery.ui.core.css", new RewriteUrlTransform());

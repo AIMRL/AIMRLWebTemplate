@@ -39,7 +39,7 @@ MyWebApp.UI.Role = (function () {
         $("#newrole").click(function (e) {
             e.preventDefault();
             clearFeilds();
-            $.bsmodal.show("#modal-form");
+            $('#modal-form').modal('show');
         });
 
         $("#Save").unbind('click').bind('click', function (e) {
@@ -49,7 +49,7 @@ MyWebApp.UI.Role = (function () {
                 MyWebApp.UI.showRoasterMessage("Empty Field(s)", Enums.MessageType.Error, 2000);
             }
             else {
-                $.bsmodal.hide("#modal-form");
+                $('#modal-form').modal('hide');
 
                 MyWebApp.Globals.ShowYesNoPopup({
                     headerText: "Save",
@@ -70,7 +70,7 @@ MyWebApp.UI.Role = (function () {
 
         $("#ModalClose, #Cancel").click(function (e) {
             e.preventDefault();
-            $.bsmodal.hide("#modal-form");
+            $('#modal-form').modal('hide');
             return false;
         });
 
@@ -114,7 +114,7 @@ MyWebApp.UI.Role = (function () {
             } else {
                 MyWebApp.UI.showRoasterMessage('some error has occurred', Enums.MessageType.Error);
             }
-            $.bsmodal.hide("#modal-form");
+            $('#modal-form').modal('hide');
         }, function (xhr, ajaxoptions, thrownerror) {
             MyWebApp.UI.showMessage("#spstatus", 'A problem has occurred while saving this Role: "' + thrownerror + '". Please try again.', Enums.MessageType.Error);
         });
@@ -227,7 +227,7 @@ MyWebApp.UI.Role = (function () {
                 $("#rolename").val(roleObj.Name);
                 $("#roledescription").val(roleObj.Description);
            
-                $.bsmodal.show("#modal-form");
+                $('#modal-form').modal('show');
             }//end of roleObj
         }//end of rolesData
     }
@@ -307,7 +307,8 @@ MyWebApp.UI.Role = (function () {
         });
 
         $("#EditPermissionsModal").data('RoleID',pRoleID);
-        $.bsmodal.show("#EditPermissionsModal",{top:"5%",left:"25%",closeid:"#closeedit,#CancelPermModal"});
+        $('#EditPermissionsModal').modal('show');
+        
     }
 
     function SavePermissionMapping(){
@@ -329,7 +330,7 @@ MyWebApp.UI.Role = (function () {
             if (result.success === true) {
                 MyWebApp.UI.showRoasterMessage(result.error, Enums.MessageType.Success, 2000);
                 debugger;
-                $.bsmodal.hide("#EditPermissionsModal");
+                $('#EditPermissionsModal').modal('hide');
             } else {
                 MyWebApp.UI.showRoasterMessage('some error has occurred', Enums.MessageType.Error);
             }

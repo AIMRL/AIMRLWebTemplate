@@ -3,13 +3,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+
     <link rel="shortcut icon" href="@Url.Content("~/images/avatars/favicon.ico")" />
 
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/base/css", "~/Content/css")
-    @Styles.Render("~/Content/bsmodal")
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta charset="utf-8" />
+   
+   
     <title>PUCIT - Student Request Portal</title>
 
     <meta name="description" content="" />
@@ -86,7 +88,7 @@
     @*----MyWebApp Core Javascript files-----*@
     @Scripts.Render("~/bundles/mywebappmain")
     @*----Case Javascript files-----*@
-    @Scripts.Render("~/bundles/base")
+    @*@Scripts.Render("~/bundles/base")*@
 
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-plugins/Template/handlebars.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-plugins/PineNotification/jquery.pnotify.js")"></script>
@@ -393,7 +395,7 @@
 
 
 
-    <div id="profileModal" tabindex="-1" style="display:none">
+    <div id="profileModal" tabindex="-1" class="modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -436,7 +438,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button class="btn btn-sm" id="btnCloseProfileModal2">
+                    <button class="btn btn-sm" id="btnCloseProfileModal2" data-dismiss="modal">
                         <i class="ace-icon fa fa-times"></i>
                         Cancel
                     </button>
