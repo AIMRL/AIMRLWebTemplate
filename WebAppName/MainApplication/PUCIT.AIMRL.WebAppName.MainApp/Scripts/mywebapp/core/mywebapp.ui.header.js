@@ -12,6 +12,13 @@ MyWebApp.UI.Header = (function () {
     }
     function BindEvents() {
         
+        $("#lnkLoginAs").unbind('click').bind('click', function (e) {
+            e.preventDefault();
+            $('#divLoginAs').modal('show');
+
+            return false;
+        });
+
         $("#lnkProfileModal").unbind('click').bind('click', function (e) {
             e.preventDefault();
 

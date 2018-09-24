@@ -102,6 +102,17 @@
             MyWebApp.UI.Header.readyMain();
         });
     </script>
+
+    @if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perCanLoginAsOtherUser == true)
+    {
+        @Scripts.Render("~/bundles/LoginAsOtherUsers")
+        <script type="text/javascript">
+            $(document).ready(function () {
+                MyWebApp.UI.LoginAsOtherUsers.readyMain();
+            });
+        </script>
+    }
+    
     @RenderSection("Header", false)
 </head>
 <body class="no-skin">
@@ -284,12 +295,11 @@
                                 @if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perCanLoginAsOtherUser == true)
                                 {
                                     <li>
-                                        <a href='@Url.Content("~/Admin/LoginAs")'>
+                                        <a href='#' id="lnkLoginAs">
                                             <i class="ace-icon fa fa-user"></i>
                                             Login as another User
                                         </a>
                                     </li>
-                                    <li class="divider"></li>
                                 }
                             </ul>
                         </li>
@@ -435,7 +445,33 @@
         </div>
     </div>
 
-
+    @if (PUCIT.AIMRL.WebAppName.MainApp.Security.PermissionManager.perCanLoginAsOtherUser == true)
+    {
+        <div id="divLoginAs" tabindex="-1" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h4 class="blue bigger">Login As Other User</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-7">
+                                <span class="blue"><label for="form-field-first"><b>Username : </b></label></span>
+                                <input id="txtUserName" type="text" class="form-control" placeholder="Login/Name" style="width:100%" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-sm btn-primary" id="lnkLogin">
+                            <i class="ace-icon fa fa-check"></i>
+                            Login
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
     @RenderSection("PopupsAndTemplates", false)
 </body>
 </html>

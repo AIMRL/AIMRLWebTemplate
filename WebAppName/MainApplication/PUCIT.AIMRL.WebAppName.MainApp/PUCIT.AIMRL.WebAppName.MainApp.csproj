@@ -198,6 +198,8 @@
     <Content Include="Content\autoComplete\js\jquery-ui-autocomplete.js" />
     <Content Include="Content\autoComplete\js\jquery-ui-autocomplete.min.js" />
     <Content Include="Content\autoComplete\js\jquery.ui.autocomplete.wrapper.js" />
+    <Content Include="Content\autoComplete\js\jquery.ui.autocomplete.wrapper_old.js" />
+    <Content Include="Content\autoComplete\js\jquery.ui.autocomplete_old.js" />
     <Content Include="Content\bootstrap-duallistbox.min.css" />
     <Content Include="Content\bootstrap-multiselect.min.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -368,7 +370,6 @@
     <None Include="Properties\PublishProfiles\Deployment.pubxml" />
     <Content Include="Scripts\jquery-plugins\Template\handlebars_old.js" />
     <Content Include="Scripts\jquery\jquery-2.1.4.min.js" />
-    <Content Include="Content\autoComplete\js\jquery.ui.autocomplete.wrapper_old.js" />
     <Content Include="Scripts\jquery.dataTables.bootstrap.min.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.hotkeys.index.min.js" />
@@ -400,7 +401,6 @@
     <Content Include="Scripts\mywebapp\user\mywebapp.ui.logon.js" />
     <Content Include="Scripts\mywebapp\user\mywebapp.ui.signup.js" />
     <Content Include="Scripts\jquery-plugins\Accordian\jquery.nestedAccordion.js" />
-    <Content Include="Content\autoComplete\js\jquery.ui.autocomplete_old.js" />
     <Content Include="Scripts\jquery-plugins\Contextmenu\prettify\lang-apollo.js" />
     <Content Include="Scripts\jquery-plugins\Contextmenu\prettify\lang-clj.js" />
     <Content Include="Scripts\jquery-plugins\Contextmenu\prettify\lang-css.js" />
@@ -557,7 +557,7 @@
     <Content Include="Views\Security\Permissions.cshtml" />
     <Content Include="Views\Security\Roles.cshtml" />
     <Content Include="Views\Admin\Search.cshtml" />
-    <Content Include="Views\Admin\LoginAsAnotherUser.cshtml" />
+    <Content Include="Views\Admin\LoginAsAnotherUser_old.cshtml" />
     <Content Include="Views\Reports\UserLoginHistory.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Partial\YesNoModal.cshtml" />
