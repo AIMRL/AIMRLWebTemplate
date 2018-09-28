@@ -12,3 +12,10 @@
 /WebAppName/Common/PUCIT.AIMRL.WebAppName.UI.Common/PUCIT.AIMRL.WebAppName.UI.Common.csproj.user
 /WebAppName/MainApplication/PUCIT.AIMRL.WebAppName.MainApp/logs
 /WebAppName/packages
+/WebAppName/NotificationServer/PUCIT.AIMRL.NotificationEngine.DAL/bin
+/WebAppName/NotificationServer/PUCIT.AIMRL.NotificationEngine.DAL/obj
+/WebAppName/NotificationServer/PUCIT.AIMRL.NotificationEngine.Entities/bin
+/WebAppName/NotificationServer/PUCIT.AIMRL.NotificationEngine.Entities/obj
+/WebAppName/NotificationServer/PUCIT.AIMRL.NotificationServer/obj
+/WebAppName/NotificationServer/PUCIT.AIMRL.NotificationServer/bin
+/WebAppName/NotificationServer/PUCIT.AIMRL.NotificationServer/logs

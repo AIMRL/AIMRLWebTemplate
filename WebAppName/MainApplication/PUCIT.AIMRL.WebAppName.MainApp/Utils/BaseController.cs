@@ -39,7 +39,7 @@ namespace PUCIT.AIMRL.WebAppName.MainApp.Util
             if (user != null)
             {
                 String username = user.Login;
-
+                ViewBag.UserId = SessionManager.CurrentUser.UserId;
                 ViewBag.DispName = username;
                 ViewBag.FullName = user.UserFullName;
                 ViewBag.Login = user.Login;

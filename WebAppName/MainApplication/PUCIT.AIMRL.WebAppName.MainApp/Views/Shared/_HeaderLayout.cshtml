@@ -62,6 +62,7 @@
     <link rel="stylesheet" href="~/Content/select2.min.css" />
     <!-- text fonts -->
     <link rel="stylesheet" href="~/Content/fonts.googleapis.com.css" />
+   
     <!-- ace styles -->
     <link rel="stylesheet" href="~/Content/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
     <!--[if lte IE 9]>
@@ -127,6 +128,36 @@
     }
     
     @RenderSection("Header", false)
+
+    <script src="@System.Configuration.ConfigurationManager.AppSettings["NotificationServerBasePath"]/scripts/NotificationLoader.js" id="scriptNotificationLoader"></script>
+    
+    <script>
+        $(function () {
+            var notification_args =
+            {
+                appID: '@System.Configuration.ConfigurationManager.AppSettings["NS_AppID"]',
+                uniqueKey: '@System.Configuration.ConfigurationManager.AppSettings["NS_SecretKey"]',
+                EID: '@ViewBag.UserId',
+                desktopNotIconPath: window.MyWebAppBasePath + 'Content/images/aim-fav.png',
+                notificationRecievedCallback: function (notObj) {
+                    MyWebApp.UI.showRoasterMessage(notObj.msg, Enums.MessageType.Info);
+                },
+                itemClickedCallback: function (notObj) {
+                    alert('notification item is clicked');
+                    console.log(notObj);
+                }
+            };
+
+            InitializeNotificationAPI.Initialize(notification_args, function () {
+
+            });
+
+            $("#btnTestNot").click(function () {
+                PUCIT.AIMRL.NotificationServerHandler.sendMessage(1, "hello world" + new Date(), true);
+                return false;
+            });
+        });
+    </script>
 </head>
 <body class="no-skin">
 
@@ -161,6 +192,10 @@
 
             <div class="navbar-buttons navbar-header pull-right" role="navigation">
                 <ul class="nav ace-nav">
+                    <li>
+                        <div class="ib-st-notify" id="notifcation-dd">
+                        </div>
+                    </li>
                     <li class="light-blue">
                         <a href='@Url.Content("~/Home/Inbox")' class="btn-new-mail">
                             <span class="bigger-110">Inbox</span>
@@ -344,6 +379,7 @@
 
     <div class="main-container ace-save-state" id="main-container">
         <div class="main-content-inner">
+            <button id="btnTestNot" value="Test Notification">Test Notification</button>
             @RenderBody()
             <div class="footer">
                 <div class="footer-inner">

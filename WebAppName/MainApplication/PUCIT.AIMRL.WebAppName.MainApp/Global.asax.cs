@@ -23,6 +23,8 @@ namespace PUCIT.AIMRL.WebAppName.MainApp
         protected void Application_Start()
         {
             PUCIT.AIMRL.Common.Logger.LogHandler.ConfigureLogger(Server.MapPath("~/logging.config"));
+            PUCIT.AIMRL.Common.Logger.LogHandler.WriteLog("App", "Application Starting", PUCIT.AIMRL.Common.Logger.LogType.ErrorMsg);
+
             PUCIT.AIMRL.Common.EncryptDecryptUtility.SetParameters("pUcITaImRLarrRPRojecT", "pUcITaImRLarrRPRojecT", "MD5", 50, "aIMRLpuCIToReRPJ", 256);
 
             AreaRegistration.RegisterAllAreas();
