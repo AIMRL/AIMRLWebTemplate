@@ -60,6 +60,10 @@
       <Project>{8c5205f7-65ee-43c7-a99a-9d09c70fb080}</Project>
       <Name>PUCIT.AIMRL.Common.Logger</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\PUCIT.AIMRL.Common\PUCIT.AIMRL.Common.csproj">
+      <Project>{70f7021a-a698-4489-a279-822d0efcbdcb}</Project>
+      <Name>PUCIT.AIMRL.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PUCIT.AIMRL.NotificationEngine.Entities\PUCIT.AIMRL.NotificationEngine.Entities.csproj">
       <Project>{8b85afb3-83bc-4168-8dc0-d9991da9dd8d}</Project>
       <Name>PUCIT.AIMRL.NotificationEngine.Entities</Name>

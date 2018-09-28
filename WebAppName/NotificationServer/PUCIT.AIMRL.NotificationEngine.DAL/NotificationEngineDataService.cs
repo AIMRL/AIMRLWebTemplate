@@ -10,20 +10,20 @@ using System.Data.Common;
 using System.Reflection;
 using PUCIT.AIMRL.NotificationEngine.Entities;
 using PUCIT.AIMRL.Common.Logger;
+using PUCIT.AIMRL.Common;
 
 namespace PUCIT.AIMRL.NotificationEngine.DAL
 {
     public static class NotificationEngineDataService
     {
+        public static TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("Pakistan Standard Time");
 
         static NotificationEngineDataService()
         {
             Database.SetInitializer<NotificationEngineDataContext>(null);
         }
 
-
-
-        public static Int64 SaveCoachingNotification(RealTimeNotifications obj)
+        public static Int64 SaveNotification(RealTimeNotifications obj)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace PUCIT.AIMRL.NotificationEngine.DAL
 
         }
 
-        public static List<RealTimeNotifications> GetCoachingNotifcations(string appID,int empID, int max_notification_id)
+        public static List<RealTimeNotifications> GetNotifcations(string appID,int empID, int max_notification_id)
         {
             try
             {
@@ -69,6 +69,12 @@ namespace PUCIT.AIMRL.NotificationEngine.DAL
                 };
 
                     var data = ctx.Database.SqlQuery<RealTimeNotifications>(query, args).ToList();
+
+                    foreach (var d in data)
+                    {
+                        d.CreatedOn = d.CreatedOn.ToTimeZoneTime(tzi);
+                    }
+
                     return data;
                 }
             }

@@ -59,7 +59,7 @@ namespace PUCIT.AIMRL.NotificationServer
             DateTime messageTime = DateTime.Now;
             string messageTimeString = messageTime.ToString("MM/dd/yyyy hh:mm tt");
 
-            Int64 notificationId = SaveNotification(appTo,int.Parse(empTo), message, messageTime, extraDataAsJson);
+            Int64 notificationId = SaveNotification(appTo,int.Parse(empTo), message, DateTime.UtcNow, extraDataAsJson);
 
             foreach (var connectionId in GlobalDataManager._connections.GetConnections(pToEmployeeID))
                 Clients.Client(connectionId).addMessage(notificationId, empTo, message, messageTimeString, showDesktopNotif, extraDataAsJson);
@@ -68,14 +68,14 @@ namespace PUCIT.AIMRL.NotificationServer
 
         public void markNotification(Int64 pNotificationID, string receiverAppID, int empID, Boolean isRead, Boolean markAll)
         {
-            NotificationEngineDataService.UpdateNotificationReadStatus(pNotificationID, receiverAppID, empID, isRead, markAll, DateTime.Now);
+            NotificationEngineDataService.UpdateNotificationReadStatus(pNotificationID, receiverAppID, empID, isRead, markAll, DateTime.UtcNow);
         }
 
 
 
         public Object getNotifcations(string appID, int empID, int max_notification_id)
         {
-            var result = NotificationEngineDataService.GetCoachingNotifcations(appID,empID, max_notification_id);
+            var result = NotificationEngineDataService.GetNotifcations(appID,empID, max_notification_id);
 
             long maxId = 0;
             int unReadCount = 0;
@@ -114,7 +114,7 @@ namespace PUCIT.AIMRL.NotificationServer
             obj.CreatedOn = messageTime;
             obj.extraDataAsJson = extraDataAsJson;
 
-            var result = NotificationEngineDataService.SaveCoachingNotification(obj);
+            var result = NotificationEngineDataService.SaveNotification(obj);
             return result;
 
         }
