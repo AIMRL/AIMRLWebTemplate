@@ -143,8 +143,11 @@
                     MyWebApp.UI.showRoasterMessage(notObj.msg, Enums.MessageType.Info);
                 },
                 itemClickedCallback: function (notObj) {
-                    alert('notification item is clicked');
                     console.log(notObj);
+                    if (notObj && notObj.ED && notObj.ED.ID) {
+                        alert('Data Came with notification: ID=' + notObj.ED.ID + ", Name:" + notObj.ED.Name);
+                    }
+                    return false;
                 }
             };
 
@@ -153,7 +156,7 @@
             });
 
             $("#btnTestNot").click(function () {
-                PUCIT.AIMRL.NotificationServerHandler.sendMessage(1, "hello world" + new Date(), true);
+                PUCIT.AIMRL.NotificationServerHandler.sendMessage(1, "hello world", true, { ID: 100, Name: 'Test' });
                 return false;
             });
         });
